@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiplomWork", "DiplomWork\DiplomWork.csproj", "{E5BFE965-B375-4F19-A049-9107A15C4BA4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Controls", "Controls\Controls.csproj", "{8A02D796-2106-4E03-BECB-9BD56F581C9E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculation", "Calculation\Calculation.csproj", "{792A36CD-1E3D-4846-8833-7C6FEC1676F8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E5BFE965-B375-4F19-A049-9107A15C4BA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5BFE965-B375-4F19-A049-9107A15C4BA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5BFE965-B375-4F19-A049-9107A15C4BA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5BFE965-B375-4F19-A049-9107A15C4BA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A02D796-2106-4E03-BECB-9BD56F581C9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A02D796-2106-4E03-BECB-9BD56F581C9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A02D796-2106-4E03-BECB-9BD56F581C9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A02D796-2106-4E03-BECB-9BD56F581C9E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{792A36CD-1E3D-4846-8833-7C6FEC1676F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{792A36CD-1E3D-4846-8833-7C6FEC1676F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{792A36CD-1E3D-4846-8833-7C6FEC1676F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{792A36CD-1E3D-4846-8833-7C6FEC1676F8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

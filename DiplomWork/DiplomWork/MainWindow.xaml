@@ -1,0 +1,44 @@
+﻿<Window x:Class="DiplomWork.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="350" Width="525">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,/Controls;component/Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="8*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <DataGrid Grid.Row="1" Name="mainGrid" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn CanUserSort="False"
+                           Width="20" 
+                           CanUserResize="True"
+                           CanUserReorder="True" 
+                           MinWidth="20" MaxWidth="20"/>
+                <DataGridTextColumn Header="Площадь"                                            
+                                           CanUserSort="False" 
+                                            Binding="{Binding S[0]}"
+                                           Width="90"
+                                    />
+                <DataGridTextColumn Header="Цена"                     
+                                           Width="80"/>
+                <DataGridTextColumn Header="Город"                                            
+                                           CanUserSort="False" 
+                                           Width="120"/>
+                <DataGridTextColumn Header="Улица"                                            
+                                           CanUserSort="False" 
+                                           Width="*"/>
+                <DataGridTextColumn Header="Дом"                                            
+                                           CanUserSort="False" 
+                                           CanUserResize="False" 
+                                           Width="60"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>
