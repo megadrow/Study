@@ -8,8 +8,10 @@
     <Style TargetType="TextBox" BasedOn="{StaticResource ControlBaseStyle}" />
     <Style TargetType="GroupBox" BasedOn="{StaticResource ControlBaseStyle}"  />
     <Style TargetType="Label" BasedOn="{StaticResource ControlBaseStyle}" />
+    <Style TargetType="DataGrid" BasedOn="{StaticResource ControlBaseStyle}" />
     <Style TargetType="Button" BasedOn="{StaticResource ControlBaseStyle}">
         <Setter Property="Padding" Value="6"></Setter>
+        <Setter Property="MinHeight" Value="20"></Setter>
         <Setter Property="MinWidth" Value="100"></Setter>
     </Style>
     <Style TargetType="RichTextBox" BasedOn="{StaticResource ControlBaseStyle}">
