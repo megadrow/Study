@@ -9,32 +9,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal">
-            <Button Click="AddRowOnClick">Добавить ряд</Button>
-            <Button Click="AddColOnClick">Добавить колонку</Button>
-        </StackPanel>
-        <DataGrid Grid.Row="1" Name="mainGrid" AutoGenerateColumns="False" CanUserAddRows="False"  CanUserReorderColumns="False">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Название"
-                                    Binding="{Binding Name}"
-                                    Width="100"
-                                    CanUserSort="False"
-                                    CanUserReorder="False"
-                                    />
-            </DataGrid.Columns>
-        </DataGrid>
-        <DataGrid Grid.Row="2" Name="pointGrid"  AutoGenerateColumns="False" CanUserAddRows="False" CanUserReorderColumns="False" HeadersVisibility="None">
-            <DataGrid.Columns>
-                <DataGridTextColumn Width="100" IsReadOnly="True"
-                                    CanUserSort="False"
-                                    CanUserReorder="False"/>
-            </DataGrid.Columns>
-        </DataGrid>
-    </Grid>
+    <Frame Source="StationAndPoints.xaml">
+        
+    </Frame>
 </Window>

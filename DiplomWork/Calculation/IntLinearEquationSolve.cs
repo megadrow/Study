@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Calculation
 {
-    static class IntLinearEquationSolve
+    public static class IntLinearEquationSolve
     {
         private static int pointCount;
 
@@ -53,28 +53,31 @@ namespace Calculation
 
         private static void Next(int[] mat)
         {
-            if (mat[mat.Length - 1] != 0)
+            var size1 = mat.Length - 1;
+            var size2 = mat.Length - 2;
+
+            if (mat[size1] != 0)
             {
-                if (mat[mat.Length - 2] != 0)
+                if (mat[size2] != 0)
                 {
-                    mat[mat.Length - 2]--;
-                    mat[mat.Length - 1]++;
+                    mat[size2]--;
+                    mat[size1]++;
                     return;
                 }
-                for (var i = mat.Length - 2; i >= 0; i--)
+                for (var i = size2; i >= 0; i--)
                 {
                     if (mat[i] != 0)
                     {
                         mat[i]--;
-                        mat[i + 1] = mat[mat.Length - 1] + 1;
-                        mat[mat.Length - 1] = 0;
+                        mat[i + 1] = mat[size1] + 1;
+                        mat[size1] = 0;
                         return;
                     }
                 }
             }
             else
             {
-                for (var i = mat.Length - 2; i >= 0; i--)
+                for (var i = size2; i >= 0; i--)
                 {
                     if (mat[i] != 0)
                     {
