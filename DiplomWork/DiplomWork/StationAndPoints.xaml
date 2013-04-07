@@ -3,8 +3,9 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Controls.Validation;assembly=Controls"
       mc:Ignorable="d" 
-	Title="StationAndPoints">
+	Title="StationAndPoints"> 
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -12,7 +13,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
-    <Grid>
+    <Grid Name="gr">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition></RowDefinition>
@@ -26,7 +27,7 @@
         <DataGrid Grid.Row="1" Name="mainGrid" AutoGenerateColumns="False" CanUserAddRows="False"  CanUserReorderColumns="False" CanUserSortColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Название"
-                                    Binding="{Binding Name}"
+                                    Binding="{Binding Station.Name}"
                                     Width="100"
                                     CanUserSort="False"
                                     CanUserReorder="False"
@@ -37,9 +38,24 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Width="100" IsReadOnly="True"
                                     CanUserSort="False"
-                                    CanUserReorder="False"/>
+                                    CanUserReorder="False">
+                </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Button Click="NextClick" Grid.Row="3" HorizontalAlignment="Right">Далее</Button>
+        <Button Click="NextClick" Grid.Row="3" HorizontalAlignment="Right" Content="Далее">
+            <!--<Button.Style>
+                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource  {x:Type Button}}">
+                    <Style.Triggers>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridTextColumn}}, Path=(Validation.HasError)}" Value="false" />
+                                <Condition Binding="{Binding ElementName=pointGrid, Path=(Validation.HasError)}" Value="false" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="IsEnabled" Value="False" />
+                        </MultiDataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>-->
+        </Button>
     </Grid>
 </Page>

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Calculation
@@ -38,17 +39,17 @@ namespace Calculation
             StationMin = 0;
 
             xCount = A[0].Length;
+            var pCover = new int[xCount];
 
             foreach (int[] t in A)
             {
-                int tmp = t.Count(intse => intse != 0);
-                if (StationMin < tmp)
+                for (int i = 0; i < xCount; i++)
                 {
-                    StationMin = tmp;
+                    pCover[i] += t[i];
                 }
             }
 
-            StationMin = (pointCount / StationMin) + 1;
+            StationMin = (pointCount / pCover.Max()) + 1;
         }
 
         private static void Next(int[] mat)
@@ -91,45 +92,58 @@ namespace Calculation
 
         public static List<int[]> Solve()
         {
-            var res = new int[xCount];
-            var tmpRes = new int[B.Length];
-            var result = new List<int[]>();
-            res[0] = StationMin;
-
-            while (true)
+            try
             {
-                var isBreaked = false;
+                var res = new int[xCount];
+                var tmpRes = new int[B.Length];
+                var result = new List<int[]>();
+                res[0] = StationMin;
 
-                for (var i = 0; i < A.Count; i++)
+                while (true)
                 {
-                    tmpRes[i] = 0;
+                    var isBreaked = false;
 
-                    for (var j = 0; j < A[i].Length; j++)
+                    for (var i = 0; i < A.Count; i++)
                     {
-                        tmpRes[i] += res[j] * A[i][j];
+                        tmpRes[i] = 0;
+
+                        for (var j = 0; j < A[i].Length; j++)
+                        {
+                            tmpRes[i] += res[j] * A[i][j];
+                        }
+
+                        if (tmpRes[i] < B[i])
+                        {
+                            isBreaked = true;
+                            break;
+                        }
                     }
 
-                    if (tmpRes[i] < B[i])
+                    if (!isBreaked)
                     {
-                        isBreaked = true;
+                        result.Add(new int[xCount]);
+                        res.CopyTo(result.Last(), 0);
+                    }
+
+                    if (res[xCount - 1] == StationMin)
+                    {
                         break;
                     }
+                    Next(res);
                 }
 
-                if (!isBreaked)
-                {
-                    result.Add(new int[xCount]);
-                    res.CopyTo(result.Last(), 0);
-                }
-
-                if (res[xCount - 1] == StationMin)
-                {
-                    break;
-                }
-                Next(res);
+                return result;
             }
-
-            return result;
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show(
+                ex.Message + "\n" + ex.Source + "\n" + ex.StackTrace,
+                ":Ошибка",
+                System.Windows.Forms.MessageBoxButtons.OK,
+                System.Windows.Forms.MessageBoxIcon.Error);
+                return null;
+            }
+            
         }
     }
 }

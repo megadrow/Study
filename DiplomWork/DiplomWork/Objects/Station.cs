@@ -1,13 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace DiplomWork.Objects
 {
     public class Station
     {
-        private static int Numbers { get; set; } 
+        private static int Numbers { get; set; }
+
+        public string Name { get; set; }
+
+        public List<TherminalPointNum> Points { get; set; }
 
         public Station(string name, bool isUnReg = false)
         {
+            Points = new List<TherminalPointNum>();
             if (!isUnReg)
             {
                 Name = name;
@@ -17,6 +23,7 @@ namespace DiplomWork.Objects
 
         public Station( bool isUnReg = false)
         {
+            Points = new List<TherminalPointNum>();
             if (!isUnReg)
             {
                 Numbers++;
@@ -26,22 +33,26 @@ namespace DiplomWork.Objects
 
         public void AddPoint(string name = null)
         {
-            Points.Add(new TherminalPointInStation(name));
+            Points.Add(new TherminalPointNum(name));
         }
 
-        public void AddPoint(TherminalPointInStation thetm)
+        public void AddPoint(TherminalPointNum thetm)
         {
-            Points.Add(new TherminalPointInStation(thetm));
+            Points.Add(new TherminalPointNum(thetm));
         }
 
-        private List<TherminalPointInStation> _points = new List<TherminalPointInStation>();
-
-        public string Name { get; set; }
-
-        public List<TherminalPointInStation> Points
+        public string GetPointName(int ptNum)
         {
-            set { _points = value; }
-            get { return _points; }
+            try
+            {
+                return Points[ptNum].GetName();
+            }
+            catch (Exception ex)
+            {
+                ErrorViewer.ShowError(ex);
+                return null;
+            }
         }
+
     }
 }

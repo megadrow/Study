@@ -3,6 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Controls.Validation;assembly=Controls"
       mc:Ignorable="d" 
 	Title="Step1Result">
     <Page.Resources>
@@ -12,7 +13,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
-    <Grid>
+    <Grid Name="pa">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition></RowDefinition>
@@ -21,8 +22,31 @@
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
             <Label>Минимльное количество станций: </Label>
-            <TextBox Width="50" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="{Binding stationMin, Mode=TwoWay}"></TextBox>
-            <Button Click="SolveClick">Рассчитать</Button>
+            <TextBox Width="50" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                     Name="txtNum">
+                <TextBox.Text>
+                    <Binding Path="stationMin" Mode="TwoWay">
+                        <Binding.ValidationRules>
+                            <local:ValidationNumber></local:ValidationNumber>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <Button Click="SolveClick" Content="Рассчитать">
+                <!--<Button.Style>
+                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource  {x:Type Button}}">
+                        <Setter Property="IsEnabled" Value="false" />
+                        <Style.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding ElementName=txtNum, Path=(Validation.HasError), UpdateSourceTrigger=PropertyChanged}" Value="false" />
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="IsEnabled" Value="true" />
+                            </MultiDataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>-->
+            </Button>
         </StackPanel>
         <ListBox Name="ResList" Grid.Row="1">
             

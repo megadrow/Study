@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using Calculation;
+using Controls;
 using DiplomWork.Objects;
 
 namespace DiplomWork
@@ -19,37 +20,48 @@ namespace DiplomWork
 
         private int[] pointsMax;
 
-        List<Station> st = new List<Station>();
+        List<StationNum> stations = new List<StationNum>();
 
-        private Station sta = new Station(true);
+        private StationNum station = new StationNum(true);
 
         public int stationMin { get; set; }
 
-        public Step1Result(IEnumerable<Station> sUse, Station sMax)
+        //private void cmdGetExceptions_Click(object sender, RoutedEventArgs e)
+        //{
+        //    StringBuilder sb = new StringBuilder();
+        //    GetErrors(sb, gridCarDetails);
+        //    string message = sb.ToString();
+        //    if (message != "") MessageBox.Show(message);
+        //}
+
+
+        public Step1Result(IEnumerable<StationNum> sUse, StationNum sMax)
         {
             InitializeComponent();
 
-            sta = sMax;
-            st = sUse.ToList();
+            //сохраняем для последующего получения данных
+            station = sMax;
+            stations = sUse.ToList();
 
+            //enumerable - матрица sUse, в виде списка
+            //matA - матрица коэффициентов (каждый список - терм точка, а внутри списка - перечень станций)
             var matA = new List<int[]>();
-            var pointCpunt = sMax.Points.Count;
-            var enumerable = sUse as IList<Station> ?? sUse.ToList();
-            for (int j = 0; j < enumerable.Count(); j++)
+            var pointCount = sMax.Station.Points.Count;
+            var enumerable = sUse as IList<StationNum> ?? sUse.ToList();
+            var stationCount = enumerable.Count();
+            var matB = new int[pointCount];
+
+            for (int i = 0; i < pointCount; i++)
             {
-                matA.Add(new int[pointCpunt]);
-                for (int i = 0; i < pointCpunt; i++)
+                matB[i] = sMax.Station.Points[i].Num;
+                matA.Add(new int[stationCount]);
+
+                for (int j = 0; j < stationCount; j++)
                 {
-                    matA[j][i] = enumerable[j].Points[i].CurrentUse;
+                    matA[i][j] = enumerable[j].Station.Points[i].Num;
                 }
             }
-
-            var matB = new int[pointCpunt];
-            for (int i = 0; i < pointCpunt; i++)
-            {
-                matB[i] = sMax.Points[i].Max;
-            }
-
+            
             pointsUse = matA;
             pointsMax = matB;
             DataContext = this;
@@ -61,6 +73,9 @@ namespace DiplomWork
         {
             try
             {
+                List<string> sb = new List<string>();
+                FindValidationError.GetErrors(sb, pa);
+               // var err = Validation.GetErrors(pa);
                 ResList.Items.Clear();
                 IntLinearEquationSolve.SetMin(stationMin);
                 resultList = IntLinearEquationSolve.Solve();
@@ -74,12 +89,36 @@ namespace DiplomWork
                 foreach (int[] t in resultList)
                 {
                     var str = string.Empty;
+                    var pointCover = new int[station.Station.Points.Count];
                     for (int j = 0; j < t.Length; j++)
                     {
-                        str += t[j].ToString() + " ";
+                        str += stations[j].Station.Name  + " = " + t[j].ToString();
+                        if (j == t.Length - 1)
+                        {
+                            str += ": ";
+                        }
+                        else
+                        {
+                            str += ", ";
+                        }
+
+                        for (int i = 0; i < station.Station.Points.Count; i++)
+                        {
+                            pointCover[i] += stations[j].Station.Points[i].Num*t[j];
+                        }
                     }
 
-                    str += ": ";
+                    str += "покрыто точек: ";
+                    for (int i = 0; i < station.Station.Points.Count; i++)
+                    {
+                        str += station.Station.Points[i].Point.Name + " = " + pointCover[i].ToString() + "/" + station.Station.Points[i].Num;
+
+                        if (i != station.Station.Points.Count - 1)
+                        {
+                            str += ", ";
+                        }
+                    }
+
                     ResList.Items.Add(str);
                 }
             }

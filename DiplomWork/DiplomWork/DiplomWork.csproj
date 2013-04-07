@@ -55,6 +55,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ErrorViewer.cs" />
+    <Compile Include="Objects\FirstStep.cs" />
+    <Compile Include="Objects\StationNum.cs" />
+    <Compile Include="Objects\TherminalPointNum.cs" />
     <Compile Include="StationAndPoints.xaml.cs">
       <DependentUpon>StationAndPoints.xaml</DependentUpon>
     </Compile>
