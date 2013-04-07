@@ -1,8 +1,9 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Windows.Input;
 
 namespace Controls.Commands
 {
-    class NextCommand
+    public class NextCommand
     {
                 // Создание команды requery
         private static RoutedUICommand next;

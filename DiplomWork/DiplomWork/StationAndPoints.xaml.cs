@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using Controls;
@@ -27,6 +24,7 @@ namespace DiplomWork
             {
                 RepearDataGrid();
             }
+            UpdateTimer.Start(Next, grMain);
 
             mainGrid.ItemsSource = Step.Stations;
             pointGrid.ItemsSource = Step.PointsTask;
@@ -34,7 +32,7 @@ namespace DiplomWork
 
         private void RepearDataGrid()
         {
-            for (int i = 0; i < Step.PointsTask[0].GetPointCount(); i++)
+            for (int i = 0; i < Step.GetPointCount(); i++)
             {
                 AddCol(i);
             }
@@ -47,7 +45,7 @@ namespace DiplomWork
             bind.ValidationRules.Add(new ValidationNumber());
             var textColumn = new DataGridTextColumn
             {
-                Header = Step.PointsTask[0].GetPointName(numberCol),
+                Header = Step.GetPointName(numberCol),
                 Width = new DataGridLength(60),
                 Binding = bind
             };
@@ -68,32 +66,18 @@ namespace DiplomWork
 
         private void AddRowOnClick(object sender, RoutedEventArgs e)
         {
-            var station = new StationNum();
-            foreach (var point in Step.PointsTask[0].GetAllPoints())
-            {
-                station.AddPoint(point);
-            }
-            Step.Stations.Add(station);
+            Step.AddStation();
         }
 
         private void AddColOnClick(object sender, RoutedEventArgs e)
         {
-            Step.PointsTask[0].Station.AddPoint();
-            foreach (var station in Step.Stations)
-            {
-                station.AddPoint(Step.PointsTask[0].GetPoint(Step.PointsTask[0].GetPointCount() - 1));
-            }
+            Step.AddPoint();
 
-            AddCol(Step.PointsTask[0].GetPointCount() - 1);
+            AddCol(Step.GetPointCount() - 1);
         }
 
         private void NextClick(object sender, RoutedEventArgs e)
         {
-            List<string> err = new List<string>();
-            FindValidationError.GetErrors(err, gr);
-
-            
-            
             //var matA = new List<int[]>();
             //var pointCpunt = TempStation[0].Points.Count;
             //for (int j = 0; j < Stations.Count; j++)
@@ -111,7 +95,7 @@ namespace DiplomWork
             //    matB[i] = TempStation[0].Points[i].Max;
             //}
 
-            var result = new Step1Result(Step.Stations, Step.PointsTask[0]);
+            var result = new Step1Result(Step);
             if (NavigationService != null) NavigationService.Navigate(result);
         }
     }

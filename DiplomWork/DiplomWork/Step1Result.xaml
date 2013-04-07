@@ -13,7 +13,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
-    <Grid Name="pa">
+    <Grid Name="grdMain">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition></RowDefinition>
@@ -32,7 +32,7 @@
                     </Binding>
                 </TextBox.Text>
             </TextBox>
-            <Button Click="SolveClick" Content="Рассчитать">
+            <Button Click="SolveClick" Content="Рассчитать" Name="Sol">
                 <!--<Button.Style>
                     <Style TargetType="{x:Type Button}" BasedOn="{StaticResource  {x:Type Button}}">
                         <Setter Property="IsEnabled" Value="false" />

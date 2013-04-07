@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Controls.Validation;assembly=Controls"
+      xmlns:comm="clr-namespace:Controls.Commands;assembly=Controls"
       mc:Ignorable="d" 
 	Title="StationAndPoints"> 
     <Page.Resources>
@@ -13,7 +14,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
-    <Grid Name="gr">
+    <Grid Name="grMain">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition></RowDefinition>
@@ -42,7 +43,7 @@
                 </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Button Click="NextClick" Grid.Row="3" HorizontalAlignment="Right" Content="Далее">
+        <Button Click="NextClick" Grid.Row="3" HorizontalAlignment="Right" Content="Далее" Name="Next">
             <!--<Button.Style>
                 <Style TargetType="{x:Type Button}" BasedOn="{StaticResource  {x:Type Button}}">
                     <Style.Triggers>
