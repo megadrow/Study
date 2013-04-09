@@ -11,10 +11,10 @@ namespace Controls
         {
             foreach (object child in LogicalTreeHelper.GetChildren(obj))
             {
-                TextBox element = child as TextBox;
-                Grid elementGrid = child as Grid;
-                StackPanel elementStack = child as StackPanel;
-                DataGrid elementDataGrid = child as DataGrid;
+                var element = child as TextBox;
+                var elementGrid = child as Grid;
+                var elementStack = child as StackPanel;
+                var elementDataGrid = child as DataGrid;
 
                 if (elementGrid != null)
                 {

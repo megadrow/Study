@@ -80,6 +80,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="StanConnection.cs" />
+    <Compile Include="StationEll.cs" />
     <Compile Include="UpdateTimer.cs" />
     <Compile Include="Validation\ValidationNumber.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">

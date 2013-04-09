@@ -21,7 +21,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-            <Label>Минимльное количество станций: </Label>
+            <TextBlock>Минимльное количество станций: </TextBlock>
             <TextBox Width="50" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
                      Name="txtNum">
                 <TextBox.Text>

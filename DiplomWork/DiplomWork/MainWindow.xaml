@@ -9,7 +9,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
-    <Frame Source="StationAndPoints.xaml">
+    <Frame Source="SecondStep.xaml">
         
     </Frame>
 </Window>
