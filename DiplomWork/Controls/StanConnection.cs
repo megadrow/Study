@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -11,6 +10,23 @@ namespace Controls
         public Line line = new Line();
         public StationEll obj1 { get; set; }
         public StationEll obj2 { get; set; }
+
+        private static StationEll tmpObject;
+
+        public static void ToTempObj(StationEll obj)
+        {
+            tmpObject = obj;
+        }
+
+        public static bool IsEquelWithTemp(StationEll obj)
+        {
+            return (tmpObject == obj);
+        }
+
+        public static bool IsCatch()
+        {
+            return (tmpObject != null);
+        }
 
         public StanConnection()
         {
@@ -33,16 +49,42 @@ namespace Controls
                 }
         }
 
+        public static void ConectTo(StationEll st, bool start = false)
+        {
+            if (!IsCatch())
+            {
+                if (start)
+                {
+                    ToTempObj(st);
+                }
+            }
+            else
+            {
+                if (!IsEquelWithTemp(st))
+                {
+                    Connect(st);
+                    ToTempObj(null);
+                }
+            }
+        }
+
+        public static void Connect(StationEll st)
+        {
+            Connect(tmpObject, st);
+        }
+
         public static void Connect(StationEll st1, StationEll st2)
         {
-            if (st1 == st2)
+            if (Equals(st1, st2))
             {
-                throw new Exception("Нельзя соединить станцию с собой");
+                MessageBox.Show("Нельзя соединить станцию с собой", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
             }
 
             if ((st1.Connection != null) && (st2.Connection != null) && (st2.Connection == st1.Connection))
             {
-                throw new Exception("Такое соединение уже существует"); 
+                MessageBox.Show("Такое соединение уже существует", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
             }
 
             var parent = LogicalTreeHelper.GetParent(st1) as Panel;

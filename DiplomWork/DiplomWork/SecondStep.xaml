@@ -19,7 +19,7 @@
         </Grid.RowDefinitions>
         <ToolBar>
             <Button Click="ButtonBase_OnClick">Перемещение</Button>
-            <Button>Соединение</Button>
+            <Button  Click="ConOnClick">Соединение</Button>
         </ToolBar>
         <Grid Grid.Row="1" Name="grd">
             <Canvas Grid.Row="1" Background="White" Name="ima" MouseDown="Ima_OnMouseDown" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></Canvas>

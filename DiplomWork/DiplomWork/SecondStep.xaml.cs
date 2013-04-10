@@ -25,24 +25,48 @@ namespace DiplomWork
 
         private void Ima_OnMouseDown(object sender, MouseButtonEventArgs e)
         {
-            var circle = new StationEll(e.GetPosition(ima).X, e.GetPosition(ima).Y);
-            circle.Text = "123";
+            if (!con)
+            {
+                var circle = new StationEll(e.GetPosition(ima).X, e.GetPosition(ima).Y);
+                circle.Text = "123";
 
-            grd.Children.Add(circle);
+                grd.Children.Add(circle);
+            }
         }
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
             try
             {
-                //StanConnection.Connect(null, grd.Children[2] as StationEll);
+                foreach (var stan in grd.Children)
+                {
+                    var st = stan as StationEll;
+                    if (st != null)
+                    {
+                        st.ToMoveMode();
+                        con = false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorViewer.ShowError(ex);
+            }
+        }
 
-                //StanConnection.Connect(grd.Children[1] as StationEll, grd.Children[2] as StationEll);
-
-                //StanConnection.Connect(grd.Children[1] as StationEll, grd.Children[1] as StationEll);
-
-                //StanConnection.Connect(grd.Children[1] as StationEll, grd.Children[2] as StationEll);
-                //StanConnection.Connect(grd.Children[2] as StationEll, grd.Children[1] as StationEll);
+        private void ConOnClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                foreach (var stan in grd.Children)
+                {
+                    var st = stan as StationEll;
+                    if (st != null)
+                    {
+                        st.ToConnectMode();
+                        con = true;
+                    }
+                }
             }
             catch (Exception ex)
             {
