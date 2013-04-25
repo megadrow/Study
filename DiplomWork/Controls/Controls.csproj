@@ -52,6 +52,10 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="AppIcons.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="NumericBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -63,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\NextCommand.cs" />
+    <Compile Include="CommonObject.cs" />
     <Compile Include="FindValidationError.cs" />
     <Compile Include="NumericBox.xaml.cs">
       <DependentUpon>NumericBox.xaml</DependentUpon>
@@ -80,6 +85,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="SrarionRect.cs" />
     <Compile Include="StanConnection.cs" />
     <Compile Include="StationEll.cs" />
     <Compile Include="UpdateTimer.cs" />

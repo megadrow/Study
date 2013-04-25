@@ -9,6 +9,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,/Controls;component/Styles.xaml" />
+                <ResourceDictionary Source="pack://application:,,/Controls;component/AppIcons.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
@@ -18,11 +19,16 @@
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         <ToolBar>
-            <Button Click="ButtonBase_OnClick">Перемещение</Button>
+            <Button Click="ButtonBase_OnClick">
+                <ContentControl Template="{StaticResource MyIcon}"></ContentControl>
+            </Button>
             <Button  Click="ConOnClick">Соединение</Button>
+            <Button  Click="AutoOnClick">Автораспределение</Button>
+            <Button  Click="ClearOnClick" Content="Очистить"></Button>
+            <Button  Click="SolveOnClick" Content="Распределить"></Button>
         </ToolBar>
         <Grid Grid.Row="1" Name="grd">
-            <Canvas Grid.Row="1" Background="White" Name="ima" MouseDown="Ima_OnMouseDown" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></Canvas>
+            <Canvas Grid.Row="1" Background="White" Name="ima" MouseLeftButtonDown="Ima_OnMouseDown" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></Canvas>
         </Grid>
     </Grid>
 </Page>

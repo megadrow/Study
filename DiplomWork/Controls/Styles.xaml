@@ -30,10 +30,28 @@
                     <Grid>
                         <Ellipse 
                             Fill="{TemplateBinding Background}" 
-                            StrokeThickness="{Binding StrokeThickness}" 
-                            Stroke="{Binding Stroke}" />
+                            StrokeThickness="{Binding StrokeThickness, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                            Stroke="{Binding Stroke, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <TextBlock 
-                            Text="{Binding Text}" 
+                            Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="controls:StationRect">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:StationRect">
+                    <Grid>
+                        <Rectangle 
+                            Fill="{TemplateBinding Background}" 
+                            StrokeThickness="{Binding StrokeThickness, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                            Stroke="{Binding Stroke, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBlock 
+                            Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center" />
                     </Grid>

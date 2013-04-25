@@ -21,7 +21,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-            <TextBlock>Минимльное количество станций: </TextBlock>
+            <TextBlock VerticalAlignment="Center" Margin="6 0">Минимльное количество станций: </TextBlock>
             <TextBox Width="50" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
                      Name="txtNum">
                 <TextBox.Text>
@@ -48,8 +48,11 @@
                 </Button.Style>-->
             </Button>
         </StackPanel>
-        <ListBox Name="ResList" Grid.Row="1">
+        <ListBox Name="ResList" Grid.Row="1" SelectionChanged="ResList_OnSelectionChanged">
             
         </ListBox>
+        <Button Click="NextClick" Grid.Row="3" HorizontalAlignment="Right" Content="Далее" Name="Next">
+
+        </Button>
     </Grid>
 </Page>

@@ -1,0 +1,24 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ControlTemplate x:Key="MyIcon">
+        <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform">
+            <Canvas Name="svg2985" Width="64" Height="64">
+                <Canvas.Resources/>
+                <!--Unknown tag: sodipodi:namedview-->
+                <!--Unknown tag: metadata-->
+                <Canvas Name="layer1">
+                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path2993" Fill="#FFFFFFFF" StrokeThickness="1" Stroke="#FF000000" StrokeLineJoin="Miter" StrokeStartLineCap="Flat" StrokeEndLineCap="Flat">
+                        <Path.Data>
+                            <PathGeometry Figures="m 59.454546 34.18182 a 24.818182 24.181818 0 1 1 -49.636364 0 24.818182 24.181818 0 1 1 49.636364 0 z" FillRule="evenodd"/>
+                        </Path.Data>
+                        <Path.RenderTransform>
+                            <MatrixTransform Matrix="1.1687612 0 0 1.1687612 -8.4816387 -7.4214137"/>
+                        </Path.RenderTransform>
+                    </Path>
+                    <TextBlock FontSize="40" FontWeight="Normal" FontStyle="normal" Foreground="#FF000000" Canvas.Left="24" Canvas.Top="2" Name="text3765">s</TextBlock>
+                </Canvas>
+            </Canvas>
+        </Viewbox>
+    </ControlTemplate>
+
+</ResourceDictionary>

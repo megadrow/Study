@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -7,20 +8,20 @@ namespace Controls
 {
     public class StanConnection
     {
-        public Line line = new Line();
-        public StationEll obj1 { get; set; }
-        public StationEll obj2 { get; set; }
+        private Line line = new Line();
+        private CommonObject obj1 { get; set; }
+        private CommonObject obj2 { get; set; }
 
-        private static StationEll tmpObject;
+        private static CommonObject tmpObject;
 
-        public static void ToTempObj(StationEll obj)
+        public static void ToTempObj(CommonObject obj)
         {
             tmpObject = obj;
         }
 
-        public static bool IsEquelWithTemp(StationEll obj)
+        public static bool IsEquelWithTemp(CommonObject obj)
         {
-            return (tmpObject == obj);
+            return (Equals(tmpObject, obj));
         }
 
         public static bool IsCatch()
@@ -32,9 +33,18 @@ namespace Controls
         {
             line.Stroke = new SolidColorBrush(Colors.Black);
             line.StrokeThickness = 1;
+            line.MouseDown += line_MouseDown;
         }
 
-        public void UpdateLine(StationEll st)
+        void line_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (obj1.mode == Mode.Delete)
+            {
+                Delete();
+            }
+        }
+
+        public void UpdateLine(CommonObject st)
         {
             if (Equals(obj1, st))
             {
@@ -49,7 +59,16 @@ namespace Controls
                 }
         }
 
-        public static void ConectTo(StationEll st, bool start = false)
+        public void Delete()
+        {
+            obj1.Connection.Remove(this);
+            obj2.Connection.Remove(this);
+
+            var parent = LogicalTreeHelper.GetParent(line) as Panel;
+            if (parent != null) parent.Children.Remove(line);
+        }
+
+        public static void ConectTo(CommonObject st, bool start = false)
         {
             if (!IsCatch())
             {
@@ -68,12 +87,12 @@ namespace Controls
             }
         }
 
-        public static void Connect(StationEll st)
+        public static void Connect(CommonObject st)
         {
             Connect(tmpObject, st);
         }
 
-        public static void Connect(StationEll st1, StationEll st2)
+        public static void Connect(CommonObject st1, CommonObject st2)
         {
             if (Equals(st1, st2))
             {
@@ -81,27 +100,32 @@ namespace Controls
                 return;
             }
 
-            if ((st1.Connection != null) && (st2.Connection != null) && (st2.Connection == st1.Connection))
+            if ((st1.Connection != null) && (st2.Connection != null))
             {
-                MessageBox.Show("Такое соединение уже существует", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
+                if (st1.Connection.Any(t1 => st2.Connection.Any(t => t1 == t)))
+                {
+                    MessageBox.Show("Такое соединение уже существует", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
             }
 
             var parent = LogicalTreeHelper.GetParent(st1) as Panel;
 
-            st1.Connection = st2.Connection = new StanConnection();
-            
-            st1.Connection.obj1 = st1;
-            st1.Connection.obj2 = st2;
-            st2.Connection = st1.Connection;
+            st1.Connection.Add(new StanConnection());
+            var index1 = st1.Connection.Count - 1;
+            st2.Connection.Add(st1.Connection[index1]);
+            //var index2 = st2.Connection.Count - 1;
 
-            st1.Connection.line.X1 = st1.GetCenter().X;
-            st1.Connection.line.Y1 = st1.GetCenter().Y;
-            st1.Connection.line.X2 = st2.GetCenter().X;
-            st1.Connection.line.Y2 = st2.GetCenter().Y;
-            st1.Connection.line.StrokeThickness = 2;
-            st1.Connection.line.Stroke = new SolidColorBrush(Colors.Black);
-            if (parent != null) parent.Children.Add(st1.Connection.line);
+            st1.Connection[index1].obj1 = st1;
+            st1.Connection[index1].obj2 = st2;
+
+            st1.Connection[index1].line.X1 = st1.GetCenter().X;
+            st1.Connection[index1].line.Y1 = st1.GetCenter().Y;
+            st1.Connection[index1].line.X2 = st2.GetCenter().X;
+            st1.Connection[index1].line.Y2 = st2.GetCenter().Y;
+            st1.Connection[index1].line.StrokeThickness = 2;
+            st1.Connection[index1].line.Stroke = new SolidColorBrush(Colors.Black);
+            if (parent != null) parent.Children.Add(st1.Connection[index1].line);
         }
     }
 }

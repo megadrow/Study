@@ -44,19 +44,7 @@
             </DataGrid.Columns>
         </DataGrid>
         <Button Click="NextClick" Grid.Row="3" HorizontalAlignment="Right" Content="Далее" Name="Next">
-            <!--<Button.Style>
-                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource  {x:Type Button}}">
-                    <Style.Triggers>
-                        <MultiDataTrigger>
-                            <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridTextColumn}}, Path=(Validation.HasError)}" Value="false" />
-                                <Condition Binding="{Binding ElementName=pointGrid, Path=(Validation.HasError)}" Value="false" />
-                            </MultiDataTrigger.Conditions>
-                            <Setter Property="IsEnabled" Value="False" />
-                        </MultiDataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Button.Style>-->
+           
         </Button>
     </Grid>
 </Page>

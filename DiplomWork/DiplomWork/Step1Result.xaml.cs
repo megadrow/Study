@@ -112,7 +112,7 @@ namespace DiplomWork
                             str += ", ";
                         }
                     }
-
+                    
                     ResList.Items.Add(str);
                 }
             }
@@ -120,6 +120,23 @@ namespace DiplomWork
             {
                 ErrorViewer.ShowError(ex);
             }
+        }
+
+        private void NextClick(object sender, RoutedEventArgs e)
+        {
+            var result = new SecondStep(fStep);
+            if (NavigationService != null) NavigationService.Navigate(result);
+        }
+
+        private void ResList_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var res = resultList;
+            var list = sender as ListBox;
+            for (int i = 0; i < fStep.GetStationCount(); i++)
+            {
+                fStep.Stations[i].Num = resultList[list.SelectedIndex][i];
+            }
+            
         }
     }
 }
