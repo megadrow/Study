@@ -15,6 +15,12 @@ namespace Controls
                 var elementGrid = child as Grid;
                 var elementStack = child as StackPanel;
                 var elementDataGrid = child as DataGrid;
+                var elementGroupBox = child as GroupBox;
+
+                if (elementGroupBox != null)
+                {
+                    GetErrors(errors, elementGroupBox);
+                }
 
                 if (elementGrid != null)
                 {

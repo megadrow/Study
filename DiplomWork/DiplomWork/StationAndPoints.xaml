@@ -24,8 +24,11 @@
         <StackPanel Orientation="Horizontal">
             <Button Click="AddRowOnClick">Добавить ряд</Button>
             <Button Click="AddColOnClick">Добавить колонку</Button>
+            <Button Click="DelRowOnClick">Удалить ряд</Button>
+            <Button Click="DelColOnClick">Удалить колонку</Button>
+            <Button Click="UndeleteOnClick">Выделение</Button>
         </StackPanel>
-        <DataGrid Grid.Row="1" Name="mainGrid" AutoGenerateColumns="False" CanUserAddRows="False"  CanUserReorderColumns="False" CanUserSortColumns="False">
+        <DataGrid SelectionChanged="DeliteClick" Grid.Row="1" Name="mainGrid" AutoGenerateColumns="False" CanUserDeleteRows="False" CanUserAddRows="False"  CanUserReorderColumns="False" CanUserSortColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Название"
                                     Binding="{Binding Station.Name}"
@@ -35,7 +38,7 @@
                                     />
             </DataGrid.Columns>
         </DataGrid>
-        <DataGrid Grid.Row="2" Name="pointGrid"  AutoGenerateColumns="False" CanUserAddRows="False" CanUserReorderColumns="False" HeadersVisibility="None">
+        <DataGrid Grid.Row="2" Name="pointGrid" CanUserDeleteRows="False" AutoGenerateColumns="False" CanUserAddRows="False" CanUserReorderColumns="False" HeadersVisibility="None">
             <DataGrid.Columns>
                 <DataGridTextColumn Width="100" IsReadOnly="True"
                                     CanUserSort="False"

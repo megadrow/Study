@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using Calculation;
 using Controls;
 using DiplomWork.Objects;
@@ -24,6 +26,8 @@ namespace DiplomWork
 
         private FirstStep fStep;
 
+        private Settings Settings { get; set; }
+
         //private void cmdGetExceptions_Click(object sender, RoutedEventArgs e)
         //{
         //    StringBuilder sb = new StringBuilder();
@@ -33,10 +37,12 @@ namespace DiplomWork
         //}
 
 
-        public Step1Result(FirstStep step)
+        public Step1Result(FirstStep step, Settings settings)
         {
             InitializeComponent();
-            UpdateTimer.Start(Sol, grdMain);
+            UpdateTimer timer = new UpdateTimer();
+            timer.Start(Sol, grdMain);
+            Settings = settings;
             //сохраняем для последующего получения данных
             //station = step;
             //stations = sUse.ToList();
@@ -70,7 +76,9 @@ namespace DiplomWork
         {
             try
             {
-                ResList.Items.Clear();
+                ResListV.ItemsSource = null;
+                ResListV.Items.Clear();
+                gridV.Columns.Clear();
                 IntLinearEquationSolve.SetMin(stationMin);
                 resultList = IntLinearEquationSolve.Solve();
 
@@ -80,40 +88,82 @@ namespace DiplomWork
                     return;
                 }
 
+                //foreach (int[] t in resultList)
+                //{
+                //    var str = string.Empty;
+                //    var pointCover = new int[fStep.GetPointCount()];
+                //    for (int j = 0; j < t.Length; j++)
+                //    {
+                //        str += fStep.GetStationName(j)  + " = " + t[j].ToString();
+                //        if (j == t.Length - 1)
+                //        {
+                //            str += ": ";
+                //        }
+                //        else
+                //        {
+                //            str += ", ";
+                //        }
+
+                //        for (int i = 0; i < fStep.GetPointCount(); i++)
+                //        {
+                //            pointCover[i] += fStep.GetPointNumber(j, i)*t[j];
+                //        }
+                //    }
+
+                //    str += "покрыто точек: ";
+                //    for (int i = 0; i < fStep.GetPointCount(); i++)
+                //    {
+                //        str += fStep.GetPointName(i) + " = " + pointCover[i].ToString() + "/" + fStep.GetPointTask(i);
+
+                //        if (i != fStep.GetPointCount() - 1)
+                //        {
+                //            str += ", ";
+                //        }
+                //    }
+                    
+                //    ResList.Items.Add(str);
+
+                var results = new ObservableCollection<Result1View>();
+                ResListV.ItemsSource = results;
+                bool chk = false;
                 foreach (int[] t in resultList)
                 {
+                    results.Add(new Result1View(fStep.GetStationCount(), fStep.GetPointCount()));
                     var str = string.Empty;
                     var pointCover = new int[fStep.GetPointCount()];
                     for (int j = 0; j < t.Length; j++)
                     {
-                        str += fStep.GetStationName(j)  + " = " + t[j].ToString();
-                        if (j == t.Length - 1)
+                        if (!chk)
                         {
-                            str += ": ";
+                            gridV.Columns.Add(new GridViewColumn()
+                            {
+                                Header = fStep.GetStationName(j),
+                                DisplayMemberBinding = new Binding("StationCount[" + j.ToString() + "]")
+                            });   
                         }
-                        else
-                        {
-                            str += ", ";
-                        }
+
+                        results.Last().StationCount[j] = t[j];
 
                         for (int i = 0; i < fStep.GetPointCount(); i++)
                         {
-                            pointCover[i] += fStep.GetPointNumber(j, i)*t[j];
+                            results.Last().PointCover[i] += fStep.GetPointNumber(j, i) * t[j];
                         }
                     }
-
-                    str += "покрыто точек: ";
                     for (int i = 0; i < fStep.GetPointCount(); i++)
                     {
-                        str += fStep.GetPointName(i) + " = " + pointCover[i].ToString() + "/" + fStep.GetPointTask(i);
+                        results.Last().PointCount[i] = fStep.GetPointTask(i);
 
-                        if (i != fStep.GetPointCount() - 1)
+                        if (!chk)
                         {
-                            str += ", ";
+                            gridV.Columns.Add(new GridViewColumn()
+                            {
+                                Header = fStep.GetPointName(i),
+                                DisplayMemberBinding = new Binding("PointView[" + i.ToString() + "]")
+                            });   
                         }
                     }
-                    
-                    ResList.Items.Add(str);
+                    results.Last().SetPtView();
+                    chk = true;
                 }
             }
             catch (Exception ex)
@@ -124,19 +174,25 @@ namespace DiplomWork
 
         private void NextClick(object sender, RoutedEventArgs e)
         {
-            var result = new SecondStep(fStep);
+            if (ResListV.SelectedIndex == -1)
+            {
+                ErrorViewer.ShowInfo("Решение не выбрано");
+                return;
+            }
+            var result = new SecondStep(fStep, Settings);
             if (NavigationService != null) NavigationService.Navigate(result);
         }
 
-        private void ResList_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ResList_OnSelectionChanged2(object sender, SelectionChangedEventArgs e)
         {
-            var res = resultList;
-            var list = sender as ListBox;
-            for (int i = 0; i < fStep.GetStationCount(); i++)
+            var list = sender as ListView;
+            if (list.SelectedIndex != -1)
             {
-                fStep.Stations[i].Num = resultList[list.SelectedIndex][i];
+                for (int i = 0; i < fStep.GetStationCount(); i++)
+                {
+                    fStep.Stations[i].Num = resultList[list.SelectedIndex][i];
+                }
             }
-            
         }
     }
 }

@@ -48,9 +48,15 @@
                 </Button.Style>-->
             </Button>
         </StackPanel>
-        <ListBox Name="ResList" Grid.Row="1" SelectionChanged="ResList_OnSelectionChanged">
-            
-        </ListBox>
+        <ListView Name="ResListV" Grid.Row="1" SelectionChanged="ResList_OnSelectionChanged2">
+            <ListView.View>
+                <GridView x:Name="gridV">
+                    <GridView.Columns>
+                        
+                    </GridView.Columns>
+                </GridView>
+            </ListView.View>
+        </ListView>
         <Button Click="NextClick" Grid.Row="3" HorizontalAlignment="Right" Content="Далее" Name="Next">
 
         </Button>

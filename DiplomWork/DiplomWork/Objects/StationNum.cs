@@ -22,6 +22,12 @@ namespace DiplomWork.Objects
             Num = num;
         }
 
+        public StationNum()
+        {
+            Station = new Station(false);
+            Num = 0;
+        }
+
         public void AddPoint(string name = null)
         {
             Station.AddPoint(name);

@@ -25,16 +25,21 @@ namespace DiplomWork
 
         private int stationCount;
 
-        private int pointCount;
+        private int pointCount { get; set; }
 
-        private int pointUse;
+        private int pointUse { get; set; }
 
-        public SecondStep(FirstStep step)
+        private Settings Settings { get; set; }
+
+        public SecondStep(FirstStep step, Settings settings)
         {
             InitializeComponent();
+            Settings = settings;
+            grd.Width = 2000;
             Step = step;
             stationCount = 0;
             pointCount = 0;
+            DataContext = this;
             foreach (var pt in Step.GetAllPoints())
             {
                 pointCount += pt.Num;
@@ -146,6 +151,7 @@ namespace DiplomWork
             try
             {
                 ClearGrid();
+                ClearGridRect();
                 Random rand = new Random();
                 
                 for (int i = pointUse; i < pointCount; i++)
@@ -163,6 +169,19 @@ namespace DiplomWork
             catch (Exception ex)
             {
                 ErrorViewer.ShowError(ex);
+            }
+        }
+
+        private void ClearGridRect()
+        {
+            var gridChildrenCount = grd.Children.OfType<StationRect>().Count();
+            for (int i = 0; i < gridChildrenCount; i++)
+            {
+                foreach (var child in grd.Children.OfType<StationRect>())
+                {
+                    child.Delete();
+                    break;
+                }
             }
         }
 
@@ -185,7 +204,7 @@ namespace DiplomWork
 
             var ptUse = 1;
 
-            foreach (var child in grd.Children.OfType<CommonObject>())
+            foreach (var child in grd.Children.OfType<StationEll>())
             {
                 child.Text = ptUse.ToString();
                 ptUse++;
@@ -198,6 +217,7 @@ namespace DiplomWork
             try
             {
                 ClearGrid();
+                ClearGridRect();
                 //grd.Children.RemoveRange(1, grd.Children.Count - 1);
                 //pointUse = 0;
             }
@@ -209,6 +229,13 @@ namespace DiplomWork
 
         private void SolveOnClick(object sender, RoutedEventArgs e)
         {
+            if (pointCount > pointUse)
+            {
+                ErrorViewer.ShowInfo("На поле добавлены не все терминальные точки.\nДобавьте еще " + (pointCount-pointUse).ToString() + " точек.");
+                return;
+            }
+
+            ClearGridRect();
             var xy = new double[pointCount,2];
             var cond = new int[stationCount];
             //for (int i = 0; i < Step.GetStationCount(); i++)
@@ -240,10 +267,16 @@ namespace DiplomWork
                 j++;
             }
             int info = 0;
-            var c = new double[stationCount, 2];
+            var c = new double[2, stationCount];
             var xyc = new int[pointCount];
 
             KMeans2.K_MeansGenerate(xy, pointCount, 2, stationCount, cond, 100, out info, out c, out xyc);
+
+            if (info != 1)
+            {
+                ErrorViewer.ShowInfo("Ошибка при вычислении k-средних");
+                return;
+            }
 
             j = 0;
             var rand = new Random();
@@ -277,6 +310,18 @@ namespace DiplomWork
             }
 
             
+        }
+
+        private void SettingClick(object sender, RoutedEventArgs e)
+        {
+            var dlg = new SettingDlg(Settings);
+            // UpdateTimer.Stop();
+            if (dlg.ShowDialog() == true)
+            {
+                Settings = dlg.ReturnSetting();
+            }
+
+            //UpdateTimer.Start(Next, grMain);
         }
 
     }

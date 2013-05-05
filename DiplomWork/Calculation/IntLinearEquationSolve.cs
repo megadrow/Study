@@ -49,7 +49,10 @@ namespace Calculation
                 }
             }
 
-            StationMin = (pointCount / pCover.Max()) + 1;
+            if (pCover.Max() != 0)
+            {
+                StationMin = (pointCount / pCover.Max()) + 1;
+            }
         }
 
         private static void Next(int[] mat)

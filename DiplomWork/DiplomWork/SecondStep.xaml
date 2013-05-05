@@ -15,20 +15,29 @@
     </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <ToolBar>
-            <Button Click="ButtonBase_OnClick">
-                <ContentControl Template="{StaticResource MyIcon}"></ContentControl>
+            <Button Click="ButtonBase_OnClick" Content="Добавить">
+                <!--<ContentControl Template="{StaticResource Setting16}" Width="50"/>-->
             </Button>
-            <Button  Click="ConOnClick">Соединение</Button>
+            <!--<Button Click="ConOnClick">
+                <ContentControl Template="{StaticResource Setting48}" Width="50"/>
+            </Button>-->
             <Button  Click="AutoOnClick">Автораспределение</Button>
             <Button  Click="ClearOnClick" Content="Очистить"></Button>
             <Button  Click="SolveOnClick" Content="Распределить"></Button>
+            <Button Click="SettingClick">Настройки</Button>
         </ToolBar>
-        <Grid Grid.Row="1" Name="grd">
-            <Canvas Grid.Row="1" Background="White" Name="ima" MouseLeftButtonDown="Ima_OnMouseDown" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></Canvas>
-        </Grid>
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Grid.Row="1">
+            <Grid Name="grd" Width="{Binding Path=Settings.AreaWidth}" Height="{Binding Path=Settings.AreaHeight}">
+                <Border BorderBrush="Black" BorderThickness="2">
+                    <Canvas Grid.Row="1" Background="White" Name="ima" MouseLeftButtonDown="Ima_OnMouseDown" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                        />
+                </Border>
+            </Grid>
+        </ScrollViewer>
+        
     </Grid>
 </Page>

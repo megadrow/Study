@@ -10,6 +10,13 @@ namespace DiplomWork.Objects
         public TherminalPointInStation Point { get; set; }
         public int Num { get; set; }
 
+        public TherminalPointNum()
+        {
+            Point = new TherminalPointInStation();
+            Num = 0;
+        }
+
+
         public TherminalPointNum(string name = null, int num = 0)
         {
             Point = new TherminalPointInStation(name);

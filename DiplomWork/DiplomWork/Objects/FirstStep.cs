@@ -2,15 +2,19 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace DiplomWork.Objects
 {
-    public class FirstStep
+    [Serializable]
+    public class FirstStep : ISerializable 
     {
         public ObservableCollection<StationNum> Stations { get; set; }
         public ObservableCollection<StationNum> PointsTask { get; set; }
 
+        [XmlAttribute("chk")]
         private static bool chk = false;
 
         public FirstStep()
@@ -91,5 +95,19 @@ namespace DiplomWork.Objects
         {
             return Stations[stationId].GetPoint(ptId).Num;
         }
+
+        #region Сериализация
+
+        public FirstStep(SerializationInfo info, StreamingContext context)
+        {
+            chk = info.GetBoolean("static.chk");
+        }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("static.chk", chk, typeof(bool));
+        }
+
+        #endregion
     }
 }
