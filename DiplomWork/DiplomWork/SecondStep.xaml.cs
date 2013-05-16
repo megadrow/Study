@@ -29,7 +29,7 @@ namespace DiplomWork
 
         private int pointUse { get; set; }
 
-        private Settings Settings { get; set; }
+        public Settings Settings { get; set; }
 
         public SecondStep(FirstStep step, Settings settings)
         {
@@ -159,12 +159,6 @@ namespace DiplomWork
                     pointUse++;
                     AddObjectToGrid(rand.NextDouble() * ima.ActualWidth, rand.NextDouble() * ima.ActualHeight, pointUse.ToString());
                 }
-                //foreach (var st in grd.Children.OfType<StationEll>())
-                //{
-                //    st.ToDeleteMode();
-                //    con = true;
-                //}
-                int u = 1;
             }
             catch (Exception ex)
             {
@@ -319,6 +313,8 @@ namespace DiplomWork
             if (dlg.ShowDialog() == true)
             {
                 Settings = dlg.ReturnSetting();
+                DataContext = null;
+                DataContext = this;
             }
 
             //UpdateTimer.Start(Next, grMain);

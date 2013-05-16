@@ -14,16 +14,16 @@ namespace Calculation
 
         private static int[] B;
 
-        private static int StationMin;
+        private static int _stationMin;
 
         public static int GetMin()
         {
-            return StationMin;
+            return _stationMin;
         }
 
         public static void SetMin(int stMin)
         {
-            StationMin = stMin;
+            _stationMin = stMin;
         }
 
         public static void SetParam(List<int[]> a, int[] b)
@@ -36,7 +36,7 @@ namespace Calculation
                 pointCount += i;
             }
 
-            StationMin = 0;
+            _stationMin = 0;
 
             xCount = A[0].Length;
             var pCover = new int[xCount];
@@ -51,7 +51,7 @@ namespace Calculation
 
             if (pCover.Max() != 0)
             {
-                StationMin = (pointCount / pCover.Max()) + 1;
+                _stationMin = (pointCount / pCover.Max()) + 1;
             }
         }
 
@@ -100,7 +100,7 @@ namespace Calculation
                 var res = new int[xCount];
                 var tmpRes = new int[B.Length];
                 var result = new List<int[]>();
-                res[0] = StationMin;
+                res[0] = _stationMin;
 
                 while (true)
                 {
@@ -128,7 +128,7 @@ namespace Calculation
                         res.CopyTo(result.Last(), 0);
                     }
 
-                    if (res[xCount - 1] == StationMin)
+                    if (res[xCount - 1] == _stationMin)
                     {
                         break;
                     }
