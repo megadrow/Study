@@ -28,15 +28,6 @@ namespace DiplomWork
 
         private Settings Settings { get; set; }
 
-        //private void cmdGetExceptions_Click(object sender, RoutedEventArgs e)
-        //{
-        //    StringBuilder sb = new StringBuilder();
-        //    GetErrors(sb, gridCarDetails);
-        //    string message = sb.ToString();
-        //    if (message != "") MessageBox.Show(message);
-        //}
-
-
         public Step1Result(FirstStep step, Settings settings)
         {
             InitializeComponent();
@@ -44,8 +35,7 @@ namespace DiplomWork
             timer.Start(Sol, grdMain);
             Settings = settings;
             //сохраняем для последующего получения данных
-            //station = step;
-            //stations = sUse.ToList();
+
             fStep = step;
             //enumerable - матрица sUse, в виде списка
             //matA - матрица коэффициентов (каждый список - терм точка, а внутри списка - перечень станций)
@@ -87,41 +77,6 @@ namespace DiplomWork
                     ErrorViewer.ShowInfo("Отсутствуют решения. Попробуйте увеличить количество используемых станций");
                     return;
                 }
-
-                //foreach (int[] t in resultList)
-                //{
-                //    var str = string.Empty;
-                //    var pointCover = new int[fStep.GetPointCount()];
-                //    for (int j = 0; j < t.Length; j++)
-                //    {
-                //        str += fStep.GetStationName(j)  + " = " + t[j].ToString();
-                //        if (j == t.Length - 1)
-                //        {
-                //            str += ": ";
-                //        }
-                //        else
-                //        {
-                //            str += ", ";
-                //        }
-
-                //        for (int i = 0; i < fStep.GetPointCount(); i++)
-                //        {
-                //            pointCover[i] += fStep.GetPointNumber(j, i)*t[j];
-                //        }
-                //    }
-
-                //    str += "покрыто точек: ";
-                //    for (int i = 0; i < fStep.GetPointCount(); i++)
-                //    {
-                //        str += fStep.GetPointName(i) + " = " + pointCover[i].ToString() + "/" + fStep.GetPointTask(i);
-
-                //        if (i != fStep.GetPointCount() - 1)
-                //        {
-                //            str += ", ";
-                //        }
-                //    }
-                    
-                //    ResList.Items.Add(str);
 
                 var results = new ObservableCollection<Result1View>();
                 ResListV.ItemsSource = results;

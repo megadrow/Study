@@ -1,12 +1,7 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
+﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Xml.Serialization;
 using Controls;
 using Controls.Validation;
 using DiplomWork.Objects;
@@ -34,17 +29,6 @@ namespace DiplomWork
         {
             InitializeComponent();
             Settings = settings;
-            //StreamReader writer = new StreamReader("1234.xml");
-            //XmlSerializer serializer = new XmlSerializer(typeof(FirstStep));
-
-            //Step = (FirstStep)serializer.Deserialize(writer);
-            //writer.Close();
-
-
-
-            //IFormatter formatter = new BinaryFormatter();
-            //FileStream s = new FileStream("123.xml", FileMode.Open);
-            //Step = (FirstStep)formatter.Deserialize(s);
 
             if (!FirstStep.IsAvailable())
             {
@@ -115,24 +99,6 @@ namespace DiplomWork
 
         private void NextClick(object sender, RoutedEventArgs e)
         {
-            //FileStream fileStream = new FileStream("1234.xml", FileMode.Create);
-            //BinaryFormatter bf = new BinaryFormatter();
-            //bf.Serialize(fileStream, Step);
-
-            //fileStream.Dispose();
-
-            //StreamWriter writer = new StreamWriter("1234.xml", false);
-            //XmlSerializer serializer = new XmlSerializer(Step.GetType());
-
-            //serializer.Serialize(writer, Step);
-            //writer.Close();
-
-            //IFormatter formatter= new BinaryFormatter();
-            //FileStream s = new FileStream("123.xml", FileMode.Create);
-            //formatter.Serialize(s, Step);
-            //s.Close();
-
-
             if (Step.GetAllPoints().Sum(pts => pts.Num) == 0)
             {
                 ErrorViewer.ShowInfo("Не задано количество требуемых терминальных точек");
