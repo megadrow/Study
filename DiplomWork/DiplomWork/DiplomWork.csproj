@@ -74,6 +74,9 @@
     <Compile Include="Objects\FirstStep.cs" />
     <Compile Include="Objects\StationNum.cs" />
     <Compile Include="Objects\TherminalPointNum.cs" />
+    <Compile Include="PointInfo.xaml.cs">
+      <DependentUpon>PointInfo.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Result1View.cs" />
     <Compile Include="SecondStep.xaml.cs">
       <DependentUpon>SecondStep.xaml</DependentUpon>
@@ -101,6 +104,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="PointInfo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SecondStep.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

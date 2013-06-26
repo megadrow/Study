@@ -17,6 +17,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <ToolBar>
             <Button Click="ButtonBase_OnClick" Content="Добавить">
@@ -34,10 +35,19 @@
             <Grid Name="grd" MaxWidth="{Binding Path=Settings.AreaWidth}" Height="{Binding Path=Settings.AreaHeight}" VerticalAlignment="Top" HorizontalAlignment="Left">
                 <Border BorderBrush="Black" BorderThickness="2">
                     <Canvas Grid.Row="1" Background="White" Name="ima" MouseLeftButtonDown="Ima_OnMouseDown" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-                        />
+                        MouseMove="Ima_OnMouseMove"/>
                 </Border>
             </Grid>
         </ScrollViewer>
-        
+        <StatusBar Grid.Row="2">
+            <TextBlock>X: </TextBlock>
+            <TextBlock Text="{Binding Path=MouseX,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBlock>
+            <TextBlock>Y: </TextBlock>
+            <TextBlock Text="{Binding Path=MouseY,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBlock>
+            <TextBlock>сумма квадратов расстояний до центров: </TextBlock>
+            <TextBlock Text="{Binding Path=KMRes,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat={}{0:F3}}"></TextBlock>
+            <TextBlock>Сумма расстояний до центров:</TextBlock>
+            <TextBlock Text="{Binding Path=KMRes2,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat={}{0:F3}}"></TextBlock>
+        </StatusBar>
     </Grid>
 </Page>

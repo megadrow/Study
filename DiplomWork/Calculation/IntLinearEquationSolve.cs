@@ -51,7 +51,15 @@ namespace Calculation
 
             if (pCover.Max() != 0)
             {
-                _stationMin = (pointCount / pCover.Max()) + 1;
+                if ((pointCount / pCover.Max()) != 0)
+                {
+                    _stationMin = (pointCount / pCover.Max()) + 1;
+                }
+                else
+                {
+                    _stationMin = (pointCount/pCover.Max());
+                }
+                
             }
         }
 

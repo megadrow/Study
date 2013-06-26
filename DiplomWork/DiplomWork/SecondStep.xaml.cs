@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
@@ -30,6 +31,14 @@ namespace DiplomWork
         private int pointUse { get; set; }
 
         public Settings Settings { get; set; }
+
+        public double MouseX { get; set; }
+
+        public double MouseY { get; set; }
+
+        public double KMRes { get; set; }
+
+        public double KMRes2 { get; set; }
 
         public SecondStep(FirstStep step, Settings settings)
         {
@@ -77,7 +86,11 @@ namespace DiplomWork
 
             mi = new MenuItem();
             mi.Header = "Свойства";
-            //mi.Click += mi_Click;
+            if (circle.GetType() == typeof(StationEll))
+            {
+                mi.Click += PointProp_Click;
+            }
+            
             context.Items.Add(mi);
 
             circle.ContextMenu = context;
@@ -91,6 +104,24 @@ namespace DiplomWork
             {
                 var item = sender as MenuItem;
                 item.IsChecked = !item.IsChecked;
+            }
+            catch (Exception ex)
+            {
+                ErrorViewer.ShowError(ex);
+            }
+        }
+        private void PointProp_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var dlg = new PointInfo();
+                var item = (sender as MenuItem);
+
+                var item2 = LogicalTreeHelper.GetParent(item);
+                var item3 = LogicalTreeHelper.GetParent(item2) as Popup;
+                dlg.DataContext = (item3.PlacementTarget as StationEll).GetCenter();
+
+                dlg.ShowDialog();
             }
             catch (Exception ex)
             {
@@ -263,8 +294,9 @@ namespace DiplomWork
             int info = 0;
             var c = new double[2, stationCount];
             var xyc = new int[pointCount];
-
-            KMeans2.K_MeansGenerate(xy, pointCount, 2, stationCount, cond, 100, out info, out c, out xyc);
+            double ebest = 0;
+            double ebest2 = 0;
+            KMeans2.K_MeansGenerate(xy, pointCount, 2, stationCount, cond, 100, out info, out c, out xyc, out ebest, out ebest2);
 
             if (info != 1)
             {
@@ -272,6 +304,8 @@ namespace DiplomWork
                 return;
             }
 
+            KMRes = ebest;
+            KMRes2 = ebest2;
             j = 0;
             var rand = new Random();
             var colors = new List<byte[]>();
@@ -313,11 +347,23 @@ namespace DiplomWork
             if (dlg.ShowDialog() == true)
             {
                 Settings = dlg.ReturnSetting();
-                DataContext = null;
-                DataContext = this;
+                Update();
             }
 
             //UpdateTimer.Start(Next, grMain);
+        }
+
+        private void Update()
+        {
+            DataContext = null;
+            DataContext = this;
+        }
+
+        private void Ima_OnMouseMove(object sender, MouseEventArgs e)
+        {
+            MouseX = e.GetPosition(null).X;
+            MouseY = e.GetPosition(null).Y;
+            Update();
         }
 
     }

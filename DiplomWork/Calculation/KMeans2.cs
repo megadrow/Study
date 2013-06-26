@@ -34,7 +34,9 @@ namespace Calculation
             int restarts,
             out int info,
             out double[,] c,    //[k, nvars]
-            out int[] xyc)      //[npoints]
+            out int[] xyc,
+            out double ebest,
+            out double ebest2)      //[npoints]
         {
             int i = 0;
             int j = 0;
@@ -42,7 +44,7 @@ namespace Calculation
             double[,] ctbest = new double[0, 0];
             int[] xycbest = new int[0];
             double e = 0;
-            double ebest = 0;
+            double e2 = 0;
             double[] x = new double[0];
             double[] tmp = new double[0];
             double[] d2 = new double[0];
@@ -58,6 +60,8 @@ namespace Calculation
             bool zerosizeclusters = new bool();
             int pass = 0;
             int i_ = 0;
+            ebest = Maxrealnumber;
+            ebest2 = Maxrealnumber;
 
             c = new double[0, 0];
             xyc = new int[0];
@@ -90,7 +94,7 @@ namespace Calculation
             tmp = new double[nvars];
             csizes = new int[k];
             cbusy = new bool[k];
-            ebest = Maxrealnumber;
+            
             for (pass = 1; pass <= restarts; pass++)
             {
 
@@ -283,6 +287,7 @@ namespace Calculation
                 // 3. Calculate E, compare with best centers found so far
                 //
                 e = 0;
+                e2 = 0;
                 for (i = 0; i < npoints; i++)
                 {
                     for (i_ = 0; i_ < nvars; i_++)
@@ -294,11 +299,13 @@ namespace Calculation
                         tmp[i_] = tmp[i_] - ct[xyc[i], i_];
                     }
                     v = 0.0;
-                    for (i_ = 0; i_ <= nvars - 1; i_++)
+                    for (i_ = 0; i_ < nvars; i_++)
                     {
                         v += tmp[i_] * tmp[i_];
                     }
                     e = e + v;
+                    e2 = e2 + Math.Sqrt(v);
+
                 }
                 if ((double)(e) < (double)(ebest))
                 {
@@ -307,6 +314,7 @@ namespace Calculation
                     // store partition.
                     //
                     ebest = e;
+                    ebest2 = e2;
                     CopyMatrix(ct, 0, k - 1, 0, nvars - 1, ref ctbest, 0, k - 1, 0, nvars - 1);
                     for (i = 0; i <= npoints - 1; i++)
                     {
