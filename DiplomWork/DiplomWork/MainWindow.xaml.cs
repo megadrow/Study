@@ -27,6 +27,8 @@ namespace DiplomWork
             {
                 settings.AreaHeight = 800;
                 settings.AreaWidth = 600;
+                settings.AreaHeightGpd = 800;
+                settings.AreaWidthGpd = 600;
             }
             
 

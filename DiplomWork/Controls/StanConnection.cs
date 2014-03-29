@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -13,6 +14,11 @@ namespace Controls
         private CommonObject obj2 { get; set; }
 
         private static CommonObject tmpObject;
+
+        public static CommonObject GetTempObject()
+        {
+            return tmpObject;
+        }
 
         public static void ToTempObj(CommonObject obj)
         {
@@ -92,11 +98,12 @@ namespace Controls
             Connect(tmpObject, st);
         }
 
-        public static void Connect(CommonObject st1, CommonObject st2)
+        public static void Connect(CommonObject st1, CommonObject st2, bool direction = false)
         {
             if (Equals(st1, st2))
             {
                 MessageBox.Show("Нельзя соединить станцию с собой", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                ToTempObj(null);
                 return;
             }
 
@@ -124,8 +131,12 @@ namespace Controls
             st1.Connection[index1].line.X2 = st2.GetCenter().X;
             st1.Connection[index1].line.Y2 = st2.GetCenter().Y;
             st1.Connection[index1].line.StrokeThickness = 2;
+            
             st1.Connection[index1].line.Stroke = new SolidColorBrush(Colors.Black);
-            if (parent != null) parent.Children.Add(st1.Connection[index1].line);
+            if (parent != null)
+            {
+                parent.Children.Add(st1.Connection[index1].line);
+            }
         }
     }
 }

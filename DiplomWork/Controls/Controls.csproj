@@ -65,6 +65,8 @@
     <Compile Include="Commands\NextCommand.cs" />
     <Compile Include="CommonObject.cs" />
     <Compile Include="FindValidationError.cs" />
+    <Compile Include="GpdData.cs" />
+    <Compile Include="GpdModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

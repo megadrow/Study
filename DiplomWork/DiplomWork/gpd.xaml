@@ -1,0 +1,54 @@
+﻿<Page x:Class="DiplomWork.gpd"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      mc:Ignorable="d" 
+	Title="gpd">
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,/Controls;component/Styles.xaml" />
+                <ResourceDictionary Source="pack://application:,,/Controls;component/AppIcons.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+    <ToolBar>
+        <RadioButton Name="RbDrawMode" Checked="DrawModeChacked">Рисование</RadioButton>
+        <RadioButton Name="RbThreadMode" Checked="ThreadModeChacked">Разделение на потоки</RadioButton>
+        <RadioButton Name="RbStationMode" Checked="StationModeChacked">Разделение на станции</RadioButton>
+            <Button Click="SettingClick">Настройки</Button>
+        </ToolBar>
+    <ToolBar Name="DrawModeToolbar" Grid.Row="1">
+        <ComboBox Name="ComboDrawType" Width="100">
+            <ComboBoxItem Content="Данные"></ComboBoxItem>
+            <ComboBoxItem Content="Модули"></ComboBoxItem>
+            </ComboBox>
+        <Button>Настройки режима 1</Button>
+            <RadioButton Name="DmRbAdd" Checked="AddModeChecked">Добавлять</RadioButton>
+            <RadioButton Name="DmRbDel" Checked="DelModeChecked">Удалять</RadioButton>
+            <RadioButton Name="DmRbCon" Checked="ConModeChecked">Соединять</RadioButton>
+            <RadioButton Name="DmRbUncon" Checked="UnconModeChecked">Рассоединять</RadioButton>
+        </ToolBar>
+    <ToolBar Name="ThreadModeToolbar" Grid.Row="1" Visibility="Hidden">
+        <Button>Настройки</Button>
+    </ToolBar>
+        <ToolBar Name="StationModeToolbar" Grid.Row="1" Visibility="Hidden">
+        <Button>Настройки 2</Button>
+    </ToolBar>
+    <ScrollViewer Name="N1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Grid.Row="2">
+        <Grid Name="grd" MaxWidth="{Binding Path=Settings.AreaWidthGpd}" Height="{Binding Path=Settings.AreaHeightGpd}" VerticalAlignment="Top" HorizontalAlignment="Left">
+            <Border BorderBrush="Black" BorderThickness="2">
+                <Canvas Grid.Row="1" Background="White" Name="ima" MouseLeftButtonDown="Ima_OnMouseDown" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                    MouseMove="Ima_OnMouseMove"/>
+            </Border>
+        </Grid>
+    </ScrollViewer>
+    </Grid>
+</Page>

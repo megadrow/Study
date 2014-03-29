@@ -17,7 +17,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <GroupBox Header="Размеры поля">
+        <GroupBox Name="settArea" Header="Размеры поля" Grid.Row="0">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
@@ -41,6 +41,38 @@
                 <TextBox Grid.Row="1" Grid.Column="1">
                     <TextBox.Text>
                         <Binding Path="AreaWidth" Mode="TwoWay">
+                            <Binding.ValidationRules>
+                                <local:ValidationNumber></local:ValidationNumber>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+            </Grid>
+        </GroupBox>
+        <GroupBox Name="settAreaGpd" Header="Размеры поля" Grid.Row="0" Visibility="Hidden">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock VerticalAlignment="Center">Высота поля</TextBlock>
+                <TextBlock Grid.Row="1" VerticalAlignment="Center">Ширина поля</TextBlock>
+                <TextBox Grid.Column="1">
+                    <TextBox.Text>
+                        <Binding Path="AreaHeightGpd" Mode="TwoWay">
+                            <Binding.ValidationRules>
+                                <local:ValidationNumber></local:ValidationNumber>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+                <TextBox Grid.Row="1" Grid.Column="1">
+                    <TextBox.Text>
+                        <Binding Path="AreaWidthGpd" Mode="TwoWay">
                             <Binding.ValidationRules>
                                 <local:ValidationNumber></local:ValidationNumber>
                             </Binding.ValidationRules>

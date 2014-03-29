@@ -1,16 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
+﻿using System.IO;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.Xml.Serialization;
 using Controls;
 
@@ -24,9 +13,22 @@ namespace DiplomWork
         Settings settings = new Settings();
         Settings settingRes = new Settings();
 
-        public SettingDlg(Settings setting)
+        public SettingDlg(Settings setting, int type)
         {
             InitializeComponent();
+            switch (type)
+            {
+                case 0:
+                    {
+                        settArea.Visibility = Visibility.Visible;
+                        settAreaGpd.Visibility = Visibility.Hidden;
+                    } break;
+                case 1:
+                    {
+                        settArea.Visibility = Visibility.Hidden;
+                        settAreaGpd.Visibility = Visibility.Visible;
+                    } break;
+            }
             UpdateTimer timer = new UpdateTimer();
             timer.Start(btnOk, mainGrid);
             settingRes = setting;

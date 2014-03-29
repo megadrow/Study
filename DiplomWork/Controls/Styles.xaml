@@ -33,7 +33,7 @@
                             StrokeThickness="{Binding StrokeThickness, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                             Stroke="{Binding Stroke, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <TextBlock 
-                            Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                            Text="{Binding Number, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center" />
                     </Grid>
@@ -51,7 +51,43 @@
                             StrokeThickness="{Binding StrokeThickness, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                             Stroke="{Binding Stroke, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <TextBlock 
-                            Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                            Text="{Binding Number, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="controls:GpdData">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:GpdData">
+                    <Grid>
+                        <Ellipse 
+                            Fill="{TemplateBinding Background}" 
+                            StrokeThickness="{Binding StrokeThickness, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                            Stroke="{Binding Stroke, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBlock 
+                            Text="{Binding Number, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="controls:GpdModule">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:GpdModule">
+                    <Grid>
+                        <Rectangle 
+                            Fill="{TemplateBinding Background}" 
+                            StrokeThickness="{Binding StrokeThickness, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                            Stroke="{Binding Stroke, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBlock 
+                            Text="{Binding Number, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center" />
                     </Grid>

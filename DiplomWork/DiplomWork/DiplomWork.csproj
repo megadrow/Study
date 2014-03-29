@@ -71,6 +71,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ErrorViewer.cs" />
+    <Compile Include="gpd.xaml.cs">
+      <DependentUpon>gpd.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Objects\FirstStep.cs" />
     <Compile Include="Objects\StationNum.cs" />
     <Compile Include="Objects\TherminalPointNum.cs" />
@@ -92,6 +95,10 @@
     <Compile Include="Step1Result.xaml.cs">
       <DependentUpon>Step1Result.xaml</DependentUpon>
     </Compile>
+    <Page Include="gpd.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -77,7 +77,7 @@ namespace DiplomWork
             }
 
 
-            circle.Text = text;
+            circle.Number = Convert.ToInt32(text);
             var context = new ContextMenu();
             var mi = new MenuItem();
             mi.Header = "Закрепить";
@@ -86,10 +86,10 @@ namespace DiplomWork
 
             mi = new MenuItem();
             mi.Header = "Свойства";
-            if (circle.GetType() == typeof(StationEll))
-            {
+            //if (circle.GetType() == typeof(StationEll))
+            //{
                 mi.Click += PointProp_Click;
-            }
+            //}
             
             context.Items.Add(mi);
 
@@ -119,7 +119,8 @@ namespace DiplomWork
 
                 var item2 = LogicalTreeHelper.GetParent(item);
                 var item3 = LogicalTreeHelper.GetParent(item2) as Popup;
-                dlg.DataContext = (item3.PlacementTarget as StationEll).GetCenter();
+                dlg.DataContext = (item3.PlacementTarget as CommonObject).GetCenter();
+                dlg.PIName.Text = (item3.PlacementTarget as CommonObject).Text;
 
                 dlg.ShowDialog();
             }
@@ -263,6 +264,7 @@ namespace DiplomWork
             ClearGridRect();
             var xy = new double[pointCount,2];
             var cond = new int[stationCount];
+            var stName = new List<string>();
             //for (int i = 0; i < Step.GetStationCount(); i++)
             //{
             //    foreach (var pt in Step.Stations[i].GetAllPoints())
@@ -276,6 +278,7 @@ namespace DiplomWork
             {
                 for (int i = 0; i < st.Num; i++)
                 {
+                    stName.Add(st.GetName());
                     foreach (var pt in st.GetAllPoints())
                     {
                         cond[j] += pt.Num;
@@ -325,6 +328,7 @@ namespace DiplomWork
             foreach (var stationRect in rect)
             {
                 stationRect.Background = new SolidColorBrush(Color.FromRgb(colors[j][0], colors[j][1], colors[j][2]));
+                stationRect.Text = stName[stationRect.Number - 1];
                 j++;
             }
 
@@ -342,7 +346,7 @@ namespace DiplomWork
 
         private void SettingClick(object sender, RoutedEventArgs e)
         {
-            var dlg = new SettingDlg(Settings);
+            var dlg = new SettingDlg(Settings, 0);
             // UpdateTimer.Stop();
             if (dlg.ShowDialog() == true)
             {
@@ -366,5 +370,34 @@ namespace DiplomWork
             Update();
         }
 
+        private void NextClick(object sender, RoutedEventArgs e)
+        {
+            //if (Step.GetAllPoints().Sum(pts => pts.Num) == 0)
+            //{
+            //    ErrorViewer.ShowInfo("Не задано количество требуемых терминальных точек");
+            //    return;
+            //}
+
+
+            //for (int i = 0; i < Step.GetPointCount(); i++)
+            //{
+            //    var ptsNum = 0;
+            //    if (Step.GetPointTask(i) != 0)
+            //    {
+            //        ptsNum += Step.Stations.Sum(st => st.GetPoint(i).Num);
+
+            //        if (ptsNum == 0)
+            //        {
+            //            ErrorViewer.ShowInfo(
+            //                "Решение задачи невозможно\nОтсутствуют станции, к которым можно подключить точку: " +
+            //                Step.GetPoint(i).GetName());
+            //            return;
+            //        }
+            //    }
+            //}
+
+            var result = new gpd(Settings);
+            if (NavigationService != null) NavigationService.Navigate(result);
+        }
     }
 }

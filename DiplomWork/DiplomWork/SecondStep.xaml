@@ -30,6 +30,7 @@
             <Button  Click="ClearOnClick" Content="Очистить"></Button>
             <Button  Click="SolveOnClick" Content="Распределить"></Button>
             <Button Click="SettingClick">Настройки</Button>
+            <Button Click="NextClick">Продолжить</Button>
         </ToolBar>
         <ScrollViewer Name="N1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Grid.Row="1">
             <Grid Name="grd" MaxWidth="{Binding Path=Settings.AreaWidth}" Height="{Binding Path=Settings.AreaHeight}" VerticalAlignment="Top" HorizontalAlignment="Left">

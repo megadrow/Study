@@ -12,7 +12,9 @@ namespace Controls
 
         Connect,
 
-        Delete
+        Delete,
+
+        Disconnect
     }
 
     public class CommonObject : Label
@@ -22,6 +24,8 @@ namespace Controls
         public Brush Stroke { get; set; }
 
         public string Text { get; set; }
+
+        public int Number { get; set; }
 
         public double Top { get; set; }
 
@@ -35,9 +39,9 @@ namespace Controls
         /// Временные элементы
         /// </summary>
 
-        private bool _catc = false;
+        protected bool _catc = false;
 
-        private double _stX, _stY;
+        protected double _stX, _stY;
 
         public CommonObject()
         {
@@ -53,12 +57,12 @@ namespace Controls
             HorizontalAlignment = HorizontalAlignment.Left;
 
             Panel.SetZIndex(this, 1);
-            MouseLeftButtonDown += EllipseOnMouseDown;
-            MouseLeftButtonUp += EllipseOnMouseUp;
+            MouseLeftButtonDown += CommonObjectOnMouseDown;
+            MouseLeftButtonUp += CommonObjectOnMouseUp;
             //MouseDown += EllipseOnMouseDown;
             //MouseUp += EllipseOnMouseUp;
-            MouseMove += EllipseOnMouseMove;
-            MouseLeave += EllipseOnMouseLeave;
+            MouseMove += CommonObjectOnMouseMove;
+            MouseLeave += CommonObjectOnMouseLeave;
         }
 
         private void Move(CommonObject obj, double x, double y)
@@ -113,7 +117,7 @@ namespace Controls
             }
         }
 
-        private void EllipseOnMouseLeave(object sender, MouseEventArgs e)
+        public void CommonObjectOnMouseLeave(object sender, MouseEventArgs e)
         {
             switch (mode)
             {
@@ -128,9 +132,9 @@ namespace Controls
             }
         }
 
-        private void ToFront(object obj, bool up)
+        protected void ToFront(object obj, bool up)
         {
-            var circle = obj as StationEll;
+            var circle = obj as CommonObject;
             if (up)
             {
                 if (circle != null) Panel.SetZIndex(circle, 2);
@@ -146,7 +150,7 @@ namespace Controls
             return new Point(Left + Width / 2, Top + Height / 2);
         }
 
-        private void EllipseOnMouseDown(object sender, MouseButtonEventArgs e)
+        public void CommonObjectOnMouseDown(object sender, MouseButtonEventArgs e)
         {
             switch (mode)
             {
@@ -169,21 +173,30 @@ namespace Controls
                     {
                         Delete();
                     } break;
+                case Mode.Disconnect:
+                    {
+                        Disconnect();
+                    } break;
             }
         }
 
-        public void Delete()
+        public void Disconnect()
         {
             for (int i = Connection.Count - 1; i > -1; i--)
             {
                 Connection[i].Delete();
             }
+        }
+
+        public void Delete()
+        {
+            Disconnect();
 
             var parent = LogicalTreeHelper.GetParent(this) as Panel;
             if (parent != null) parent.Children.Remove(this);
         }
 
-        private void EllipseOnMouseUp(object sender, MouseButtonEventArgs e)
+        public void CommonObjectOnMouseUp(object sender, MouseButtonEventArgs e)
         {
             switch (mode)
             {
@@ -198,7 +211,7 @@ namespace Controls
                     break;
                 case Mode.Connect:
                     {
-                        StanConnection.ConectTo(sender as StationEll);
+                        //StanConnection.ConectTo(sender as StationEll);
                     } break;
             }
         }
@@ -206,6 +219,13 @@ namespace Controls
         public void ToConnectMode()
         {
             mode = Mode.Connect;
+            StanConnection.ToTempObj(null);
+            _catc = false;
+        }
+
+        public void ToDisconnectMode()
+        {
+            mode = Mode.Disconnect;
             StanConnection.ToTempObj(null);
             _catc = false;
         }
@@ -229,7 +249,7 @@ namespace Controls
             _catc = false;
         }
 
-        private void EllipseOnMouseMove(object sender, MouseEventArgs e)
+        public void CommonObjectOnMouseMove(object sender, MouseEventArgs e)
         {
             switch (mode)
             {
