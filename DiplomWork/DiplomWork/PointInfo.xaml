@@ -1,7 +1,8 @@
 ﻿<Window x:Class="DiplomWork.PointInfo"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Свойства" Height="250" Width="300">
+        xmlns:local="clr-namespace:Controls.Validation;assembly=Controls"
+        Title="Свойства" Width="300" ResizeMode="NoResize" SizeToContent="Height">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -16,7 +17,8 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <GroupBox Header="Общая информация" Grid.Row="0">
+            <!--Блоки для информации о точках и станциях на 2 шаге, по умолчанию-->
+        <GroupBox Name="gbCommInfo" Header="Общая информация" Grid.Row="0">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -26,11 +28,10 @@
                     <ColumnDefinition Width="1*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <TextBlock VerticalAlignment="Center">Название</TextBlock>
-                <TextBlock Grid.Column="1" Name="PIName">
-                </TextBlock>
+                <TextBlock Grid.Column="1" Name="PIName"/>
             </Grid>
         </GroupBox>
-        <GroupBox Header="Координаты точки" Grid.Row="1">
+        <GroupBox Name="gbCoords" Header="Координаты точки" Grid.Row="1">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
@@ -42,22 +43,43 @@
                     </Grid.ColumnDefinitions>
                     <TextBlock VerticalAlignment="Center">Высота поля</TextBlock>
                     <TextBlock Grid.Row="1" VerticalAlignment="Center">Ширина поля</TextBlock>
-                <TextBlock Grid.Column="1">
-                    <TextBlock.Text>
-                        <Binding Path="X" StringFormat="{}{0:F3}"></Binding>
-                    </TextBlock.Text>
+                    <TextBlock Grid.Column="1">
+                        <TextBlock.Text>
+                            <Binding Path="X" StringFormat="{}{0:F3}"></Binding>
+                        </TextBlock.Text>
                     </TextBlock>
                     <TextBlock Grid.Row="1" Grid.Column="1">
-                    <TextBlock.Text>
-                        <Binding Path="Y" StringFormat="{}{0:F3}"></Binding>
-                    </TextBlock.Text>
-                       
+                        <TextBlock.Text>
+                            <Binding Path="Y" StringFormat="{}{0:F3}"></Binding>
+                        </TextBlock.Text>
                     </TextBlock>
                 </Grid>
             </GroupBox>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"  Grid.Row="2" >
+            <!--Блоки для информации о данных в ГПД-->
+        <GroupBox Name="gbData" Header="Данные" Grid.Row="0" Visibility="Hidden">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock VerticalAlignment="Center">Цикл</TextBlock>
+                <TextBox Name="tboxCicle" Grid.Row="1" Grid.Column="1">
+                    <TextBox.Text>
+                        <Binding Path="Cicle" Mode="TwoWay" UpdateSourceTrigger="Explicit">
+                            <Binding.ValidationRules>
+                                <local:ValidationNumber></local:ValidationNumber>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+            </Grid>
+        </GroupBox>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"  Grid.Row="2" >
                 <Button Click="CancelClick" IsCancel="True" HorizontalAlignment="Right">Отмена</Button>
-                <Button Name="btnOk" HorizontalAlignment="Right" IsDefault="True">Ok</Button>
+                <Button Name="btnOk" HorizontalAlignment="Right" IsDefault="True" Click="OkClick">Ok</Button>
             </StackPanel>
 
         </Grid>

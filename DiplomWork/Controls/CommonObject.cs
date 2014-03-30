@@ -188,7 +188,7 @@ namespace Controls
             }
         }
 
-        public void Delete()
+        public virtual void Delete()
         {
             Disconnect();
 

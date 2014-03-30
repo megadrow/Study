@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -7,6 +9,27 @@ namespace Controls
 {
     public class GpdData : CommonObject
     {
+        private int _cicle = 0;
+        public bool ShowSub { get; set; }
+
+        public int Cicle 
+        {
+            get { return _cicle; }
+            set
+            {
+                _cicle = value;
+                if (subscribe != null && _cicle > 0)
+                {
+                    subscribe.Text = _cicle.ToString();
+                }
+                else
+                {
+                    subscribe.Text = "";
+                }
+            } 
+        }
+        private TextBlock subscribe;
+
         public GpdData()
         {
             Default();
@@ -27,14 +50,58 @@ namespace Controls
             Left = left - Width / 2;
             Margin = new Thickness(Left, Top, 0, 0);
 
+            SubscribeInit();
+
             StrokeThickness = 1;
             Stroke = new SolidColorBrush(Colors.Black);
             Foreground = new SolidColorBrush(Colors.Black);
             MouseLeftButtonDown -= CommonObjectOnMouseDown;
-            MouseLeftButtonDown += OnMouseMove;
+            MouseLeftButtonDown += OnMouseDown;
+            MouseMove += OnMouseMove;
+        }
+
+        private void SubscribeInit()
+        {
+            ShowSub = false;
+            subscribe = new TextBlock();
+            subscribe.DataContext = this;
+            subscribe.HorizontalAlignment = HorizontalAlignment.Left;
+            subscribe.VerticalAlignment = VerticalAlignment.Top;
+            subscribe.FontSize = 10;
+            subscribe.Margin = new Thickness(Left + Width, Top, 0, 0);
+
+            var parent = this.Parent as Grid;
+            if (parent != null)
+            {
+                parent.Children.Add(subscribe);
+            }
+        }
+
+        public void ShowSubscribe()
+        {
+            ShowSub = true;
+            var parent = this.Parent as Grid;
+            if (parent != null)
+            {
+                parent.Children.Add(subscribe);
+            }
         }
 
         private void OnMouseMove(object sender, MouseEventArgs e)
+        {
+            switch (mode)
+            {
+                case Mode.Move:
+                    {
+                        if (_catc)
+                        {
+                            subscribe.Margin = new Thickness(Left + Width, Top, 0, 0);
+                        }
+                    } break;
+            }
+        }
+
+        private void OnMouseDown(object sender, MouseEventArgs e)
         {
             switch (mode)
             {
@@ -81,6 +148,13 @@ namespace Controls
                         Disconnect();
                     } break;
             }
+        }
+
+        public override void Delete()
+        {
+            var parent = LogicalTreeHelper.GetParent(this) as Panel;
+            if (parent != null) parent.Children.Remove(subscribe);
+            base.Delete();
         }
 
         public double GetDistanse(CommonObject st)

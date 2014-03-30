@@ -114,13 +114,15 @@ namespace DiplomWork
         {
             try
             {
-                var dlg = new PointInfo();
+                
                 var item = (sender as MenuItem);
 
                 var item2 = LogicalTreeHelper.GetParent(item);
                 var item3 = LogicalTreeHelper.GetParent(item2) as Popup;
-                dlg.DataContext = (item3.PlacementTarget as CommonObject).GetCenter();
-                dlg.PIName.Text = (item3.PlacementTarget as CommonObject).Text;
+                var item4 = (item3.PlacementTarget as CommonObject);
+                var dlg = new PointInfo(0);
+                dlg.DataContext = item4.GetCenter();
+                dlg.PIName.Text = item4.Text;
 
                 dlg.ShowDialog();
             }
