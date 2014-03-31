@@ -100,7 +100,7 @@ namespace DiplomWork
 
             grd.Children.Add(obj);
             if((obj as GpdData) != null)
-                (obj as GpdData).ShowSubscribe();
+                (obj as GpdData).SubscribeToGrid();
         }
 
         private void PropertyPopupClick(object sender, RoutedEventArgs e)

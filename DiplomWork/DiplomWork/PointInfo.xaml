@@ -59,6 +59,7 @@
         <GroupBox Name="gbData" Header="Данные" Grid.Row="0" Visibility="Hidden">
             <Grid>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
@@ -66,7 +67,7 @@
                     <ColumnDefinition Width="1*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <TextBlock VerticalAlignment="Center">Цикл</TextBlock>
-                <TextBox Name="tboxCicle" Grid.Row="1" Grid.Column="1">
+                <TextBox Name="tboxCicle" Grid.Row="0" Grid.Column="1" IsEnabled="{Binding Path=ShowSub, Mode=OneTime}">
                     <TextBox.Text>
                         <Binding Path="Cicle" Mode="TwoWay" UpdateSourceTrigger="Explicit">
                             <Binding.ValidationRules>
@@ -75,6 +76,9 @@
                         </Binding>
                     </TextBox.Text>
                 </TextBox>
+                <CheckBox Name="cbInOut" Grid.Row="1" Grid.ColumnSpan="2" IsChecked="{Binding Path=ShowSub, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
+                          Checked="InOutChecked"
+                          Unchecked="InOutUnchacked">Начальный/конечный</CheckBox>
             </Grid>
         </GroupBox>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"  Grid.Row="2" >

@@ -1,15 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using Controls;
 
 namespace DiplomWork
@@ -56,7 +46,19 @@ namespace DiplomWork
         {
             var bindEx = tboxCicle.GetBindingExpression(TextBox.TextProperty);
             bindEx.UpdateSource();
+            bindEx = cbInOut.GetBindingExpression(CheckBox.IsCheckedProperty);
+            bindEx.UpdateSource();
             DialogResult = true;
+        }
+
+        private void InOutChecked(object sender, RoutedEventArgs e)
+        {
+            tboxCicle.IsEnabled = true;
+        }
+
+        private void InOutUnchacked(object sender, RoutedEventArgs e)
+        {
+            tboxCicle.IsEnabled = false;
         }
     }
 }

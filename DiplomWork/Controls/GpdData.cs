@@ -10,7 +10,25 @@ namespace Controls
     public class GpdData : CommonObject
     {
         private int _cicle = 0;
-        public bool ShowSub { get; set; }
+        public bool ShowSub
+        {
+            get { return _showSub; }
+            set
+            {
+                _showSub = value;
+                if (subscribe != null)
+                {
+                    if (_showSub)
+                    {
+                        subscribe.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        subscribe.Visibility = Visibility.Hidden;
+                    }   
+                }
+            }
+        }
 
         public int Cicle 
         {
@@ -29,6 +47,7 @@ namespace Controls
             } 
         }
         private TextBlock subscribe;
+        private bool _showSub;
 
         public GpdData()
         {
@@ -77,16 +96,15 @@ namespace Controls
             }
         }
 
-        public void ShowSubscribe()
+        public void SubscribeToGrid()
         {
-            ShowSub = true;
             var parent = this.Parent as Grid;
             if (parent != null)
             {
                 parent.Children.Add(subscribe);
             }
         }
-
+        
         private void OnMouseMove(object sender, MouseEventArgs e)
         {
             switch (mode)
