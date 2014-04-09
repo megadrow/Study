@@ -37,10 +37,14 @@
             <RadioButton Name="DmRbUncon" Checked="UnconModeChecked">Рассоединять</RadioButton>
         </ToolBar>
     <ToolBar Name="ThreadModeToolbar" Grid.Row="1" Visibility="Hidden">
-        <Button>Настройки</Button>
+            <ComboBox Name="ComboProcessType" Width="100" IsEnabled="False">
+            </ComboBox>
+            <Button Click="ProcessEdit">Настройки процессов</Button>
     </ToolBar>
         <ToolBar Name="StationModeToolbar" Grid.Row="1" Visibility="Hidden">
-        <Button>Настройки 2</Button>
+            <ComboBox Name="ComboStationType" Width="100" IsEnabled="False">
+            </ComboBox>
+            <Button>Настройки 2</Button>
     </ToolBar>
     <ScrollViewer Name="N1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Grid.Row="2">
         <Grid Name="grd" MaxWidth="{Binding Path=Settings.AreaWidthGpd}" Height="{Binding Path=Settings.AreaHeightGpd}" VerticalAlignment="Top" HorizontalAlignment="Left">

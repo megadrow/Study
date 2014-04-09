@@ -398,7 +398,15 @@ namespace DiplomWork
             //    }
             //}
 
-            var result = new gpd(Settings);
+            var rect = grd.Children.OfType<StationRect>().ToList();
+            var StNames = new List<string>();
+            foreach (var stationRect in rect)
+            {
+                StNames.Add(stationRect.Text + "--" + stationRect.Number.ToString());
+            }
+            var result = new gpd(Settings, StNames);
+
+            //result.StNames.Add(); 
             if (NavigationService != null) NavigationService.Navigate(result);
         }
     }

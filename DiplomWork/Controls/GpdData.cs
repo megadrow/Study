@@ -1,14 +1,25 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 
 namespace Controls
 {
+    public class ClrIdxStr
+    {
+        public ClrIdxStr()
+        {
+            Ind = -1;
+        }
+        public Color Clr { get; set; }
+        public int Ind { get; set; }
+        public string Str { get; set; }
+    }
+
     public class GpdData : CommonObject
     {
+        
         private int _cicle = 0;
         public bool ShowSub
         {
@@ -46,6 +57,9 @@ namespace Controls
                 }
             } 
         }
+
+        public ClrIdxStr Process { get; set; }
+        public ClrIdxStr Stan { get; set; }
         private TextBlock subscribe;
         private bool _showSub;
 
@@ -70,6 +84,9 @@ namespace Controls
             Margin = new Thickness(Left, Top, 0, 0);
 
             SubscribeInit();
+            
+            Stan = new ClrIdxStr();
+            Process = new ClrIdxStr();
 
             StrokeThickness = 1;
             Stroke = new SolidColorBrush(Colors.Black);
