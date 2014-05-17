@@ -27,16 +27,9 @@ namespace Controls
             set
             {
                 _showSub = value;
-                if (subscribe != null)
+                if (_subscribe != null)
                 {
-                    if (_showSub)
-                    {
-                        subscribe.Visibility = Visibility.Visible;
-                    }
-                    else
-                    {
-                        subscribe.Visibility = Visibility.Hidden;
-                    }   
+                    _subscribe.Visibility = _showSub ? Visibility.Visible : Visibility.Hidden;   
                 }
             }
         }
@@ -47,20 +40,13 @@ namespace Controls
             set
             {
                 _cicle = value;
-                if (subscribe != null && _cicle > 0)
-                {
-                    subscribe.Text = _cicle.ToString();
-                }
-                else
-                {
-                    subscribe.Text = "";
-                }
-            } 
+                _subscribe.Text = _subscribe != null && _cicle > 0 ? _cicle.ToString() : "";
+            }
         }
 
         public ClrIdxStr Process { get; set; }
         public ClrIdxStr Stan { get; set; }
-        private TextBlock subscribe;
+        private TextBlock _subscribe;
         private bool _showSub;
 
         public GpdData()
@@ -99,17 +85,17 @@ namespace Controls
         private void SubscribeInit()
         {
             ShowSub = false;
-            subscribe = new TextBlock();
-            subscribe.DataContext = this;
-            subscribe.HorizontalAlignment = HorizontalAlignment.Left;
-            subscribe.VerticalAlignment = VerticalAlignment.Top;
-            subscribe.FontSize = 10;
-            subscribe.Margin = new Thickness(Left + Width, Top, 0, 0);
+            _subscribe = new TextBlock();
+            _subscribe.DataContext = this;
+            _subscribe.HorizontalAlignment = HorizontalAlignment.Left;
+            _subscribe.VerticalAlignment = VerticalAlignment.Top;
+            _subscribe.FontSize = 10;
+            _subscribe.Margin = new Thickness(Left + Width, Top, 0, 0);
 
             var parent = this.Parent as Grid;
             if (parent != null)
             {
-                parent.Children.Add(subscribe);
+                parent.Children.Add(_subscribe);
             }
         }
 
@@ -118,7 +104,7 @@ namespace Controls
             var parent = this.Parent as Grid;
             if (parent != null)
             {
-                parent.Children.Add(subscribe);
+                parent.Children.Add(_subscribe);
             }
         }
         
@@ -130,7 +116,7 @@ namespace Controls
                     {
                         if (_catc)
                         {
-                            subscribe.Margin = new Thickness(Left + Width, Top, 0, 0);
+                            _subscribe.Margin = new Thickness(Left + Width, Top, 0, 0);
                         }
                     } break;
             }
@@ -162,6 +148,7 @@ namespace Controls
                         {
                             if ((StanConnection.GetTempObject() as GpdModule) != null)
                             {
+                                StanConnection.SetArrow();
                                 StanConnection.Connect(sender as CommonObject);
                             }
                             else
@@ -188,8 +175,15 @@ namespace Controls
         public override void Delete()
         {
             var parent = LogicalTreeHelper.GetParent(this) as Panel;
-            if (parent != null) parent.Children.Remove(subscribe);
+            if (parent != null) parent.Children.Remove(_subscribe);
             base.Delete();
+        }
+
+        protected override void Move(CommonObject obj, double x, double y)
+        {
+            base.Move(obj, x, y);
+            var data = obj as GpdData;
+            data._subscribe.Margin = new Thickness(Left + Width, Top, 0, 0);
         }
 
         public double GetDistanse(CommonObject st)

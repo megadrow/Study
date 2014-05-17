@@ -68,6 +68,7 @@ namespace Controls
                         {
                             if ((StanConnection.GetTempObject() as GpdData) != null)
                             {
+                                StanConnection.SetArrow();
                                 StanConnection.Connect(sender as CommonObject);
                             }
                             else

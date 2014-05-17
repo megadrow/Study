@@ -12,9 +12,9 @@ using DiplomWork.Objects;
 namespace DiplomWork
 {
     /// <summary>
-    /// Interaction logic for Step1Result.xaml
+    /// Interaction logic for ChooseInitTask.xaml
     /// </summary>
-    public partial class Step1Result : Page
+    public partial class ChooseInitTask : Page
     {
         List<int[]> pointsUse = new List<int[]>();
 
@@ -24,11 +24,11 @@ namespace DiplomWork
 
         public int stationMin { get; set; }
 
-        private FirstStep fStep;
+        private DataInit fStep;
 
         private Settings Settings { get; set; }
 
-        public Step1Result(FirstStep step, Settings settings)
+        public ChooseInitTask(DataInit step, Settings settings)
         {
             InitializeComponent();
             UpdateTimer timer = new UpdateTimer();
@@ -78,12 +78,12 @@ namespace DiplomWork
                     return;
                 }
 
-                var results = new ObservableCollection<Result1View>();
+                var results = new ObservableCollection<PointCoverW>();
                 ResListV.ItemsSource = results;
                 bool chk = false;
                 foreach (int[] t in resultList)
                 {
-                    results.Add(new Result1View(fStep.GetStationCount(), fStep.GetPointCount()));
+                    results.Add(new PointCoverW(fStep.GetStationCount(), fStep.GetPointCount()));
                     var str = string.Empty;
                     var pointCover = new int[fStep.GetPointCount()];
                     for (int j = 0; j < t.Length; j++)
@@ -134,7 +134,7 @@ namespace DiplomWork
                 ErrorViewer.ShowInfo("Решение не выбрано");
                 return;
             }
-            var result = new SecondStep(fStep, Settings);
+            var result = new PointDistribution(fStep, Settings);
             if (NavigationService != null) NavigationService.Navigate(result);
         }
 

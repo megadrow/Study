@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
 using System.Xml.Serialization;
 
 namespace DiplomWork.Objects
 {
     [Serializable]
-    public class FirstStep : ISerializable 
+    public class DataInit : ISerializable 
     {
         public ObservableCollection<StationNum> Stations { get; set; }
         public ObservableCollection<StationNum> PointsTask { get; set; }
@@ -17,7 +15,7 @@ namespace DiplomWork.Objects
         [XmlAttribute("chk")]
         private static bool chk = false;
 
-        public FirstStep()
+        public DataInit()
         {
             if (!chk)
             {
@@ -98,7 +96,7 @@ namespace DiplomWork.Objects
 
         #region Сериализация
 
-        public FirstStep(SerializationInfo info, StreamingContext context)
+        public DataInit(SerializationInfo info, StreamingContext context)
         {
             chk = info.GetBoolean("static.chk");
         }

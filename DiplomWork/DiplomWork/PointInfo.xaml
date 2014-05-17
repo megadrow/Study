@@ -60,6 +60,7 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
@@ -79,6 +80,8 @@
                 <CheckBox Name="cbInOut" Grid.Row="1" Grid.ColumnSpan="2" IsChecked="{Binding Path=ShowSub, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
                           Checked="InOutChecked"
                           Unchecked="InOutUnchacked">Начальный/конечный</CheckBox>
+                <TextBlock Grid.Row="2" VerticalAlignment="Center">Процесс</TextBlock>
+                <ComboBox Name="propProc" Grid.Row="2" Grid.Column="1"></ComboBox>
             </Grid>
         </GroupBox>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"  Grid.Row="2" >

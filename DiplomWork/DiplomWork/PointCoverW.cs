@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace DiplomWork
 {
-    public class Result1View
+    public class PointCoverW
     {
         public List<int> PointCover { get; set; }
 
@@ -15,7 +12,7 @@ namespace DiplomWork
 
         public List<string> PointView { get; private set; }
 
-        public Result1View(int stCount, int ptCount)
+        public PointCoverW(int stCount, int ptCount)
         {
             PointCount = new List<int>();
             StationCount = new List<int>();

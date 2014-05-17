@@ -48,6 +48,12 @@ namespace DiplomWork
             bindEx.UpdateSource();
             bindEx = cbInOut.GetBindingExpression(CheckBox.IsCheckedProperty);
             bindEx.UpdateSource();
+            //var itemData = (this.DataContext as GpdData);
+            //if (itemData != null)
+            //{
+            //    itemData.Process.Ind = propProc.SelectedIndex;
+            //    itemData.Process.Str = propProc.SelectedItem.ToString();
+            //}
             DialogResult = true;
         }
 

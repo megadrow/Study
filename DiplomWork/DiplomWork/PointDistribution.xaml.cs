@@ -6,7 +6,6 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Threading;
 using Controls;
 using DiplomWork.Objects;
 using Calculation;
@@ -14,15 +13,15 @@ using Calculation;
 namespace DiplomWork
 {
     /// <summary>
-    /// Interaction logic for SecondStep.xaml
+    /// Interaction logic for PointDistribution.xaml
     /// </summary>
-    public partial class SecondStep : Page
+    public partial class PointDistribution : Page
     {
         List<CommonObject> list = new List<CommonObject>();
 
         private bool con = false;
 
-        private FirstStep Step;
+        private DataInit Step;
 
         private int stationCount;
 
@@ -40,7 +39,7 @@ namespace DiplomWork
 
         public double KMRes2 { get; set; }
 
-        public SecondStep(FirstStep step, Settings settings)
+        public PointDistribution(DataInit step, Settings settings)
         {
             InitializeComponent();
             Settings = settings;

@@ -13,7 +13,7 @@ namespace DiplomWork
     /// </summary>
     public partial class StationAndPoints : Page
     {
-        public static FirstStep Step { get; set; }
+        public static DataInit Step { get; set; }
 
         private Settings Settings { get; set; }
 
@@ -30,9 +30,9 @@ namespace DiplomWork
             InitializeComponent();
             Settings = settings;
 
-            if (!FirstStep.IsAvailable())
+            if (!DataInit.IsAvailable())
             {
-                Step = new FirstStep();
+                Step = new DataInit();
                 Step.AddStation();
                 Step.AddPoint();
                 AddCol(Step.GetPointCount() - 1);
@@ -123,7 +123,7 @@ namespace DiplomWork
                 }
             }
 
-            var result = new Step1Result(Step, Settings);
+            var result = new ChooseInitTask(Step, Settings);
             if (NavigationService != null) NavigationService.Navigate(result);
         }
 

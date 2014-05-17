@@ -43,9 +43,12 @@ namespace Controls
 
         protected double _stX, _stY;
 
-        public CommonObject()
+        private bool _arrow = false;
+
+        public CommonObject(bool arrow = false)
         {
             Default();
+            _arrow = arrow;
         }
 
         private void Default()
@@ -65,7 +68,7 @@ namespace Controls
             MouseLeave += CommonObjectOnMouseLeave;
         }
 
-        private void Move(CommonObject obj, double x, double y)
+        protected virtual void Move(CommonObject obj, double x, double y)
         {
             if (_catc)
             {
@@ -145,6 +148,13 @@ namespace Controls
             }
         }
 
+        public void SetPosition(double x, double y)
+        {
+            _catc = true;
+            Move(this, x, y);
+            _catc = false;
+        }
+
         public Point GetCenter()
         {
             return new Point(Left + Width / 2, Top + Height / 2);
@@ -205,6 +215,8 @@ namespace Controls
                         if (_catc)
                         {
                             _catc = false;
+                            _stX = 0.0;
+                            _stY = 0.0;
                             ToFront(sender, false);
                         }
                     }

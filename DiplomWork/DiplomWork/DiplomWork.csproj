@@ -74,15 +74,15 @@
     <Compile Include="gpd.xaml.cs">
       <DependentUpon>gpd.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Objects\FirstStep.cs" />
+    <Compile Include="Objects\DataInit.cs" />
     <Compile Include="Objects\StationNum.cs" />
     <Compile Include="Objects\TherminalPointNum.cs" />
     <Compile Include="PointInfo.xaml.cs">
       <DependentUpon>PointInfo.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Result1View.cs" />
-    <Compile Include="SecondStep.xaml.cs">
-      <DependentUpon>SecondStep.xaml</DependentUpon>
+    <Compile Include="PointCoverW.cs" />
+    <Compile Include="PointDistribution.xaml.cs">
+      <DependentUpon>PointDistribution.xaml</DependentUpon>
     </Compile>
     <Compile Include="SerializeStatic.cs" />
     <Compile Include="SettingDlg.xaml.cs">
@@ -92,8 +92,8 @@
     <Compile Include="StationAndPoints.xaml.cs">
       <DependentUpon>StationAndPoints.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Step1Result.xaml.cs">
-      <DependentUpon>Step1Result.xaml</DependentUpon>
+    <Compile Include="ChooseInitTask.xaml.cs">
+      <DependentUpon>ChooseInitTask.xaml</DependentUpon>
     </Compile>
     <Page Include="gpd.xaml">
       <SubType>Designer</SubType>
@@ -115,7 +115,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SecondStep.xaml">
+    <Page Include="PointDistribution.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -127,7 +127,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Step1Result.xaml">
+    <Page Include="ChooseInitTask.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

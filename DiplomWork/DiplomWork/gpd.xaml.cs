@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Threading;
 using Controls;
 
 namespace DiplomWork
@@ -60,6 +61,14 @@ namespace DiplomWork
 
         private void DrawModeChacked(object sender, RoutedEventArgs e)
         {
+            var obj = grd.Children.OfType<CommonObject>().ToList();
+
+            foreach (var commonObject in obj)
+            {
+                commonObject.ToMoveMode();
+            }
+            mode = Mode.Move;
+
             DrawModeToolbar.Visibility = Visibility.Visible;
             ThreadModeToolbar.Visibility = Visibility.Hidden;
             StationModeToolbar.Visibility = Visibility.Hidden;
@@ -73,6 +82,14 @@ namespace DiplomWork
 
         private void ThreadModeChacked(object sender, RoutedEventArgs e)
         {
+            var obj = grd.Children.OfType<CommonObject>().ToList();
+
+            foreach (var commonObject in obj)
+            {
+                commonObject.ToMoveMode();
+            }
+            mode = Mode.Move;
+
             DrawModeToolbar.Visibility = Visibility.Hidden;
             ThreadModeToolbar.Visibility = Visibility.Visible;
             StationModeToolbar.Visibility = Visibility.Hidden;
@@ -86,6 +103,15 @@ namespace DiplomWork
 
         private void StationModeChacked(object sender, RoutedEventArgs e)
         {
+            var obj = grd.Children.OfType<CommonObject>().ToList();
+
+            foreach (var commonObject in obj)
+            {
+                commonObject.ToMoveMode();
+            }
+            mode = Mode.Move;
+            DmRbAdd.IsChecked = true;
+
             DrawModeToolbar.Visibility = Visibility.Hidden;
             ThreadModeToolbar.Visibility = Visibility.Hidden;
             StationModeToolbar.Visibility = Visibility.Visible;
@@ -164,7 +190,8 @@ namespace DiplomWork
                     dlg = new PointInfo(2);
                 }
 
-                dlg.DataContext = (item3.PlacementTarget as CommonObject);
+                dlg.DataContext = item4;
+                
                 //dlg.PIName.Text = (item3.PlacementTarget as CommonObject).Text;
 
                 dlg.ShowDialog();
@@ -246,28 +273,27 @@ namespace DiplomWork
                 CheckValidationOfObject(commonObject);
             }
             var dataObject = sender as GpdData;
-            if (dataObject != null)
+            if (dataObject == null) return;
+            
+            if (drawmode == 2)
             {
-                if (drawmode == 2)
-                {
-                    dataObject.Stan.Str = ComboStationType.SelectedItem.ToString();
-                    dataObject.Stan.Ind = ComboStationType.SelectedIndex;
-                    dataObject.Stan.Clr = colors[ComboStationType.SelectedIndex % 20];
+                
+                dataObject.Stan.Str = ComboStationType.SelectedItem.ToString();
+                dataObject.Stan.Ind = ComboStationType.SelectedIndex;
+                dataObject.Stan.Clr = colors[ComboStationType.SelectedIndex%20];
 
-                    dataObject.Background = new SolidColorBrush(dataObject.Stan.Clr);
-                }
-
-                if (drawmode == 1)
-                {
-                    dataObject.Process.Str = ComboProcessType.SelectedItem.ToString();
-                    dataObject.Process.Ind = ComboProcessType.SelectedIndex;
-                    dataObject.Process.Clr = colors[ComboProcessType.SelectedIndex % 20];
-
-                    dataObject.Background = new SolidColorBrush(dataObject.Process.Clr);
-                }
+                dataObject.Background = new SolidColorBrush(dataObject.Stan.Clr);
             }
 
+            if (drawmode == 1)
+            {
+                if (ComboProcessType.Items.Count == 0) return;
+                dataObject.Process.Str = ComboProcessType.SelectedItem.ToString();
+                dataObject.Process.Ind = ComboProcessType.SelectedIndex;
+                dataObject.Process.Clr = colors[ComboProcessType.SelectedIndex%20];
 
+                dataObject.Background = new SolidColorBrush(dataObject.Process.Clr);
+            }
         }
 
         private void Ima_OnMouseMove(object sender, System.Windows.Input.MouseEventArgs e)
@@ -354,6 +380,20 @@ namespace DiplomWork
             item.Content = "Process " + (ComboProcessType.Items.Count - 1).ToString();
             ComboProcessType.IsEnabled = true;
             ComboProcessType.SelectedIndex = ComboProcessType.Items.Count - 1;
+        }
+
+        private void GpdAlignmentClick(object sender, RoutedEventArgs e)
+        {
+            var obj = grd.Children.OfType<CommonObject>().ToList();
+            int ddd = 0;
+            foreach (var commonObject in obj)
+            {
+                ddd++;
+                //commonObject.Left = ddd*100;
+                //commonObject.Margin = new Thickness(commonObject.Left, commonObject.Top, 0, 0);
+                commonObject.SetPosition(ddd * 100, commonObject.Top);
+            }
+            Update();
         }
     }
 }
