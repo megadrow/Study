@@ -19,6 +19,16 @@ namespace Controls
 
         private static CommonObject tmpObject;
 
+        public CommonObject GetStartObject()
+        {
+            return obj2;
+        }
+
+        public CommonObject GetEndObject()
+        {
+            return obj1;
+        }
+
         public static CommonObject GetTempObject()
         {
             return tmpObject;

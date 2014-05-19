@@ -385,13 +385,91 @@ namespace DiplomWork
         private void GpdAlignmentClick(object sender, RoutedEventArgs e)
         {
             var obj = grd.Children.OfType<CommonObject>().ToList();
-            int ddd = 0;
+            const int parallelHeight = 50;
+            int freeCount = 0;
+            var listLvl = new List<List<CommonObject>>();
+
             foreach (var commonObject in obj)
             {
-                ddd++;
-                //commonObject.Left = ddd*100;
-                //commonObject.Margin = new Thickness(commonObject.Left, commonObject.Top, 0, 0);
-                commonObject.SetPosition(ddd * 100, commonObject.Top);
+                var data = commonObject as GpdData;
+                if (data != null)
+                {
+                    data.CalcOutClear();
+                }
+                var dataM = commonObject as GpdModule;
+                if (dataM != null)
+                {
+                    dataM.CalcOutClear();
+                }
+            }
+            //foreach (var commonObject2 in obj)
+            do
+            {
+                foreach (var commonObject in obj)
+                {
+                    var data = commonObject as GpdData;
+                    if (data != null)
+                    {
+                        data.CalcOutCount();
+                    }
+                    var dataM = commonObject as GpdModule;
+                    if (dataM != null)
+                    {
+                        dataM.CalcOutCount();
+                    }
+                    //ddd++;
+                    //commonObject.Left = ddd*100;
+                    //commonObject.Margin = new Thickness(commonObject.Left, commonObject.Top, 0, 0);
+                    //commonObject.SetPosition(ddd * 100, commonObject.Top);
+
+                }
+                listLvl.Add(new List<CommonObject>());
+                foreach (var commonObject in obj)
+                {
+                    var data = commonObject as GpdData;
+                    if (data != null)
+                    {
+                        if ((data.Connection.Count > 0) && (!data.IsUse) && (data.OutConCount == 0))
+                        {
+                            data.IsUse = true;
+                            listLvl[listLvl.Count - 1].Add(data);
+                        }
+                    }
+                    var dataM = commonObject as GpdModule;
+                    if (dataM != null)
+                    {
+                        if ((dataM.Connection.Count > 0) && (!dataM.IsUse) && (dataM.OutConCount == 0))
+                        {
+                            dataM.IsUse = true;
+                            listLvl[listLvl.Count - 1].Add(dataM);
+                        }
+                    }
+                }
+                freeCount = 0;
+                foreach (var commonObject in obj)
+                {
+                    var data = commonObject as GpdData;
+                    if (data != null)
+                    {
+                        if (!data.IsUse)
+                        {
+                            freeCount++;
+                        }
+                    }
+                    var dataM = commonObject as GpdModule;
+                    if (dataM != null)
+                    {
+                        if (!dataM.IsUse) freeCount++;
+                    }
+                }
+            } while (freeCount > 0);
+            listLvl.Reverse();
+            for (int i = 0; i < listLvl.Count; i++)
+            {
+                foreach (var list in listLvl[i])
+                {
+                    list.SetPosition(list.Left, parallelHeight*i);
+                }
             }
             Update();
         }

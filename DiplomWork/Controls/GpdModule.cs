@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -7,7 +8,13 @@ namespace Controls
 {
     public class GpdModule : CommonObject
     {
-         public GpdModule()
+        public int InOutNo { get; set; }
+
+        public int OutConCount { get; set; }
+        public int Level { get; set; }
+        public bool IsUse { get; set; }
+
+        public GpdModule()
         {
             Default();
         }
@@ -42,6 +49,69 @@ namespace Controls
             return Math.Sqrt(x*x + y*y);
         }
 
+        public void CalcOutClear()
+        {
+            OutConCount = 0;
+            IsUse = false;
+        }
+
+        public void CalcOutCount()
+        {
+            OutConCount = 0;
+            if ((Connection.Count == 0) || IsUse)
+            {
+                OutConCount = -1;
+                IsUse = true;
+                return;
+            }
+            foreach (var connection in Connection)
+            {
+                var gpdData = connection.GetStartObject() as GpdData;
+                if (gpdData != null && (Equals(this, connection.GetEndObject()) && (gpdData.InOutNo != 0) &&
+                                                                       (gpdData.IsUse == false)))
+                {
+                    OutConCount++;
+                }
+            }
+        }
+
+        public void CheckInOutNo()
+        {
+            InOutNo = 0;
+            foreach (var connection in Connection)
+            {
+                if (InOutNo == 0)
+                {
+                    if (Equals(this, connection.GetStartObject()))
+                    {
+                        InOutNo = 1;
+                        continue;
+                    }
+                    if (Equals(this, connection.GetEndObject()))
+                    {
+                        InOutNo = 2;
+                        continue;
+                    }
+                }
+                if (InOutNo == 1)
+                {
+                    if (Equals(this, connection.GetEndObject()))
+                    {
+                        InOutNo = 3;
+                        break;
+                    }
+                }
+                if (InOutNo == 2)
+                {
+                    if (Equals(this, connection.GetStartObject()))
+                    {
+                        InOutNo = 3;
+                        break;
+                    }
+                }
+            }
+        }
+
         private void OnMouseMove(object sender, MouseEventArgs e)
         {
             switch (mode)
@@ -70,6 +140,10 @@ namespace Controls
                             {
                                 StanConnection.SetArrow();
                                 StanConnection.Connect(sender as CommonObject);
+                                CheckInOutNo();
+                                var gpdData = Connection[Connection.Count - 1].GetEndObject() as GpdData;
+                                if (gpdData != null)
+                                    gpdData.CheckInOutNo();
                             }
                             else
                             {
@@ -82,12 +156,45 @@ namespace Controls
                     break;
                 case Mode.Delete:
                     {
+                        var list = new List<GpdData>();
+                        foreach (var connection in Connection)
+                        {
+                            if (Equals(sender, connection.GetStartObject()))
+                            {
+                                list.Add(connection.GetEndObject() as GpdData);
+                            }
+                            else
+                            {
+                                list.Add(connection.GetStartObject() as GpdData);
+                            }
+                        }
                         Delete();
+                        foreach (var gpdData in list)
+                        {
+                            gpdData.CheckInOutNo();
+                        }
                     }
                     break;
                 case Mode.Disconnect:
                     {
+                        var list = new List<GpdData>();
+                        foreach (var connection in Connection)
+                        {
+                            if (Equals(sender, connection.GetStartObject()))
+                            {
+                                list.Add(connection.GetEndObject() as GpdData);
+                            }
+                            else
+                            {
+                                list.Add(connection.GetStartObject() as GpdData);
+                            }
+                        }
                         Disconnect();
+                        foreach (var gpdData in list)
+                        {
+                            gpdData.CheckInOutNo();
+                        }
+                        InOutNo = 0;
                     } break;
             }
         }

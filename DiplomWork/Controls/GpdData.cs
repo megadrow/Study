@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -44,6 +45,12 @@ namespace Controls
             }
         }
 
+        public int InOutNo { get; set; }    //0 - no 1 - in 2 - out 3 - in and out
+
+        public int OutConCount { get; set; }
+        public int Level { get; set; }
+        public bool IsUse { get; set; }
+
         public ClrIdxStr Process { get; set; }
         public ClrIdxStr Stan { get; set; }
         private TextBlock _subscribe;
@@ -73,6 +80,11 @@ namespace Controls
             
             Stan = new ClrIdxStr();
             Process = new ClrIdxStr();
+
+            InOutNo = 0;
+            OutConCount = 0;
+            Level = 0;
+            IsUse = false;
 
             StrokeThickness = 1;
             Stroke = new SolidColorBrush(Colors.Black);
@@ -122,6 +134,43 @@ namespace Controls
             }
         }
 
+        public void CheckInOutNo()
+        {
+            InOutNo = 0;
+            foreach (var connection in Connection)
+            {
+                if (InOutNo == 0)
+                {
+                    if (Equals(this, connection.GetStartObject()))
+                    {
+                        InOutNo = 1;
+                        continue;
+                    }
+                    if (Equals(this, connection.GetEndObject()))
+                    {
+                        InOutNo = 2;
+                        continue;
+                    }
+                }
+                if (InOutNo == 1)
+                {
+                    if (Equals(this, connection.GetEndObject()))
+                    {
+                        InOutNo = 3;
+                        break;
+                    }
+                }
+                if (InOutNo == 2)
+                {
+                    if (Equals(this, connection.GetStartObject()))
+                    {
+                        InOutNo = 3;
+                        break;
+                    }
+                }
+            }
+        }
+
         private void OnMouseDown(object sender, MouseEventArgs e)
         {
             switch (mode)
@@ -150,6 +199,10 @@ namespace Controls
                             {
                                 StanConnection.SetArrow();
                                 StanConnection.Connect(sender as CommonObject);
+                                CheckInOutNo();
+                                var gpdModule    = Connection[Connection.Count - 1].GetEndObject() as GpdModule;
+                                if (gpdModule != null)
+                                    gpdModule.CheckInOutNo();
                             }
                             else
                             {
@@ -162,13 +215,72 @@ namespace Controls
                     break;
                 case Mode.Delete:
                     {
+                        var list = new List<GpdModule>();
+                        foreach (var connection in Connection)
+                        {
+                            if (Equals(sender, connection.GetStartObject()))
+                            {
+                                list.Add(connection.GetEndObject() as GpdModule);
+                            }
+                            else
+                            {
+                                list.Add(connection.GetStartObject() as GpdModule);
+                            }
+                        }
                         Delete();
+                        foreach (var gpdModule in list)
+                        {
+                            gpdModule.CheckInOutNo();
+                        }
                     }
                     break;
                 case Mode.Disconnect:
                     {
+                        var list = new List<GpdModule>();
+                        foreach (var connection in Connection)
+                        {
+                            if (Equals(sender, connection.GetStartObject()))
+                            {
+                                list.Add(connection.GetEndObject() as GpdModule);
+                            }
+                            else
+                            {
+                                list.Add(connection.GetStartObject() as GpdModule);
+                            }
+                        }
                         Disconnect();
+                        foreach (var gpdModule in list)
+                        {
+                            gpdModule.CheckInOutNo();
+                        }
+                        InOutNo = 0;
                     } break;
+            }
+        }
+
+        public void CalcOutClear()
+        {
+            OutConCount = 0;
+            IsUse = false;
+        }
+
+        public void CalcOutCount()
+        {
+            OutConCount = 0;
+            if ((Connection.Count == 0) || IsUse)
+            {
+                OutConCount = -1;
+                IsUse = true;
+                return;
+            }
+            foreach (var connection in Connection)
+            {
+                var gpdModule = connection.GetStartObject() as GpdModule;
+                if (gpdModule != null && (Equals(this, connection.GetEndObject()) && (gpdModule.InOutNo != 0) &&
+                                                                       (gpdModule.IsUse == false)))
+                {
+                    OutConCount++;
+                }
             }
         }
 
