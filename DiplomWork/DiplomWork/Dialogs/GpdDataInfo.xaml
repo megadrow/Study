@@ -1,0 +1,60 @@
+﻿<Window x:Class="DiplomWork.Dialogs.GpdDataInfo"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:Controls.Validation;assembly=Controls"
+        Title="Информация о данных" Width="400" ResizeMode="NoResize" SizeToContent="Height"
+        Loaded="LoadedEvent">
+        <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,/Controls;component/Styles.xaml" />
+                <ResourceDictionary Source="pack://application:,,/Controls;component/AppIcons.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+        </Window.Resources>
+        <Grid Name="MainGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+            <!--Блоки для информации о данных в ГПД-->
+        <GroupBox Name="GbData" Header="Данные" Grid.Row="0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock VerticalAlignment="Center">Цикл</TextBlock>
+                <TextBox Name="TboxCicle" Grid.Row="0" Grid.Column="1" IsEnabled="{Binding Path=ShowSub, Mode=OneTime}">
+                    <TextBox.Text>
+                        <Binding Path="Cicle" Mode="TwoWay" UpdateSourceTrigger="Explicit">
+                            <Binding.ValidationRules>
+                                <local:ValidationNumber></local:ValidationNumber>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+                <CheckBox Name="CbInOut" Grid.Row="1" Grid.ColumnSpan="2" IsChecked="{Binding Path=ShowSub, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
+                          Checked="InOutChecked"
+                          Unchecked="InOutUnchacked">Начальный/конечный</CheckBox>
+                <TextBlock Grid.Row="2" VerticalAlignment="Center">Процесс</TextBlock>
+                <ComboBox Name="PropProc" Grid.Row="2" Grid.Column="1"></ComboBox>
+                <TextBlock Grid.Row="3" VerticalAlignment="Center">Станция</TextBlock>
+                <ComboBox Name="PropStan" Grid.Row="3" Grid.Column="1"></ComboBox>
+            </Grid>
+        </GroupBox>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"  Grid.Row="2" >
+                <Button Click="CancelClick" IsCancel="True" HorizontalAlignment="Right">Отмена</Button>
+                <Button Name="BtnOk" HorizontalAlignment="Right" IsDefault="True" Click="OkClick">Ok</Button>
+            </StackPanel>
+
+        </Grid>
+</Window>
+

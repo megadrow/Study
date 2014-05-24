@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -7,6 +8,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using Controls;
+using DiplomWork.Dialogs;
 using DiplomWork.Objects;
 using Calculation;
 
@@ -15,19 +17,17 @@ namespace DiplomWork
     /// <summary>
     /// Interaction logic for PointDistribution.xaml
     /// </summary>
-    public partial class PointDistribution : Page
+    public partial class PointDistribution
     {
-        List<CommonObject> list = new List<CommonObject>();
+        private bool _con;
 
-        private bool con = false;
+        private DataInit Step { get; set; }
 
-        private DataInit Step;
+        private int StationCount { get; set; }
 
-        private int stationCount;
+        private int PointCount { get; set; }
 
-        private int pointCount { get; set; }
-
-        private int pointUse { get; set; }
+        private int PointUse { get; set; }
 
         public Settings Settings { get; set; }
 
@@ -35,9 +35,9 @@ namespace DiplomWork
 
         public double MouseY { get; set; }
 
-        public double KMRes { get; set; }
+        public double KmRes { get; set; }
 
-        public double KMRes2 { get; set; }
+        public double KmRes2 { get; set; }
 
         public PointDistribution(DataInit step, Settings settings)
         {
@@ -45,17 +45,17 @@ namespace DiplomWork
             Settings = settings;
             grd.Width = 2000;
             Step = step;
-            stationCount = 0;
-            pointCount = 0;
+            StationCount = 0;
+            PointCount = 0;
             DataContext = this;
             foreach (var pt in Step.GetAllPoints())
             {
-                pointCount += pt.Num;
+                PointCount += pt.Num;
             }
 
             foreach (var st in Step.Stations)
             {
-                stationCount += st.Num;
+                StationCount += st.Num;
                 //foreach (var pt in st.GetAllPoints())
                 //{
                 //    pointCount += pt.Num*st.Num;
@@ -78,13 +78,11 @@ namespace DiplomWork
 
             circle.Number = Convert.ToInt32(text);
             var context = new ContextMenu();
-            var mi = new MenuItem();
-            mi.Header = "Закрепить";
+            var mi = new MenuItem {Header = "Закрепить"};
             mi.Click += mi_Click;
             context.Items.Add(mi);
 
-            mi = new MenuItem();
-            mi.Header = "Свойства";
+            mi = new MenuItem {Header = "Свойства"};
             //if (circle.GetType() == typeof(StationEll))
             //{
                 mi.Click += PointProp_Click;
@@ -102,7 +100,7 @@ namespace DiplomWork
             try
             {
                 var item = sender as MenuItem;
-                item.IsChecked = !item.IsChecked;
+                if (item != null) item.IsChecked = !item.IsChecked;
             }
             catch (Exception ex)
             {
@@ -116,14 +114,21 @@ namespace DiplomWork
                 
                 var item = (sender as MenuItem);
 
-                var item2 = LogicalTreeHelper.GetParent(item);
-                var item3 = LogicalTreeHelper.GetParent(item2) as Popup;
-                var item4 = (item3.PlacementTarget as CommonObject);
-                var dlg = new PointInfo(0);
-                dlg.DataContext = item4.GetCenter();
-                dlg.PIName.Text = item4.Text;
+                if (item != null)
+                {
+                    var item2 = LogicalTreeHelper.GetParent(item);
+                    var item3 = LogicalTreeHelper.GetParent(item2) as Popup;
+                    if (item3 != null)
+                    {
+                        var item4 = (item3.PlacementTarget as CommonObject);
+                        if (item4 != null)
+                        {
+                            var dlg = new PointInfo {DataContext = item4.GetCenter(), PiName = {Text = item4.Text}};
 
-                dlg.ShowDialog();
+                            dlg.ShowDialog();
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -133,12 +138,12 @@ namespace DiplomWork
 
         private void Ima_OnMouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (!con)
+            if (!_con)
             {
-                if (pointUse < pointCount)
+                if (PointUse < PointCount)
                 {
-                    pointUse++;
-                    AddObjectToGrid(e.GetPosition(ima).X, e.GetPosition(ima).Y, pointUse.ToString());
+                    PointUse++;
+                    AddObjectToGrid(e.GetPosition(ima).X, e.GetPosition(ima).Y, PointUse.ToString());
                 }
                 else
                 {
@@ -154,7 +159,7 @@ namespace DiplomWork
                 foreach (var st in grd.Children.OfType<StationEll>())
                 {
                     st.ToMoveMode();
-                    con = false;
+                    _con = false;
                 }
             }
             catch (Exception ex)
@@ -170,7 +175,7 @@ namespace DiplomWork
                 foreach (var st in grd.Children.OfType<StationEll>())
                 {
                     st.ToConnectMode();
-                    con = true;
+                    _con = true;
                 }
             }
             catch (Exception ex)
@@ -185,12 +190,12 @@ namespace DiplomWork
             {
                 ClearGrid();
                 ClearGridRect();
-                Random rand = new Random();
+                var rand = new Random();
                 
-                for (int i = pointUse; i < pointCount; i++)
+                for (int i = PointUse; i < PointCount; i++)
                 {
-                    pointUse++;
-                    AddObjectToGrid(rand.NextDouble() * ima.ActualWidth, rand.NextDouble() * ima.ActualHeight, pointUse.ToString());
+                    PointUse++;
+                    AddObjectToGrid(rand.NextDouble() * ima.ActualWidth, rand.NextDouble() * ima.ActualHeight, PointUse.ToString());
                 }
             }
             catch (Exception ex)
@@ -223,7 +228,7 @@ namespace DiplomWork
                     if (menuItem != null && !menuItem.IsChecked)
                     {
                         child.Delete();
-                        pointUse--;
+                        PointUse--;
                         break;
                     }
                 }
@@ -233,7 +238,7 @@ namespace DiplomWork
 
             foreach (var child in grd.Children.OfType<StationEll>())
             {
-                child.Text = ptUse.ToString();
+                child.Text = ptUse.ToString(CultureInfo.InvariantCulture);
                 ptUse++;
                 child.Update();
             }
@@ -256,15 +261,15 @@ namespace DiplomWork
 
         private void SolveOnClick(object sender, RoutedEventArgs e)
         {
-            if (pointCount > pointUse)
+            if (PointCount > PointUse)
             {
-                ErrorViewer.ShowInfo("На поле добавлены не все терминальные точки.\nДобавьте еще " + (pointCount-pointUse).ToString() + " точек.");
+                ErrorViewer.ShowInfo("На поле добавлены не все терминальные точки.\nДобавьте еще " + (PointCount-PointUse).ToString() + " точек.");
                 return;
             }
 
             ClearGridRect();
-            var xy = new double[pointCount,2];
-            var cond = new int[stationCount];
+            var xy = new double[PointCount,2];
+            var cond = new int[StationCount];
             var stName = new List<string>();
             //for (int i = 0; i < Step.GetStationCount(); i++)
             //{
@@ -295,12 +300,12 @@ namespace DiplomWork
                 xy[j, 0] = child.GetCenter().Y;
                 j++;
             }
-            int info = 0;
-            var c = new double[2, stationCount];
-            var xyc = new int[pointCount];
-            double ebest = 0;
-            double ebest2 = 0;
-            KMeans2.K_MeansGenerate(xy, pointCount, 2, stationCount, cond, 100, out info, out c, out xyc, out ebest, out ebest2);
+            int info;
+            double[,] c;
+            int[] xyc;
+            double ebest;
+            double ebest2;
+            KMeans2.K_MeansGenerate(xy, PointCount, 2, StationCount, cond, 100, out info, out c, out xyc, out ebest, out ebest2);
 
             if (info != 1)
             {
@@ -308,18 +313,18 @@ namespace DiplomWork
                 return;
             }
 
-            KMRes = ebest;
-            KMRes2 = ebest2;
+            KmRes = ebest;
+            KmRes2 = ebest2;
             j = 0;
             var rand = new Random();
             var colors = new List<byte[]>();
-            for (int i = 0; i < stationCount; i++)
+            for (int i = 0; i < StationCount; i++)
             {
                 colors.Add(new byte[3]);
                 rand.NextBytes(colors[i]);
             }
 
-            for (int i = 0; i < stationCount; i++)
+            for (int i = 0; i < StationCount; i++)
             {
                 AddObjectToGrid(c[1, i], c[0, i], (i + 1).ToString(), false);
             }
@@ -398,12 +403,8 @@ namespace DiplomWork
             //}
 
             var rect = grd.Children.OfType<StationRect>().ToList();
-            var StNames = new List<string>();
-            foreach (var stationRect in rect)
-            {
-                StNames.Add(stationRect.Text + "--" + stationRect.Number.ToString());
-            }
-            var result = new gpd(Settings, StNames);
+            var stNames = rect.Select(stationRect => stationRect.Text + "--" + stationRect.Number.ToString()).ToList();
+            var result = new gpd(Settings, stNames);
 
             //result.StNames.Add(); 
             if (NavigationService != null) NavigationService.Navigate(result);

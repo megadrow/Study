@@ -1,0 +1,50 @@
+﻿<Window x:Class="DiplomWork.Dialogs.GpdModuleInfo"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:Controls.Validation;assembly=Controls"
+        Title="Информация о данных" Width="400" ResizeMode="NoResize" SizeToContent="Height">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,/Controls;component/Styles.xaml" />
+                <ResourceDictionary Source="pack://application:,,/Controls;component/AppIcons.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid Name="MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <!--Блоки для информации о модулях в ГПД-->
+        <GroupBox Name="GbModule" Header="Модуль" Grid.Row="0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock VerticalAlignment="Center">Выходные данные</TextBlock>
+                <TextBox Name="TboxOutData" Grid.Row="0" Grid.Column="1">
+                    <TextBox.Text>
+                        <Binding Path="OutData" Mode="TwoWay" UpdateSourceTrigger="Explicit">
+                            <Binding.ValidationRules>
+                                <local:ValidationNumber></local:ValidationNumber>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+            </Grid>
+        </GroupBox>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"  Grid.Row="2" >
+            <Button Click="CancelClick" IsCancel="True" HorizontalAlignment="Right">Отмена</Button>
+            <Button Name="BtnOk" HorizontalAlignment="Right" IsDefault="True" Click="OkClick">Ok</Button>
+        </StackPanel>
+
+    </Grid>
+</Window>
+

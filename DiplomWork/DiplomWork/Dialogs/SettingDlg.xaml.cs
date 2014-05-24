@@ -3,7 +3,7 @@ using System.Windows;
 using System.Xml.Serialization;
 using Controls;
 
-namespace DiplomWork
+namespace DiplomWork.Dialogs
 {
     /// <summary>
     /// Interaction logic for SettingDlg.xaml
@@ -29,7 +29,7 @@ namespace DiplomWork
                         settAreaGpd.Visibility = Visibility.Visible;
                     } break;
             }
-            UpdateTimer timer = new UpdateTimer();
+            var timer = new UpdateTimer();
             timer.Start(btnOk, mainGrid);
             settingRes = setting;
             settings = setting.Copy();
@@ -46,8 +46,8 @@ namespace DiplomWork
             //SerializeStatic.Save(settings.GetType(), "settings.xml");
             settingRes = settings;
 
-            StreamWriter writer = new StreamWriter("settings.xml", false);
-            XmlSerializer serializer = new XmlSerializer(settingRes.GetType());
+            var writer = new StreamWriter("settings.xml", false);
+            var serializer = new XmlSerializer(settingRes.GetType());
 
             serializer.Serialize(writer, settingRes);
             writer.Close();

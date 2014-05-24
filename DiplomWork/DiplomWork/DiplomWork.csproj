@@ -70,6 +70,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Dialogs\GpdDataInfo.xaml.cs">
+      <DependentUpon>GpdDataInfo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\GpdModuleInfo.xaml.cs">
+      <DependentUpon>GpdModuleInfo.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ErrorViewer.cs" />
     <Compile Include="gpd.xaml.cs">
       <DependentUpon>gpd.xaml</DependentUpon>
@@ -77,7 +83,7 @@
     <Compile Include="Objects\DataInit.cs" />
     <Compile Include="Objects\StationNum.cs" />
     <Compile Include="Objects\TherminalPointNum.cs" />
-    <Compile Include="PointInfo.xaml.cs">
+    <Compile Include="Dialogs\PointInfo.xaml.cs">
       <DependentUpon>PointInfo.xaml</DependentUpon>
     </Compile>
     <Compile Include="PointCoverW.cs" />
@@ -85,7 +91,7 @@
       <DependentUpon>PointDistribution.xaml</DependentUpon>
     </Compile>
     <Compile Include="SerializeStatic.cs" />
-    <Compile Include="SettingDlg.xaml.cs">
+    <Compile Include="Dialogs\SettingDlg.xaml.cs">
       <DependentUpon>SettingDlg.xaml</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
@@ -95,6 +101,14 @@
     <Compile Include="ChooseInitTask.xaml.cs">
       <DependentUpon>ChooseInitTask.xaml</DependentUpon>
     </Compile>
+    <Page Include="Dialogs\GpdDataInfo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\GpdModuleInfo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="gpd.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -111,7 +125,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="PointInfo.xaml">
+    <Page Include="Dialogs\PointInfo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -119,7 +133,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SettingDlg.xaml">
+    <Page Include="Dialogs\SettingDlg.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

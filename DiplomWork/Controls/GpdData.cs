@@ -9,12 +9,25 @@ namespace Controls
 {
     public class ClrIdxStr
     {
+        private Color[] colors =
+            {
+                Colors.Blue, Colors.BlueViolet, Colors.Brown, Colors.BurlyWood, Colors.CadetBlue, Colors.Chartreuse,
+                Colors.Chocolate,
+                Colors.Coral, Colors.CornflowerBlue, Colors.Crimson, Colors.Cyan, Colors.DarkCyan, Colors.DarkGoldenrod,
+                Colors.DarkGray,
+                Colors.DarkGreen, Colors.DarkKhaki, Colors.DarkMagenta, Colors.DarkOrange, Colors.Yellow,
+                Colors.DarkSalmon
+            };
         public ClrIdxStr()
         {
             Ind = -1;
         }
+
+        private int _ind;
         public Color Clr { get; set; }
-        public int Ind { get; set; }
+        public int Ind { get { return _ind; } set { _ind = value;
+            Clr = (_ind!=-1) ? colors[_ind%20] : Colors.White;
+        } }
         public string Str { get; set; }
     }
 
@@ -22,6 +35,8 @@ namespace Controls
     {
         
         private int _cicle = 0;
+        public static List<string> ProcNames = new List<string>();
+        public static List<string> StanNames = new List<string>();
         public bool ShowSub
         {
             get { return _showSub; }
@@ -69,6 +84,9 @@ namespace Controls
         private void Default(double left = 0, double top = 0)
         {
             Background = new SolidColorBrush(Colors.White);
+
+            //ProcNames = new List<string>();
+            //StanNames = new List<string>();
 
             Height = 26;
             Width = 26;

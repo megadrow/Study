@@ -1,8 +1,7 @@
-﻿<Window x:Class="DiplomWork.PointInfo"
+﻿<Window x:Class="DiplomWork.Dialogs.PointInfo"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:local="clr-namespace:Controls.Validation;assembly=Controls"
-        Title="Свойства" Width="300" ResizeMode="NoResize" SizeToContent="Height">
+        Title="Свойства" Width="400" ResizeMode="NoResize" SizeToContent="Height">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -11,14 +10,14 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
         </Window.Resources>
-        <Grid Name="mainGrid">
+        <Grid Name="MainGrid">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
             <!--Блоки для информации о точках и станциях на 2 шаге, по умолчанию-->
-        <GroupBox Name="gbCommInfo" Header="Общая информация" Grid.Row="0">
+        <GroupBox Name="GbCommInfo" Header="Общая информация" Grid.Row="0">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -28,10 +27,10 @@
                     <ColumnDefinition Width="1*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <TextBlock VerticalAlignment="Center">Название</TextBlock>
-                <TextBlock Grid.Column="1" Name="PIName"/>
+                <TextBlock Grid.Column="1" Name="PiName"/>
             </Grid>
         </GroupBox>
-        <GroupBox Name="gbCoords" Header="Координаты точки" Grid.Row="1">
+        <GroupBox Name="GbCoords" Header="Координаты точки" Grid.Row="1">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
@@ -55,38 +54,9 @@
                     </TextBlock>
                 </Grid>
             </GroupBox>
-            <!--Блоки для информации о данных в ГПД-->
-        <GroupBox Name="gbData" Header="Данные" Grid.Row="0" Visibility="Hidden">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="3*"></ColumnDefinition>
-                    <ColumnDefinition Width="1*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <TextBlock VerticalAlignment="Center">Цикл</TextBlock>
-                <TextBox Name="tboxCicle" Grid.Row="0" Grid.Column="1" IsEnabled="{Binding Path=ShowSub, Mode=OneTime}">
-                    <TextBox.Text>
-                        <Binding Path="Cicle" Mode="TwoWay" UpdateSourceTrigger="Explicit">
-                            <Binding.ValidationRules>
-                                <local:ValidationNumber></local:ValidationNumber>
-                            </Binding.ValidationRules>
-                        </Binding>
-                    </TextBox.Text>
-                </TextBox>
-                <CheckBox Name="cbInOut" Grid.Row="1" Grid.ColumnSpan="2" IsChecked="{Binding Path=ShowSub, Mode=TwoWay, UpdateSourceTrigger=Explicit}" 
-                          Checked="InOutChecked"
-                          Unchecked="InOutUnchacked">Начальный/конечный</CheckBox>
-                <TextBlock Grid.Row="2" VerticalAlignment="Center">Процесс</TextBlock>
-                <ComboBox Name="propProc" Grid.Row="2" Grid.Column="1"></ComboBox>
-            </Grid>
-        </GroupBox>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"  Grid.Row="2" >
                 <Button Click="CancelClick" IsCancel="True" HorizontalAlignment="Right">Отмена</Button>
-                <Button Name="btnOk" HorizontalAlignment="Right" IsDefault="True" Click="OkClick">Ok</Button>
+                <Button Name="BtnOk" HorizontalAlignment="Right" IsDefault="True" Click="OkClick">Ok</Button>
             </StackPanel>
 
         </Grid>

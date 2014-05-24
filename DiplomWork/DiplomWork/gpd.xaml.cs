@@ -8,6 +8,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 using Controls;
+using DiplomWork.Dialogs;
 
 namespace DiplomWork
 {
@@ -32,18 +33,19 @@ namespace DiplomWork
             };
         public Settings Settings { get; set; }
 
-        public List<string> StNames { get; set; } 
+        //public List<string> StNames { get; set; }
+         
 
         public gpd(Settings settings, List<string> stantionList = null)
         {
             InitializeComponent();
-            StNames = new List<string>();
+            //StNames = new List<string>();
             if ((stantionList != null) && (stantionList.Count > 0))
             {
                 ComboStationType.IsEnabled = true;
                 foreach (var stanName in stantionList)
                 {
-                    StNames.Add(stanName);
+                    GpdData.StanNames.Add(stanName);
                     var cbItem = new ComboBoxItem();
                     cbItem.Content = stanName;
                     ComboStationType.Items.Add(cbItem);
@@ -175,7 +177,7 @@ namespace DiplomWork
         {
             try
             {
-                PointInfo dlg;
+                //PointInfo dlg;
                 var item = (sender as MenuItem);
 
                 var item2 = LogicalTreeHelper.GetParent(item);
@@ -183,18 +185,38 @@ namespace DiplomWork
                 var item4 = (item3.PlacementTarget as CommonObject);
                 if ((item4 as GpdData) != null)
                 {
-                    dlg = new PointInfo(1);
+                    var dlg = new GpdDataInfo();
+                    dlg.DataContext = item4;
+
+                    //dlg.PIName.Text = (item3.PlacementTarget as CommonObject).Text;
+
+                    if (dlg.ShowDialog() == true)
+                    {
+                        if (drawmode == 1)
+                        {
+                            if ((item4 as GpdData) != null)
+                            {
+                                item4.Background = (item4 as GpdData).Process.Ind == -1 ? new SolidColorBrush(Colors.White) : new SolidColorBrush((item4 as GpdData).Process.Clr);
+                            }
+                        }
+                        if (drawmode == 2)
+                        {
+                            if ((item4 as GpdData) != null)
+                            {
+                                item4.Background = (item4 as GpdData).Stan.Ind == -1 ? new SolidColorBrush(Colors.White) : new SolidColorBrush((item4 as GpdData).Stan.Clr);
+                            }
+                        }
+                    }
                 }
-                else
+                if ((item4 as GpdModule) != null)
                 {
-                    dlg = new PointInfo(2);
+                    var dlg = new GpdModuleInfo();
+                    dlg.DataContext = item4;
+
+                    //dlg.PIName.Text = (item3.PlacementTarget as CommonObject).Text;
+
+                    dlg.ShowDialog();
                 }
-
-                dlg.DataContext = item4;
-                
-                //dlg.PIName.Text = (item3.PlacementTarget as CommonObject).Text;
-
-                dlg.ShowDialog();
             }
             catch (Exception ex)
             {
@@ -376,8 +398,11 @@ namespace DiplomWork
         private void ProcessEdit(object sender, RoutedEventArgs e)
         {
             var item = new ComboBoxItem();
+            
             ComboProcessType.Items.Add(item);
-            item.Content = "Process " + (ComboProcessType.Items.Count - 1).ToString();
+            GpdData.ProcNames.Add("Process " + (ComboProcessType.Items.Count - 1).ToString());
+            item.Content = GpdData.ProcNames.Last();
+            
             ComboProcessType.IsEnabled = true;
             ComboProcessType.SelectedIndex = ComboProcessType.Items.Count - 1;
         }

@@ -30,7 +30,8 @@
             <ComboBoxItem Content="Данные"></ComboBoxItem>
             <ComboBoxItem Content="Модули"></ComboBoxItem>
             </ComboBox>
-            <Button Click="GpdAlignmentClick">Настройки режима 1</Button>
+            <Button Click="GpdAlignmentClick">Выровнять</Button>
+            <Separator></Separator>
             <RadioButton Name="DmRbAdd" Checked="AddModeChecked">Добавлять</RadioButton>
             <RadioButton Name="DmRbDel" Checked="DelModeChecked">Удалять</RadioButton>
             <RadioButton Name="DmRbCon" Checked="ConModeChecked">Соединять</RadioButton>
@@ -39,7 +40,7 @@
     <ToolBar Name="ThreadModeToolbar" Grid.Row="1" Visibility="Hidden">
             <ComboBox Name="ComboProcessType" Width="100" IsEnabled="False">
             </ComboBox>
-            <Button Click="ProcessEdit">Настройки процессов</Button>
+            <Button Click="ProcessEdit">Добавить процесс</Button>
     </ToolBar>
         <ToolBar Name="StationModeToolbar" Grid.Row="1" Visibility="Hidden">
             <ComboBox Name="ComboStationType" Width="100" IsEnabled="False">

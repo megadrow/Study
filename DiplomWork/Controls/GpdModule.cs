@@ -14,6 +14,8 @@ namespace Controls
         public int Level { get; set; }
         public bool IsUse { get; set; }
 
+        public int OutData { get; set; }
+
         public GpdModule()
         {
             Default();
