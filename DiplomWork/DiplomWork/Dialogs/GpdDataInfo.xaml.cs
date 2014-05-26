@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using Controls;
 
@@ -54,14 +55,12 @@ namespace DiplomWork.Dialogs
             var data = DataContext as GpdData;
             if (data == null)
                 return;
-            foreach (var procName in GpdData.ProcNames)
+            foreach (var item in GpdData.ProcNames.Select(procName => new ComboBoxItem {Content = procName}))
             {
-                var item = new ComboBoxItem {Content = procName};
                 PropProc.Items.Add(item);
             }
-            foreach (var stanName in GpdData.StanNames)
+            foreach (var item in GpdData.StanNames.Select(stanName => new ComboBoxItem {Content = stanName}))
             {
-                var item = new ComboBoxItem {Content = stanName};
                 PropStan.Items.Add(item);
             }
             PropProc.SelectedIndex = data.Process.Ind;

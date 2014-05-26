@@ -23,7 +23,8 @@
         <RadioButton Name="RbDrawMode" Checked="DrawModeChacked">Рисование</RadioButton>
         <RadioButton Name="RbThreadMode" Checked="ThreadModeChacked">Разделение на потоки</RadioButton>
         <RadioButton Name="RbStationMode" Checked="StationModeChacked">Разделение на станции</RadioButton>
-            <Button Click="SettingClick">Настройки</Button>
+        <Button Click="ModuleSettingClick">Настройки модулей</Button>
+        
         </ToolBar>
     <ToolBar Name="DrawModeToolbar" Grid.Row="1">
         <ComboBox Name="ComboDrawType" Width="100">

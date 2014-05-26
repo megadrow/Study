@@ -10,6 +10,9 @@ namespace Controls
     {
         public int InOutNo { get; set; }
 
+        public ClrIdxStr Process { get; set; }
+        public ClrIdxStr Stan { get; set; }
+
         public int OutConCount { get; set; }
         public int Level { get; set; }
         public bool IsUse { get; set; }
@@ -35,6 +38,9 @@ namespace Controls
             Top = top - Height / 2;
             Left = left - Width / 2;
             Margin = new Thickness(Left, Top, 0, 0);
+
+            Stan = new ClrIdxStr();
+            Process = new ClrIdxStr();
             
             StrokeThickness = 1;
             Stroke = new SolidColorBrush(Colors.Black);

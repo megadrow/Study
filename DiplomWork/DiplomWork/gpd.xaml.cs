@@ -74,11 +74,18 @@ namespace DiplomWork
             DrawModeToolbar.Visibility = Visibility.Visible;
             ThreadModeToolbar.Visibility = Visibility.Hidden;
             StationModeToolbar.Visibility = Visibility.Hidden;
-            var dataList = grd.Children.OfType<GpdData>().ToList();
+            var dataList = grd.Children.OfType<CommonObject>().ToList();
             drawmode = 0;
             foreach (var gpdData in dataList)
             {
-                gpdData.Background = new SolidColorBrush(Colors.White);
+                if ((gpdData as GpdData) != null)
+                {
+                    gpdData.Background = new SolidColorBrush(Colors.White);
+                }
+                else if ((gpdData as GpdModule) != null)
+                {
+                    gpdData.Background = new SolidColorBrush(Colors.Black);
+                }
             }
         }
 
@@ -95,11 +102,22 @@ namespace DiplomWork
             DrawModeToolbar.Visibility = Visibility.Hidden;
             ThreadModeToolbar.Visibility = Visibility.Visible;
             StationModeToolbar.Visibility = Visibility.Hidden;
-            var dataList = grd.Children.OfType<GpdData>().ToList();
+            var dataList = grd.Children.OfType<CommonObject>().ToList();
             drawmode = 1;
             foreach (var gpdData in dataList)
             {
-                gpdData.Background = gpdData.Process.Ind == -1 ? new SolidColorBrush(Colors.White) : new SolidColorBrush(gpdData.Process.Clr);
+                if ((gpdData as GpdData) != null)
+                {
+                    gpdData.Background = (gpdData as GpdData).Process.Ind == -1 ? 
+                        new SolidColorBrush(Colors.White) :
+                        new SolidColorBrush((gpdData as GpdData).Process.Clr);
+                }
+                else if ((gpdData as GpdModule) != null)
+                {
+                    gpdData.Background = (gpdData as GpdModule).Process.Ind == -1 ?
+                        new SolidColorBrush(Colors.Black) :
+                        new SolidColorBrush((gpdData as GpdModule).Process.Clr);
+                }
             }
         }
 
@@ -117,11 +135,22 @@ namespace DiplomWork
             DrawModeToolbar.Visibility = Visibility.Hidden;
             ThreadModeToolbar.Visibility = Visibility.Hidden;
             StationModeToolbar.Visibility = Visibility.Visible;
-            var dataList = grd.Children.OfType<GpdData>().ToList();
+            var dataList = grd.Children.OfType<CommonObject>().ToList();
             drawmode = 2;
             foreach (var gpdData in dataList)
             {
-                gpdData.Background = gpdData.Stan.Ind == -1 ? new SolidColorBrush(Colors.White) : new SolidColorBrush(gpdData.Stan.Clr);
+                if ((gpdData as GpdData) != null)
+                {
+                    gpdData.Background = (gpdData as GpdData).Stan.Ind == -1 ?
+                        new SolidColorBrush(Colors.White) :
+                        new SolidColorBrush((gpdData as GpdData).Stan.Clr);
+                }
+                else if ((gpdData as GpdModule) != null)
+                {
+                    gpdData.Background = (gpdData as GpdModule).Stan.Ind == -1 ?
+                        new SolidColorBrush(Colors.Black) :
+                        new SolidColorBrush((gpdData as GpdModule).Stan.Clr);
+                }
             }
         }
 
@@ -147,18 +176,15 @@ namespace DiplomWork
             }
             obj.MouseLeftButtonDown += ObjectOnLeftMouseDown;
             var context = new ContextMenu();
-            var mi = new MenuItem();
-            mi.Header = "Удалить";
+            var mi = new MenuItem {Header = "Удалить"};
             mi.Click += DeletePopupClick;
             context.Items.Add(mi);
 
-            mi = new MenuItem();
-            mi.Header = "Удалить соединения";
+            mi = new MenuItem {Header = "Удалить соединения"};
             mi.Click += DeleteConPopupClick;
             context.Items.Add(mi);
 
-            mi = new MenuItem();
-            mi.Header = "Свойства";
+            mi = new MenuItem {Header = "Свойства"};
             //if (circle.GetType() == typeof(StationEll))
             //{
             mi.Click += PropertyPopupClick;
@@ -185,8 +211,7 @@ namespace DiplomWork
                 var item4 = (item3.PlacementTarget as CommonObject);
                 if ((item4 as GpdData) != null)
                 {
-                    var dlg = new GpdDataInfo();
-                    dlg.DataContext = item4;
+                    var dlg = new GpdDataInfo {DataContext = item4};
 
                     //dlg.PIName.Text = (item3.PlacementTarget as CommonObject).Text;
 
@@ -194,28 +219,39 @@ namespace DiplomWork
                     {
                         if (drawmode == 1)
                         {
-                            if ((item4 as GpdData) != null)
-                            {
-                                item4.Background = (item4 as GpdData).Process.Ind == -1 ? new SolidColorBrush(Colors.White) : new SolidColorBrush((item4 as GpdData).Process.Clr);
-                            }
+                            item4.Background = (item4 as GpdData).Process.Ind == -1 ? 
+                                new SolidColorBrush(Colors.White) : 
+                                new SolidColorBrush((item4 as GpdData).Process.Clr);
                         }
                         if (drawmode == 2)
                         {
-                            if ((item4 as GpdData) != null)
-                            {
-                                item4.Background = (item4 as GpdData).Stan.Ind == -1 ? new SolidColorBrush(Colors.White) : new SolidColorBrush((item4 as GpdData).Stan.Clr);
-                            }
+                            item4.Background = (item4 as GpdData).Stan.Ind == -1 ? 
+                                new SolidColorBrush(Colors.White) : 
+                                new SolidColorBrush((item4 as GpdData).Stan.Clr);
                         }
                     }
                 }
                 if ((item4 as GpdModule) != null)
                 {
-                    var dlg = new GpdModuleInfo();
-                    dlg.DataContext = item4;
+                    var dlg = new GpdModuleInfo {DataContext = item4};
 
                     //dlg.PIName.Text = (item3.PlacementTarget as CommonObject).Text;
 
-                    dlg.ShowDialog();
+                    if (dlg.ShowDialog() == true)
+                    {
+                        if (drawmode == 1)
+                        {
+                            item4.Background = (item4 as GpdModule).Process.Ind == -1 ? 
+                                new SolidColorBrush(Colors.Black) : 
+                                new SolidColorBrush((item4 as GpdModule).Process.Clr);
+                        }
+                        if (drawmode == 2)
+                        {
+                            item4.Background = (item4 as GpdModule).Stan.Ind == -1 ? 
+                                new SolidColorBrush(Colors.Black) : 
+                                new SolidColorBrush((item4 as GpdModule).Stan.Clr);
+                        }
+                    }
                 }
             }
             catch (Exception ex)
@@ -295,26 +331,50 @@ namespace DiplomWork
                 CheckValidationOfObject(commonObject);
             }
             var dataObject = sender as GpdData;
-            if (dataObject == null) return;
-            
-            if (drawmode == 2)
+            var moduleObject = sender as GpdModule;
+            if (dataObject != null)
             {
-                
-                dataObject.Stan.Str = ComboStationType.SelectedItem.ToString();
-                dataObject.Stan.Ind = ComboStationType.SelectedIndex;
-                dataObject.Stan.Clr = colors[ComboStationType.SelectedIndex%20];
+                if (drawmode == 2)
+                {
 
-                dataObject.Background = new SolidColorBrush(dataObject.Stan.Clr);
+                    dataObject.Stan.Str = ComboStationType.SelectedItem.ToString();
+                    dataObject.Stan.Ind = ComboStationType.SelectedIndex;
+                    dataObject.Stan.Clr = colors[ComboStationType.SelectedIndex % 20];
+
+                    dataObject.Background = new SolidColorBrush(dataObject.Stan.Clr);
+                }
+
+                if (drawmode == 1)
+                {
+                    if (ComboProcessType.Items.Count == 0) return;
+                    dataObject.Process.Str = ComboProcessType.SelectedItem.ToString();
+                    dataObject.Process.Ind = ComboProcessType.SelectedIndex;
+                    dataObject.Process.Clr = colors[ComboProcessType.SelectedIndex % 20];
+
+                    dataObject.Background = new SolidColorBrush(dataObject.Process.Clr);
+                }
             }
-
-            if (drawmode == 1)
+            else if (moduleObject != null)
             {
-                if (ComboProcessType.Items.Count == 0) return;
-                dataObject.Process.Str = ComboProcessType.SelectedItem.ToString();
-                dataObject.Process.Ind = ComboProcessType.SelectedIndex;
-                dataObject.Process.Clr = colors[ComboProcessType.SelectedIndex%20];
+                if (drawmode == 2)
+                {
 
-                dataObject.Background = new SolidColorBrush(dataObject.Process.Clr);
+                    moduleObject.Stan.Str = ComboStationType.SelectedItem.ToString();
+                    moduleObject.Stan.Ind = ComboStationType.SelectedIndex;
+                    moduleObject.Stan.Clr = colors[ComboStationType.SelectedIndex % 20];
+
+                    moduleObject.Background = new SolidColorBrush(moduleObject.Stan.Clr);
+                }
+
+                if (drawmode == 1)
+                {
+                    if (ComboProcessType.Items.Count == 0) return;
+                    moduleObject.Process.Str = ComboProcessType.SelectedItem.ToString();
+                    moduleObject.Process.Ind = ComboProcessType.SelectedIndex;
+                    moduleObject.Process.Clr = colors[ComboProcessType.SelectedIndex % 20];
+
+                    moduleObject.Background = new SolidColorBrush(moduleObject.Process.Clr);
+                }
             }
         }
 
@@ -331,15 +391,13 @@ namespace DiplomWork
             }
         }
 
-        private void SettingClick(object sender, RoutedEventArgs e)
+        private void ModuleSettingClick(object sender, RoutedEventArgs e)
         {
-            var dlg = new SettingDlg(Settings, 1);
+            var dlg = new ModuleSetting();
             // UpdateTimer.Stop();
-            if (dlg.ShowDialog() == true)
-            {
-                Settings = dlg.ReturnSetting();
-                Update();
-            }
+            var moduleList = grd.Children.OfType<GpdModule>().ToList();
+            dlg.DataContext = moduleList;
+            dlg.ShowDialog();
         }
 
         private void Update()
@@ -402,7 +460,9 @@ namespace DiplomWork
             ComboProcessType.Items.Add(item);
             GpdData.ProcNames.Add("Process " + (ComboProcessType.Items.Count - 1).ToString());
             item.Content = GpdData.ProcNames.Last();
-            
+            //item.Background = new SolidColorBrush(colors[(ComboProcessType.Items.Count - 1) % 20]);
+            //ComboProcessType.Background = new SolidColorBrush(colors[(ComboProcessType.Items.Count - 1) % 20]);
+
             ComboProcessType.IsEnabled = true;
             ComboProcessType.SelectedIndex = ComboProcessType.Items.Count - 1;
         }
@@ -411,7 +471,7 @@ namespace DiplomWork
         {
             var obj = grd.Children.OfType<CommonObject>().ToList();
             const int parallelHeight = 50;
-            int freeCount = 0;
+            int freeCount;
             var listLvl = new List<List<CommonObject>>();
 
             foreach (var commonObject in obj)

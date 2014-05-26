@@ -14,8 +14,8 @@
         </Window.Resources>
         <Grid Name="MainGrid">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
             <!--Блоки для информации о данных в ГПД-->
@@ -53,7 +53,7 @@
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"  Grid.Row="2" >
                 <Button Click="CancelClick" IsCancel="True" HorizontalAlignment="Right">Отмена</Button>
                 <Button Name="BtnOk" HorizontalAlignment="Right" IsDefault="True" Click="OkClick">Ok</Button>
-            </StackPanel>
+        </StackPanel>
 
         </Grid>
 </Window>
