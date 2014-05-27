@@ -70,11 +70,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CreateNetwork.xaml.cs">
+      <DependentUpon>CreateNetwork.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\GpdDataInfo.xaml.cs">
       <DependentUpon>GpdDataInfo.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\GpdModuleInfo.xaml.cs">
       <DependentUpon>GpdModuleInfo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\MatrixShowDlg.xaml.cs">
+      <DependentUpon>MatrixShowDlg.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\ModuleSetting.xaml.cs">
       <DependentUpon>ModuleSetting.xaml</DependentUpon>
@@ -104,11 +110,19 @@
     <Compile Include="ChooseInitTask.xaml.cs">
       <DependentUpon>ChooseInitTask.xaml</DependentUpon>
     </Compile>
+    <Page Include="CreateNetwork.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Dialogs\GpdDataInfo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\GpdModuleInfo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\MatrixShowDlg.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

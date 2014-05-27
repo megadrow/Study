@@ -6,7 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Threading;
+using Calculation;
 using Controls;
 using DiplomWork.Dialogs;
 
@@ -15,14 +15,14 @@ namespace DiplomWork
     /// <summary>
     /// Interaction logic for gpd.xaml
     /// </summary>
-    public partial class gpd : Page
+    public partial class Gpd
     {
-        private int dataCount = 0;
-        private int moduleCount = 0;
-        private int drawmode;
-        private Mode mode = Mode.Move;
+        private int _dataCount = 0;
+        private int _moduleCount = 0;
+        private int _drawmode;
+        private Mode _mode = Mode.Move;
 
-        private Color[] colors =
+        private readonly Color[] colors =
             {
                 Colors.Blue, Colors.BlueViolet, Colors.Brown, Colors.BurlyWood, Colors.CadetBlue, Colors.Chartreuse,
                 Colors.Chocolate,
@@ -33,28 +33,26 @@ namespace DiplomWork
             };
         public Settings Settings { get; set; }
 
-        //public List<string> StNames { get; set; }
-         
-
-        public gpd(Settings settings, List<string> stantionList = null)
+        public Gpd(Settings settings, List<string> stantionList = null)
         {
             InitializeComponent();
-            //StNames = new List<string>();
+
+            GpdData.ProcNames.Clear();
+            GpdData.StanNames.Clear();
             if ((stantionList != null) && (stantionList.Count > 0))
             {
                 ComboStationType.IsEnabled = true;
                 foreach (var stanName in stantionList)
                 {
                     GpdData.StanNames.Add(stanName);
-                    var cbItem = new ComboBoxItem();
-                    cbItem.Content = stanName;
+                    var cbItem = new ComboBoxItem {Content = stanName};
                     ComboStationType.Items.Add(cbItem);
                 }
                 ComboStationType.SelectedIndex = 0;
             }
             RbDrawMode.IsChecked = true;
             ComboDrawType.SelectedIndex = 0;
-            drawmode = 0;
+            _drawmode = 0;
             DmRbAdd.IsChecked = true;
             Settings = settings;
             grd.Width = 2000;
@@ -69,13 +67,13 @@ namespace DiplomWork
             {
                 commonObject.ToMoveMode();
             }
-            mode = Mode.Move;
+            _mode = Mode.Move;
 
             DrawModeToolbar.Visibility = Visibility.Visible;
             ThreadModeToolbar.Visibility = Visibility.Hidden;
             StationModeToolbar.Visibility = Visibility.Hidden;
             var dataList = grd.Children.OfType<CommonObject>().ToList();
-            drawmode = 0;
+            _drawmode = 0;
             foreach (var gpdData in dataList)
             {
                 if ((gpdData as GpdData) != null)
@@ -97,13 +95,13 @@ namespace DiplomWork
             {
                 commonObject.ToMoveMode();
             }
-            mode = Mode.Move;
+            _mode = Mode.Move;
 
             DrawModeToolbar.Visibility = Visibility.Hidden;
             ThreadModeToolbar.Visibility = Visibility.Visible;
             StationModeToolbar.Visibility = Visibility.Hidden;
             var dataList = grd.Children.OfType<CommonObject>().ToList();
-            drawmode = 1;
+            _drawmode = 1;
             foreach (var gpdData in dataList)
             {
                 if ((gpdData as GpdData) != null)
@@ -129,14 +127,14 @@ namespace DiplomWork
             {
                 commonObject.ToMoveMode();
             }
-            mode = Mode.Move;
+            _mode = Mode.Move;
             DmRbAdd.IsChecked = true;
 
             DrawModeToolbar.Visibility = Visibility.Hidden;
             ThreadModeToolbar.Visibility = Visibility.Hidden;
             StationModeToolbar.Visibility = Visibility.Visible;
             var dataList = grd.Children.OfType<CommonObject>().ToList();
-            drawmode = 2;
+            _drawmode = 2;
             foreach (var gpdData in dataList)
             {
                 if ((gpdData as GpdData) != null)
@@ -154,20 +152,20 @@ namespace DiplomWork
             }
         }
 
-        private void AddObjectToGrid(double left, double top, bool ellipse = true)
+        private void AddObjectToGrid(double left, double top)
         {
             CommonObject obj;
             switch (ComboDrawType.SelectedIndex)
             {
                 case 0:
                     {
-                        dataCount++;
-                        obj = new GpdData(left, top) {Number = dataCount};
+                        _dataCount++;
+                        obj = new GpdData(left, top) {Number = _dataCount};
                     } break;
                 case 1:
                     {
-                        moduleCount++;
-                        obj = new GpdModule(left, top) {Number = moduleCount};
+                        _moduleCount++;
+                        obj = new GpdModule(left, top) {Number = _moduleCount};
                     } break;
                 default:
                     {
@@ -217,13 +215,13 @@ namespace DiplomWork
 
                     if (dlg.ShowDialog() == true)
                     {
-                        if (drawmode == 1)
+                        if (_drawmode == 1)
                         {
                             item4.Background = (item4 as GpdData).Process.Ind == -1 ? 
                                 new SolidColorBrush(Colors.White) : 
                                 new SolidColorBrush((item4 as GpdData).Process.Clr);
                         }
-                        if (drawmode == 2)
+                        if (_drawmode == 2)
                         {
                             item4.Background = (item4 as GpdData).Stan.Ind == -1 ? 
                                 new SolidColorBrush(Colors.White) : 
@@ -239,13 +237,13 @@ namespace DiplomWork
 
                     if (dlg.ShowDialog() == true)
                     {
-                        if (drawmode == 1)
+                        if (_drawmode == 1)
                         {
                             item4.Background = (item4 as GpdModule).Process.Ind == -1 ? 
                                 new SolidColorBrush(Colors.Black) : 
                                 new SolidColorBrush((item4 as GpdModule).Process.Clr);
                         }
-                        if (drawmode == 2)
+                        if (_drawmode == 2)
                         {
                             item4.Background = (item4 as GpdModule).Stan.Ind == -1 ? 
                                 new SolidColorBrush(Colors.Black) : 
@@ -267,9 +265,31 @@ namespace DiplomWork
                 var item = (sender as MenuItem);
                 var item2 = LogicalTreeHelper.GetParent(item);
                 var item3 = LogicalTreeHelper.GetParent(item2) as Popup;
-                var item4 = (item3.PlacementTarget as CommonObject);
-                item4.Delete();
-                CheckValidationOfObject(item4);
+                var commonObject = item3.PlacementTarget as CommonObject;
+                if (commonObject == null) return;
+                var list = commonObject.Connection.Select(connection =>
+                    Equals((item3.PlacementTarget as CommonObject),
+                    connection.GetStartObject()) ?
+                    connection.GetEndObject() :
+                    connection.GetStartObject()).ToList();
+                commonObject.Delete();
+                foreach (var gpdData in list)
+                {
+                    if ((gpdData as GpdModule) != null)
+                    {
+                        (gpdData as GpdModule).CheckInOutNo();
+                        var data = commonObject as GpdData;
+                        if (data != null) data.InOutNo = 0;
+                    }
+
+                    else if ((gpdData as GpdData) != null)
+                    {
+                        (gpdData as GpdData).CheckInOutNo();
+                        var gpdModule = commonObject as GpdModule;
+                        if (gpdModule != null) gpdModule.InOutNo = 0;
+                    }
+                }
+                CheckValidationOfObject(commonObject);
             }
             catch (Exception ex)
             {
@@ -284,7 +304,30 @@ namespace DiplomWork
                 var item = (sender as MenuItem);
                 var item2 = LogicalTreeHelper.GetParent(item);
                 var item3 = LogicalTreeHelper.GetParent(item2) as Popup;
-                (item3.PlacementTarget as CommonObject).Disconnect();
+                var commonObject = item3.PlacementTarget as CommonObject;
+                if(commonObject == null) return;
+                var list = commonObject.Connection.Select(connection => 
+                    Equals((item3.PlacementTarget as CommonObject), 
+                    connection.GetStartObject()) ? 
+                    connection.GetEndObject() : 
+                    connection.GetStartObject()).ToList();
+                commonObject.Disconnect();
+                foreach (var gpdData in list)
+                {
+                    if ((gpdData as GpdModule) != null)
+                    {
+                        (gpdData as GpdModule).CheckInOutNo();
+                        var data = commonObject as GpdData;
+                        if (data != null) data.InOutNo = 0;
+                    }
+
+                    else if ((gpdData as GpdData) != null)
+                    {
+                        (gpdData as GpdData).CheckInOutNo();
+                        var gpdModule = commonObject as GpdModule;
+                        if (gpdModule != null) gpdModule.InOutNo = 0;
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -296,28 +339,22 @@ namespace DiplomWork
         {
             if ((obj as GpdData) != null)
             {
-                foreach (var data in grd.Children.OfType<GpdData>().ToList())
+                foreach (var data in grd.Children.OfType<GpdData>().ToList().Where(data => data.Number > obj.Number))
                 {
-                    if (data.Number > obj.Number)
-                    {
-                        data.Number--;
-                        data.Update();
-                    }
+                    data.Number--;
+                    data.Update();
                 }
-                dataCount--;
+                _dataCount--;
             }
 
             if ((obj as GpdModule) != null)
             {
-                foreach (var data in grd.Children.OfType<GpdModule>().ToList())
+                foreach (var data in grd.Children.OfType<GpdModule>().ToList().Where(data => data.Number > obj.Number))
                 {
-                    if (data.Number > obj.Number)
-                    {
-                        data.Number--;
-                        data.Update();
-                    }
+                    data.Number--;
+                    data.Update();
                 }
-                moduleCount--;
+                _moduleCount--;
             }
 
             Update();
@@ -326,7 +363,7 @@ namespace DiplomWork
         private void ObjectOnLeftMouseDown(object sender, MouseEventArgs e)
         {
             var commonObject = sender as CommonObject;
-            if (commonObject != null && commonObject.mode == Mode.Delete && drawmode == 0)
+            if (commonObject != null && commonObject.mode == Mode.Delete && _drawmode == 0)
             {
                 CheckValidationOfObject(commonObject);
             }
@@ -334,7 +371,7 @@ namespace DiplomWork
             var moduleObject = sender as GpdModule;
             if (dataObject != null)
             {
-                if (drawmode == 2)
+                if (_drawmode == 2)
                 {
 
                     dataObject.Stan.Str = ComboStationType.SelectedItem.ToString();
@@ -344,7 +381,7 @@ namespace DiplomWork
                     dataObject.Background = new SolidColorBrush(dataObject.Stan.Clr);
                 }
 
-                if (drawmode == 1)
+                if (_drawmode == 1)
                 {
                     if (ComboProcessType.Items.Count == 0) return;
                     dataObject.Process.Str = ComboProcessType.SelectedItem.ToString();
@@ -356,7 +393,7 @@ namespace DiplomWork
             }
             else if (moduleObject != null)
             {
-                if (drawmode == 2)
+                if (_drawmode == 2)
                 {
 
                     moduleObject.Stan.Str = ComboStationType.SelectedItem.ToString();
@@ -366,7 +403,7 @@ namespace DiplomWork
                     moduleObject.Background = new SolidColorBrush(moduleObject.Stan.Clr);
                 }
 
-                if (drawmode == 1)
+                if (_drawmode == 1)
                 {
                     if (ComboProcessType.Items.Count == 0) return;
                     moduleObject.Process.Str = ComboProcessType.SelectedItem.ToString();
@@ -385,7 +422,7 @@ namespace DiplomWork
 
         private void Ima_OnMouseDown(object sender, MouseButtonEventArgs e)
         {
-            if ((mode == Mode.Move) && (drawmode == 0))
+            if ((_mode == Mode.Move) && (_drawmode == 0))
             {
                 AddObjectToGrid(e.GetPosition(ima).X, e.GetPosition(ima).Y);
             }
@@ -414,7 +451,7 @@ namespace DiplomWork
             {
                 commonObject.ToMoveMode();
             }
-            mode = Mode.Move;
+            _mode = Mode.Move;
         }
 
         private void DelModeChecked(object sender, RoutedEventArgs e)
@@ -426,7 +463,7 @@ namespace DiplomWork
                 commonObject.ToDeleteMode();
             }
 
-            mode = Mode.Delete;
+            _mode = Mode.Delete;
         }
 
         private void ConModeChecked(object sender, RoutedEventArgs e)
@@ -438,7 +475,7 @@ namespace DiplomWork
                 commonObject.ToConnectMode();
             }
 
-            mode = Mode.Connect;
+            _mode = Mode.Connect;
         }
 
         private void UnconModeChecked(object sender, RoutedEventArgs e)
@@ -450,7 +487,7 @@ namespace DiplomWork
                 commonObject.ToDisconnectMode();
             }
 
-            mode = Mode.Disconnect;
+            _mode = Mode.Disconnect;
         }
 
         private void ProcessEdit(object sender, RoutedEventArgs e)
@@ -557,6 +594,140 @@ namespace DiplomWork
                 }
             }
             Update();
+        }
+
+        private void NextClick(object sender, RoutedEventArgs e)
+        {
+            var list = grd.Children.OfType<CommonObject>().ToList();
+            var matrix = new int[GpdData.StanNames.Count, GpdData.StanNames.Count];
+            var fullCicle = 1;
+            if (list.Count == 0)
+            {
+                ErrorViewer.ShowError("На поле не добавлено ни одного элемента");
+                return;
+            }
+
+            //Проверка связности графа
+            foreach (var commonObject in list)
+            {
+                commonObject.TmpField = 1;
+            }
+            list[0].TmpField++;
+            while (list.Count(commonObject => commonObject.TmpField == 2) > 0)
+            {
+                foreach (var commonObject in list.Where(commonObject => commonObject.TmpField == 2))
+                {
+                    foreach (var stanConnection in commonObject.Connection)
+                    {
+                        if (Equals(stanConnection.GetStartObject(), commonObject) &&
+                            (stanConnection.GetEndObject().TmpField == 1))
+                        {
+                            stanConnection.GetEndObject().TmpField++;
+                        }
+                        else if (Equals(stanConnection.GetEndObject(), commonObject) &&
+                                 (stanConnection.GetStartObject().TmpField == 1))
+                        {
+                            stanConnection.GetStartObject().TmpField++;
+                        }
+                    }
+                    commonObject.TmpField++;
+                }
+            }
+
+            if (list.Count(commonObject => commonObject.TmpField == 1) > 0)
+            {
+                ErrorViewer.ShowError("Граф не связный!\nПроверьте, чтобы все элементы были объеденены в единый граф");
+                return;
+            }
+
+            if(list.OfType<GpdModule>().Count(gpdModule => gpdModule.InOutNo != 3) > 0)
+            {
+                ErrorViewer.ShowError("Модуль не может быть входным или выходным узлом ГПД\nПроверьте наличие связей у модулей");
+                return;
+            }
+
+            if (list.OfType<GpdModule>().Count(gpdModule => gpdModule.OutData == 0) > 0)
+            {
+                ErrorViewer.ShowError("Выходные данные модулей не могут быть нулевыми");
+                return;
+            }
+            
+            if (list.OfType<GpdModule>().Count(gpdModule =>
+                                               (gpdModule.Stan.Ind == -1) ||
+                                               (gpdModule.Process.Ind == -1)) > 0)
+            {
+                ErrorViewer.ShowError("Все модули должны быть приписаны к процессам и станциям");
+                return;
+            }
+
+            if (list.OfType<GpdData>().Count(gpdData => (gpdData.InOutNo != 2) &&
+                                               ((gpdData.Stan.Ind == -1) ||
+                                               (gpdData.Process.Ind == -1))) > 0)
+            {
+                ErrorViewer.ShowError("Все данные должны быть приписаны к процессам и станциям");
+                return;
+            }
+
+            if (list.OfType<GpdData>().Count(gpdData => 
+                ((gpdData.InOutNo == 1) || (gpdData.InOutNo == 2)) && 
+                (!gpdData.ShowSub || (gpdData.Cicle == 0))) > 0)
+            {
+                ErrorViewer.ShowError("Всем входным и выходным данным необходимо задать периодичность");
+                return;
+            }
+
+            foreach (var gpdData in list.OfType<GpdData>().Where(gpdData =>
+                ((gpdData.InOutNo == 1) || (gpdData.InOutNo == 2))))
+            {
+                if (fullCicle%gpdData.Cicle != 0)
+                {
+                    fullCicle = Nok.GetNok(fullCicle, gpdData.Cicle);
+                }
+            }
+
+            foreach (var gpdModule in list.OfType<GpdModule>())
+            {
+                foreach (var connection in gpdModule.Connection)
+                {
+                    if (Equals(connection.GetStartObject(), gpdModule))
+                    {
+                        var data = connection.GetEndObject() as GpdData;
+                        if (data == null) return;
+                        if (data.InOutNo == 2)
+                        {
+                            continue;
+                        }
+                        if (gpdModule.Stan.Ind != data.Stan.Ind)
+                        {
+                            var outData = 0;
+                            foreach (var module in from stanConnection in 
+                                     data.Connection where 
+                                     Equals(stanConnection.GetStartObject(), data) select
+                                     stanConnection.GetEndObject() as GpdModule)
+                            {
+                                if (module == null) return;
+                                outData += module.OutData;
+                            }
+                            matrix[gpdModule.Stan.Ind, data.Stan.Ind] += outData;
+                            matrix[data.Stan.Ind, gpdModule.Stan.Ind] += outData;
+                        }
+                    }
+                    else if (Equals(connection.GetEndObject(), gpdModule))
+                    {
+                        var data = connection.GetStartObject() as GpdData;
+                        if (data == null) return;
+                        if (gpdModule.Stan.Ind != data.Stan.Ind)
+                        {
+                            matrix[gpdModule.Stan.Ind, data.Stan.Ind] += gpdModule.OutData;
+                            matrix[data.Stan.Ind, gpdModule.Stan.Ind] += gpdModule.OutData;
+                        }
+                    }
+                }
+            }
+
+            var nextPage = new CreateNetwork(GpdData.StanNames, matrix);
+            if (NavigationService != null) NavigationService.Navigate(nextPage);
+            //var gg = 0;
         }
     }
 }

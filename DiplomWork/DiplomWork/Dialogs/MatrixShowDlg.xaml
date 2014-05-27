@@ -1,7 +1,7 @@
-﻿<Window x:Class="DiplomWork.Dialogs.ModuleSetting"
+﻿<Window x:Class="DiplomWork.Dialogs.MatrixShowDlg"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Настройки модулей" Width="400" ResizeMode="NoResize" MaxHeight="600" SizeToContent="Height" Loaded="LoadedEvent">
+        Title="Матрица передач" Width="600" Height="600" SizeToContent="Height">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -13,23 +13,16 @@
     <Grid Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <DataGrid Name="DataGridModule" AutoGenerateColumns="False" CanUserDeleteRows="False" CanUserAddRows="False"  CanUserReorderColumns="False" CanUserSortColumns="False">
+        <DataGrid Name="DataGridMatrix" AutoGenerateColumns="False" CanUserDeleteRows="False" CanUserAddRows="False"  CanUserReorderColumns="False" CanUserSortColumns="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Номер модуля"
-                                    Binding="{Binding Path=Number, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                    Width="3*"
+                <DataGridTextColumn Header="Название"
+                                    Binding="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    Width="100"
                                     CanUserSort="False"
                                     CanUserReorder="False"
                                     IsReadOnly="True"
-                                    />
-                <DataGridTextColumn Header="Выходные данные"
-                                    Binding="{Binding Path=OutData, Mode=TwoWay, UpdateSourceTrigger=Explicit}"
-                                    Width="2*"
-                                    CanUserSort="False"
-                                    CanUserReorder="False"
                                     />
             </DataGrid.Columns>
         </DataGrid>

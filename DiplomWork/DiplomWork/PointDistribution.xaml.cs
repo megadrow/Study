@@ -404,7 +404,7 @@ namespace DiplomWork
 
             var rect = grd.Children.OfType<StationRect>().ToList();
             var stNames = rect.Select(stationRect => stationRect.Text + "--" + stationRect.Number.ToString()).ToList();
-            var result = new gpd(Settings, stNames);
+            var result = new Gpd(Settings, stNames);
 
             //result.StNames.Add(); 
             if (NavigationService != null) NavigationService.Navigate(result);

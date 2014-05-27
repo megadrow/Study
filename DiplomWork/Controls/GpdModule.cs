@@ -8,6 +8,7 @@ namespace Controls
 {
     public class GpdModule : CommonObject
     {
+        //0 - no 1 - in 2 - out 3 - in and out
         public int InOutNo { get; set; }
 
         public ClrIdxStr Process { get; set; }
@@ -41,6 +42,8 @@ namespace Controls
 
             Stan = new ClrIdxStr();
             Process = new ClrIdxStr();
+
+            OutData = 1;
             
             StrokeThickness = 1;
             Stroke = new SolidColorBrush(Colors.Black);

@@ -67,6 +67,8 @@
     <Compile Include="FindValidationError.cs" />
     <Compile Include="GpdData.cs" />
     <Compile Include="GpdModule.cs" />
+    <Compile Include="NetBus.cs" />
+    <Compile Include="NetStation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

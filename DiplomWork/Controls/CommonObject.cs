@@ -35,6 +35,8 @@ namespace Controls
 
         public List<StanConnection> Connection { get; set; }
 
+        public int TmpField { get; set; }
+
         /// <summary>
         /// Временные элементы
         /// </summary>

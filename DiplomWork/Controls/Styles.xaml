@@ -99,4 +99,44 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <Style TargetType="controls:NetBus">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:NetBus">
+                    <Grid>
+                        <Rectangle 
+                            Fill="{TemplateBinding Background}" 
+                            StrokeThickness="{Binding StrokeThickness, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                            Stroke="{Binding Stroke, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBlock 
+                            Text="{Binding Number, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="controls:NetStation">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:NetStation">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Ellipse 
+                            Fill="{TemplateBinding Background}" 
+                            StrokeThickness="{Binding StrokeThickness, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                            Stroke="{Binding Stroke, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBlock 
+                            Text="{Binding Number, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

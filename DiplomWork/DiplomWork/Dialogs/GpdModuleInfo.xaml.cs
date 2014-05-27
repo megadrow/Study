@@ -42,6 +42,7 @@ namespace DiplomWork.Dialogs
         {
             if (DataContext == null) return;
             var data = DataContext as GpdModule;
+            
             if (data == null)
                 return;
             foreach (var item in GpdData.ProcNames.Select(procName => new ComboBoxItem { Content = procName }))
