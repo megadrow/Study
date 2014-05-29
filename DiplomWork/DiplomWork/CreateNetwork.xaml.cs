@@ -18,15 +18,15 @@ namespace DiplomWork
     /// <summary>
     /// Interaction logic for CreateNetwork.xaml
     /// </summary>
-    public partial class CreateNetwork : Page
+    public partial class CreateNetwork
     {
         public List<string> StNames { get; set; } 
         public int[,] Matrix { get; set; }
 
         private Mode _mode = Mode.Move;
         private NetObjectType _objectType = NetObjectType.TypeStation;
-        private int _stationCount = 0;
-        private int _busCount = 0;
+        private int _stationCount;
+        private int _busCount;
 
         public CreateNetwork(List<string> names, int[,] mtx)
         {
@@ -237,6 +237,124 @@ namespace DiplomWork
             {
                 ErrorViewer.ShowError(ex);
             }
+        }
+
+        private void NextClick(object sender, RoutedEventArgs e)
+        {
+            var busList = grd.Children.OfType<NetBus>().ToList();
+            var list = grd.Children.OfType<CommonObject>().ToList();
+            var busCount = grd.Children.OfType<NetBus>().Count();
+            if (busCount == 0)
+            {
+                ErrorViewer.ShowError("На поле не добавлена ни одна магистраль");
+                return;
+            }
+
+            //Проверка связности графа
+            foreach (var commonObject in list)
+            {
+                commonObject.TmpField = 1;
+            }
+            list[0].TmpField++;
+            while (list.Count(commonObject => commonObject.TmpField == 2) > 0)
+            {
+                foreach (var commonObject in list.Where(commonObject => commonObject.TmpField == 2))
+                {
+                    foreach (var stanConnection in commonObject.Connection)
+                    {
+                        if (Equals(stanConnection.GetStartObject(), commonObject) &&
+                            (stanConnection.GetEndObject().TmpField == 1))
+                        {
+                            stanConnection.GetEndObject().TmpField++;
+                        }
+                        else if (Equals(stanConnection.GetEndObject(), commonObject) &&
+                                 (stanConnection.GetStartObject().TmpField == 1))
+                        {
+                            stanConnection.GetStartObject().TmpField++;
+                        }
+                    }
+                    commonObject.TmpField++;
+                }
+            }
+
+            if (list.Count(commonObject => commonObject.TmpField == 1) > 0)
+            {
+                ErrorViewer.ShowError("Граф не связный!\nПроверьте, чтобы все элементы были объеденены в единый граф");
+                return;
+            }
+            //конец проверки на связность графа
+
+            //Заполнение матрицы смежности магистралей
+            var busAdj = new int[busCount, busCount];
+            foreach (var bus in busList)
+            {
+                var busIndex = busList.IndexOf(bus);
+                foreach (var connection in bus.Connection)
+                {
+                    if (Equals(connection.GetStartObject(), bus))
+                    {
+                        if ((connection.GetEndObject() as NetBus) != null)
+                        {
+                            busAdj[busIndex, busList.IndexOf(connection.GetEndObject() as NetBus)] =
+                                busAdj[busList.IndexOf(connection.GetEndObject() as NetBus), busIndex] = 1;
+                        }
+                        else if ((connection.GetEndObject() as NetStation) != null)
+                        {
+                            foreach (var stCon in connection.GetEndObject().Connection)
+                            {
+                                if (Equals(stCon.GetStartObject(), connection.GetEndObject()))
+                                {
+                                    if (((stCon.GetEndObject() as NetBus) != null) && !Equals(stCon.GetEndObject(), bus))
+                                    {
+                                        busAdj[busIndex, busList.IndexOf(stCon.GetEndObject() as NetBus)] =
+                                            busAdj[busList.IndexOf(stCon.GetEndObject() as NetBus), busIndex] = 1;
+                                    }
+                                }
+                                else if (Equals(stCon.GetEndObject(), connection.GetEndObject()))
+                                {
+                                    if (((stCon.GetStartObject() as NetBus) != null) && !Equals(stCon.GetStartObject(), bus))
+                                    {
+                                        busAdj[busIndex, busList.IndexOf(stCon.GetStartObject() as NetBus)] =
+                                            busAdj[busList.IndexOf(stCon.GetStartObject() as NetBus), busIndex] = 1;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else if (Equals(connection.GetEndObject(), bus))
+                    {
+                        if ((connection.GetStartObject() as NetBus) != null)
+                        {
+                            busAdj[busIndex, busList.IndexOf(connection.GetStartObject() as NetBus)] =
+                                busAdj[busList.IndexOf(connection.GetStartObject() as NetBus), busIndex] = 1;
+                        }
+                        else if ((connection.GetStartObject() as NetStation) != null)
+                        {
+                            foreach (var stCon in connection.GetStartObject().Connection)
+                            {
+                                if (Equals(stCon.GetStartObject(), connection.GetStartObject()))
+                                {
+                                    if (((stCon.GetEndObject() as NetBus) != null) && !Equals(stCon.GetEndObject(), bus))
+                                    {
+                                        busAdj[busIndex, busList.IndexOf(stCon.GetEndObject() as NetBus)] =
+                                            busAdj[busList.IndexOf(stCon.GetEndObject() as NetBus), busIndex] = 1;
+                                    }
+                                }
+                                else if (Equals(stCon.GetEndObject(), connection.GetStartObject()))
+                                {
+                                    if (((stCon.GetStartObject() as NetBus) != null) && !Equals(stCon.GetStartObject(), bus))
+                                    {
+                                        busAdj[busIndex, busList.IndexOf(stCon.GetStartObject() as NetBus)] =
+                                            busAdj[busList.IndexOf(stCon.GetStartObject() as NetBus), busIndex] = 1;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            //конец заполнения матрицы смежности магистралей
+            var g = 1;
         }
     }
 }

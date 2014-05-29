@@ -28,6 +28,8 @@
             <RadioButton GroupName="mode" Name="DmRbUncon" Checked="UnconModeChecked">Рассоединять</RadioButton>
             <Separator></Separator>
             <Button Name="BtnShowMatrix" Click="ShowMatrix">Показать матрицу</Button>
+            <Separator></Separator>
+            <Button Name="BtnNext" Click="NextClick">Анализ</Button>
         </ToolBar>
         <ScrollViewer Name="N1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Grid.Row="2">
             <Grid Name="grd" >

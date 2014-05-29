@@ -105,7 +105,7 @@ namespace DiplomWork
                 return;
             }
 
-            
+
             for (int i = 0; i < Step.GetPointCount(); i++)
             {
                 var ptsNum = 0;
