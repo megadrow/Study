@@ -22,7 +22,9 @@ namespace DiplomWork.Dialogs
         {
             var bindEx = TboxOutData.GetBindingExpression(TextBox.TextProperty);
             bindEx.UpdateSource();
-            var itemData = (this.DataContext as GpdModule);
+            bindEx = TboxProcTime.GetBindingExpression(TextBox.TextProperty);
+            bindEx.UpdateSource();
+            var itemData = (DataContext as GpdModule);
             if (itemData != null)
             {
                 itemData.Process.Ind = PropProc.SelectedIndex;

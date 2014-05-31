@@ -8,10 +8,39 @@
       xmlns:dvc="clr-namespace:System.Windows.Forms.DataVisualization.Charting;assembly=System.Windows.Forms.DataVisualization"
       mc:Ignorable="d"
 	Title="NetChartResult">
-
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,/Controls;component/Styles.xaml" />
+                <ResourceDictionary Source="pack://application:,,/Controls;component/AppIcons.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
     <Grid>
-        <WindowsFormsHost>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <ToolBar Grid.ColumnSpan="2">
+            <RadioButton Name="RbtnChart" Checked="ChartChecked">График</RadioButton>
+            <RadioButton Name="RbtnGraph" Checked="GraphChecked">Граф</RadioButton>
+            <Separator></Separator>
+            <Button Click="MatrixShowClicked">Матрица конфликтов</Button>
+        </ToolBar>
+        <WindowsFormsHost Name="WinHost" Grid.Row="1">
             <dvc:Chart x:Name="ResChart"></dvc:Chart>
         </WindowsFormsHost>
+        <ScrollViewer Name="N1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Grid.Row="1">
+            <Grid Name="grd" >
+                <!--<Border BorderBrush="Black" BorderThickness="2">-->
+                <Canvas Grid.Row="1" Background="White" Name="ima" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                <!--</Border>-->
+            </Grid>
+        </ScrollViewer>
+        <ListBox Name="LbVariantsRes" Grid.Row="1" Grid.Column="1" SelectionChanged="VarChanged"></ListBox>
     </Grid>
 </Page>

@@ -19,6 +19,8 @@ namespace Controls
         public bool IsUse { get; set; }
 
         public int OutData { get; set; }
+        public int ProcessTime { get; set; }
+        public int CicleMux { get; set; }
 
         public GpdModule()
         {
@@ -44,6 +46,8 @@ namespace Controls
             Process = new ClrIdxStr();
 
             OutData = 1;
+            ProcessTime = 1;
+            CicleMux = 1;
             
             StrokeThickness = 1;
             Stroke = new SolidColorBrush(Colors.Black);

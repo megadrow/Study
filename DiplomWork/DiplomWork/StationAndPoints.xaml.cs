@@ -41,7 +41,7 @@ namespace DiplomWork
             {
                 RepearDataGrid();
             }
-            UpdateTimer timer = new UpdateTimer();
+            var timer = new UpdateTimer();
             timer.Start(Next, grMain);
 
             mainGrid.ItemsSource = Step.Stations;

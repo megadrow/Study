@@ -706,7 +706,7 @@ namespace DiplomWork
                                      stanConnection.GetEndObject() as GpdModule)
                             {
                                 if (module == null) return;
-                                outData += module.OutData;
+                                outData += module.OutData*module.CicleMux;
                             }
                             matrix[gpdModule.Stan.Ind, data.Stan.Ind] += outData;
                             matrix[data.Stan.Ind, gpdModule.Stan.Ind] += outData;
@@ -718,8 +718,8 @@ namespace DiplomWork
                         if (data == null) return;
                         if (gpdModule.Stan.Ind != data.Stan.Ind)
                         {
-                            matrix[gpdModule.Stan.Ind, data.Stan.Ind] += gpdModule.OutData;
-                            matrix[data.Stan.Ind, gpdModule.Stan.Ind] += gpdModule.OutData;
+                            matrix[gpdModule.Stan.Ind, data.Stan.Ind] += gpdModule.OutData*gpdModule.CicleMux;
+                            matrix[data.Stan.Ind, gpdModule.Stan.Ind] += gpdModule.OutData*gpdModule.CicleMux;
                         }
                     }
                 }

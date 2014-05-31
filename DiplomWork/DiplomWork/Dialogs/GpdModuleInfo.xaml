@@ -24,6 +24,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
@@ -40,10 +41,20 @@
                         </Binding>
                     </TextBox.Text>
                 </TextBox>
-                <TextBlock Grid.Row="1" VerticalAlignment="Center">Процесс</TextBlock>
-                <ComboBox Name="PropProc" Grid.Row="1" Grid.Column="1"></ComboBox>
-                <TextBlock Grid.Row="2" VerticalAlignment="Center">Станция</TextBlock>
-                <ComboBox Name="PropStan" Grid.Row="2" Grid.Column="1"></ComboBox>
+                <TextBlock VerticalAlignment="Center" Grid.Row="1">Время выполнения</TextBlock>
+                <TextBox Name="TboxProcTime" Grid.Row="1" Grid.Column="1">
+                    <TextBox.Text>
+                        <Binding Path="ProcessTime" Mode="TwoWay" UpdateSourceTrigger="Explicit">
+                            <Binding.ValidationRules>
+                                <local:ValidationNumber></local:ValidationNumber>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+                <TextBlock Grid.Row="2" VerticalAlignment="Center">Процесс</TextBlock>
+                <ComboBox Name="PropProc" Grid.Row="2" Grid.Column="1"></ComboBox>
+                <TextBlock Grid.Row="3" VerticalAlignment="Center">Станция</TextBlock>
+                <ComboBox Name="PropStan" Grid.Row="3" Grid.Column="1"></ComboBox>
             </Grid>
         </GroupBox>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"  Grid.Row="2" >
