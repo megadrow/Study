@@ -23,10 +23,10 @@
     <Style TargetType="Paragraph">
         <Setter Property="Margin" Value="0"></Setter>
     </Style>
-    <Style TargetType="controls:StationEll">
+    <Style TargetType="controls:PointView">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="controls:StationEll">
+                <ControlTemplate TargetType="controls:PointView">
                     <Grid>
                         <Ellipse 
                             Fill="{TemplateBinding Background}" 
@@ -41,10 +41,10 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <Style TargetType="controls:StationRect">
+    <Style TargetType="controls:StationView">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="controls:StationRect">
+                <ControlTemplate TargetType="controls:StationView">
                     <Grid>
                         <Rectangle 
                             Fill="{TemplateBinding Background}" 

@@ -10,8 +10,8 @@ namespace UnitTestProject
         [TestMethod]
         public void GetDistanceTest()
         {
-            var st1 = new StationEll(0, 0);
-            var st2 = new StationEll(3, 4);
+            var st1 = new PointView(0, 0);
+            var st2 = new PointView(3, 4);
             Assert.AreEqual(5, st1.GetDistanse(st2), 0.001);
 
         }

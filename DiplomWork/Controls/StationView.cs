@@ -4,14 +4,14 @@ using System.Windows.Media;
 
 namespace Controls
 {
-    public class StationEll : CommonObject
+    public class StationView : CommonObject
     {
-        public StationEll()
+        public StationView()
         {
             Default();
         }
 
-        public StationEll(double left, double top)
+        public StationView(double left, double top)
         {
             Default(left, top);
         }

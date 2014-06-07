@@ -82,9 +82,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="SrarionRect.cs" />
+    <Compile Include="StationView.cs" />
     <Compile Include="StanConnection.cs" />
-    <Compile Include="StationEll.cs" />
+    <Compile Include="PointView.cs" />
     <Compile Include="UpdateTimer.cs" />
     <Compile Include="Validation\ValidationNumber.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">

@@ -68,11 +68,11 @@ namespace DiplomWork
             CommonObject circle;
             if (ellipse)
             {
-                circle = new StationEll(left, top);
+                circle = new PointView(left, top);
             }
             else
             {
-                circle = new StationRect(left, top);
+                circle = new StationView(left, top);
             }
 
 
@@ -156,7 +156,7 @@ namespace DiplomWork
         {
             try
             {
-                foreach (var st in grd.Children.OfType<StationEll>())
+                foreach (var st in grd.Children.OfType<PointView>())
                 {
                     st.ToMoveMode();
                     _con = false;
@@ -172,7 +172,7 @@ namespace DiplomWork
         {
             try
             {
-                foreach (var st in grd.Children.OfType<StationEll>())
+                foreach (var st in grd.Children.OfType<PointView>())
                 {
                     st.ToConnectMode();
                     _con = true;
@@ -206,10 +206,10 @@ namespace DiplomWork
 
         private void ClearGridRect()
         {
-            var gridChildrenCount = grd.Children.OfType<StationRect>().Count();
+            var gridChildrenCount = grd.Children.OfType<StationView>().Count();
             for (int i = 0; i < gridChildrenCount; i++)
             {
-                foreach (var child in grd.Children.OfType<StationRect>())
+                foreach (var child in grd.Children.OfType<StationView>())
                 {
                     child.Delete();
                     break;
@@ -219,10 +219,10 @@ namespace DiplomWork
 
         private void ClearGrid()
         {
-            var gridChildrenCount = grd.Children.OfType<StationEll>().Count();
+            var gridChildrenCount = grd.Children.OfType<PointView>().Count();
             for (int i = 0; i < gridChildrenCount; i++)
             {
-                foreach (var child in grd.Children.OfType<StationEll>())
+                foreach (var child in grd.Children.OfType<PointView>())
                 {
                     var menuItem = child.ContextMenu.Items[0] as MenuItem;
                     if (menuItem != null && !menuItem.IsChecked)
@@ -236,7 +236,7 @@ namespace DiplomWork
 
             var ptUse = 1;
 
-            foreach (var child in grd.Children.OfType<StationEll>())
+            foreach (var child in grd.Children.OfType<PointView>())
             {
                 child.Text = ptUse.ToString(CultureInfo.InvariantCulture);
                 ptUse++;
@@ -294,7 +294,7 @@ namespace DiplomWork
             }
 
             j = 0;
-            foreach (var child in grd.Children.OfType<StationEll>())
+            foreach (var child in grd.Children.OfType<PointView>())
             {
                 xy[j, 1] = child.GetCenter().X;
                 xy[j, 0] = child.GetCenter().Y;
@@ -329,7 +329,7 @@ namespace DiplomWork
                 AddObjectToGrid(c[1, i], c[0, i], (i + 1).ToString(), false);
             }
 
-            var rect = grd.Children.OfType<StationRect>().ToList();
+            var rect = grd.Children.OfType<StationView>().ToList();
 
             foreach (var stationRect in rect)
             {
@@ -339,7 +339,7 @@ namespace DiplomWork
             }
 
             j = 0;
-            var list = grd.Children.OfType<StationEll>().ToList();
+            var list = grd.Children.OfType<PointView>().ToList();
             foreach (var child in list)
             {
                 child.Background = new SolidColorBrush(Color.FromRgb(colors[xyc[j]][0], colors[xyc[j]][1], colors[xyc[j]][2]));
@@ -402,7 +402,7 @@ namespace DiplomWork
             //    }
             //}
 
-            var rect = grd.Children.OfType<StationRect>().ToList();
+            var rect = grd.Children.OfType<StationView>().ToList();
             var stNames = rect.Select(stationRect => stationRect.Text + "--" + stationRect.Number.ToString()).ToList();
             var result = new Gpd(Settings, stNames);
 

@@ -278,7 +278,7 @@ namespace DiplomWork
 
             if (stCount != StNames.Count)
             {
-                ErrorViewer.ShowError("Количество станций должно быть ", StNames.Count);
+                ErrorViewer.ShowError("Количество станций должно быть " + StNames.Count.ToString());
                 return;
             }
 

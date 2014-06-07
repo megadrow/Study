@@ -4,14 +4,14 @@ using System.Windows.Media;
 
 namespace Controls
 {
-    public class StationRect : CommonObject
+    public class PointView : CommonObject
     {
-        public StationRect()
+        public PointView()
         {
             Default();
         }
 
-        public StationRect(double left, double top)
+        public PointView(double left, double top)
         {
             Default(left, top);
         }
