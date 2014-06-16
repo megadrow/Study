@@ -4,14 +4,28 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using Calculation;
 using Controls;
 using DiplomWork.Dialogs;
+using ContextMenu = System.Windows.Controls.ContextMenu;
+using MenuItem = System.Windows.Controls.MenuItem;
+using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 
 namespace DiplomWork
 {
+    public class ProcessesInfo
+    {
+        public int ProcUpdatedTime { get; set; }
+        public string ProcName { get; set; }
+        public ProcessesInfo(string name)
+        {
+            ProcUpdatedTime = 1;
+            ProcName = name;
+        }
+    }
     /// <summary>
     /// Interaction logic for gpd.xaml
     /// </summary>
@@ -21,6 +35,7 @@ namespace DiplomWork
         private int _moduleCount = 0;
         private int _drawmode;
         private Mode _mode = Mode.Move;
+        private List<ProcessesInfo> _processes = new List<ProcessesInfo>();
 
         private readonly Color[] colors =
             {
@@ -496,6 +511,7 @@ namespace DiplomWork
             
             ComboProcessType.Items.Add(item);
             GpdData.ProcNames.Add("Process " + (ComboProcessType.Items.Count - 1).ToString());
+            _processes.Add(new ProcessesInfo("Process " + (ComboProcessType.Items.Count - 1).ToString()));
             item.Content = GpdData.ProcNames.Last();
             //item.Background = new SolidColorBrush(colors[(ComboProcessType.Items.Count - 1) % 20]);
             //ComboProcessType.Background = new SolidColorBrush(colors[(ComboProcessType.Items.Count - 1) % 20]);
@@ -687,6 +703,7 @@ namespace DiplomWork
 
             foreach (var gpdModule in list.OfType<GpdModule>())
             {
+                gpdModule.CicleMux = fullCicle/gpdModule.ProcessTime;
                 foreach (var connection in gpdModule.Connection)
                 {
                     if (Equals(connection.GetStartObject(), gpdModule))
@@ -728,6 +745,23 @@ namespace DiplomWork
             var nextPage = new CreateNetwork(GpdData.StanNames, matrix);
             if (NavigationService != null) NavigationService.Navigate(nextPage);
             //var gg = 0;
+        }
+
+        private void ProcessSetting(object sender, RoutedEventArgs e)
+        {
+            var dlg = new ProcessEditDlg();
+            dlg.DataContext = _processes;
+            if (dlg.ShowDialog() == true)
+            {
+                foreach (var obj in grd.Children.OfType<GpdData>())
+                {
+                    foreach (var proc in _processes.Where(proc =>
+                        obj.Process.Str == proc.ProcName).Where(proc => obj.ShowSub))
+                    {
+                        obj.Cicle = proc.ProcUpdatedTime;
+                    }
+                }
+            }
         }
     }
 }

@@ -44,11 +44,11 @@
             <ComboBox Name="ComboProcessType" Width="100" IsEnabled="False">
             </ComboBox>
             <Button Click="ProcessEdit">Добавить процесс</Button>
+            <Button Click="ProcessSetting">Настройка процессов</Button>
     </ToolBar>
         <ToolBar Name="StationModeToolbar" Grid.Row="1" Visibility="Hidden">
             <ComboBox Name="ComboStationType" Width="100" IsEnabled="False">
             </ComboBox>
-            <Button>Настройки 2</Button>
     </ToolBar>
     <ScrollViewer Name="N1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Grid.Row="2">
         <Grid Name="grd" >

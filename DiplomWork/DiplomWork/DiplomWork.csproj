@@ -88,6 +88,9 @@
     <Compile Include="Dialogs\ModuleSetting.xaml.cs">
       <DependentUpon>ModuleSetting.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\ProcessEditDlg.xaml.cs">
+      <DependentUpon>ProcessEditDlg.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ErrorViewer.cs" />
     <Compile Include="gpd.xaml.cs">
       <DependentUpon>gpd.xaml</DependentUpon>
@@ -133,6 +136,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\ModuleSetting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\ProcessEditDlg.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -134,7 +134,7 @@ namespace Calculation
                 var newCond = new int[k];
                 cond.CopyTo(newCond, 0);
                 Shuffle(newCond);
-
+                long cnt = 0;
                 while (true)
                 {
 
@@ -277,10 +277,11 @@ namespace Calculation
                         }
                     }
 
-                    if ((!waschanges) && (!condcomplete))
+                    if (((!waschanges) && (!condcomplete)) || (cnt == 5000))
                     {
                         break;
                     }
+                    cnt++;
                 }
 
                 //

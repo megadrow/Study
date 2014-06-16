@@ -293,7 +293,7 @@ namespace DiplomWork
                 {
                     for (int j = 0; j < _stCount; j++)
                     {
-                        if (_zamenSt[LbVariantsRes.SelectedIndex, j] == list[i].Number)
+                        if (_zamenSt[LbVariantsRes.SelectedIndex, j] == /*list[i].Number*/(i+1))
                         {
                             list[i].Number = (j + 1);
                             list[i].Update();
